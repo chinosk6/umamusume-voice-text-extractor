@@ -1,0 +1,17 @@
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\bin\Debug\net6.0\UmaMusumeAudio.deps.json
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\bin\Debug\net6.0\UmaMusumeAudio.dll
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\bin\Debug\net6.0\UmaMusumeAudio.pdb
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\bin\Debug\net6.0\ClHcaSharp.dll
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\bin\Debug\net6.0\CriWareFormats.dll
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\bin\Debug\net6.0\ClHcaSharp.pdb
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\bin\Debug\net6.0\CriWareFormats.pdb
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\obj\Debug\net6.0\UmaMusumeAudio.csproj.AssemblyReference.cache
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\obj\Debug\net6.0\UmaMusumeAudio.GeneratedMSBuildEditorConfig.editorconfig
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\obj\Debug\net6.0\UmaMusumeAudio.AssemblyInfoInputs.cache
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\obj\Debug\net6.0\UmaMusumeAudio.AssemblyInfo.cs
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\obj\Debug\net6.0\UmaMusumeAudio.csproj.CoreCompileInputs.cache
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\obj\Debug\net6.0\UmaMusumeAudio.csproj.CopyComplete
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\obj\Debug\net6.0\UmaMusumeAudio.dll
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\obj\Debug\net6.0\refint\UmaMusumeAudio.dll
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\obj\Debug\net6.0\UmaMusumeAudio.pdb
+G:\bots\AssetStudio\umamusumeExplorer\UmaMusumeExplorer\UmaMusumeAudio\obj\Debug\net6.0\ref\UmaMusumeAudio.dll

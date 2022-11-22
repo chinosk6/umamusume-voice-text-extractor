@@ -1,2 +1,5 @@
 # umamusume-voice-text-extractor
-Extract the audio and corresponding text
+- Extract the audio and corresponding text
+
+
+

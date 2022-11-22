@@ -1,0 +1,9 @@
+[submodule "voice extractor/AssetStudio"]
+	path = voice extractor/AssetStudio
+	url = https://github.com/Perfare/AssetStudio.git
+[submodule "voice extractor/ClHcaSharp"]
+	path = voice extractor/ClHcaSharp
+	url = https://github.com/MarshmallowAndroid/ClHcaSharp.git
+[submodule "voice extractor/CriWareLibrary"]
+	path = voice extractor/CriWareLibrary
+	url = https://github.com/MarshmallowAndroid/CriWareLibrary.git

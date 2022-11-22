@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "GIKeGHaI/AuOTGWqBsSr2i5tccdpP8guEbVy1WzKg7jzR3p8b+lsWsPt36QdmGn9ONbOWRErvldZzFSeSCcerw==",
+  "success": true,
+  "projectFilePath": "D:\\chinosk_source\\sdk_v2.6.5\\umamusume_project\\umamusume voice extractor\\voice extractor\\UmaMusumeAudio\\UmaMusumeAudio.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Y7000\\.nuget\\packages\\naudio.core\\2.0.0\\naudio.core.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
