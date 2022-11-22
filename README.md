@@ -37,5 +37,5 @@ ex.extract_all_char_text(1024)
 
 # Special Thanks
 
-- [MarshmallowAndroid/UmaMusumeExplorer](MarshmallowAndroid/UmaMusumeExplorer)
+- [MarshmallowAndroid/UmaMusumeExplorer](https://github.com/MarshmallowAndroid/UmaMusumeExplorer)
 
