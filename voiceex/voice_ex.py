@@ -7,9 +7,10 @@ from .ulogger import logger as log
 
 
 class VoiceEx(ures.ResourceEx):
-    def __init__(self, save_path="save", download_missing_voice_files=False):
+    def __init__(self, save_path="save", get_voice_from_all_stories=False, download_missing_voice_files=False):
         super().__init__(download_missing_voice_files=download_missing_voice_files)
         self.save_path = save_path
+        self.get_voice_from_all_stories = get_voice_from_all_stories
         if not os.path.isdir(self.save_path):
             os.makedirs(self.save_path)
 
@@ -27,7 +28,10 @@ class VoiceEx(ures.ResourceEx):
     def get_story_text(self, chara_id: int, base="04") -> t.List[m.VoiceBaseInfo]:
         if not isinstance(chara_id, int):
             chara_id = int(chara_id)
-        story_hashes = self.get_story_text_ids(chara_id, base=base)
+        story_hashes = self.get_story_text_ids(None if self.get_voice_from_all_stories else chara_id, base=base)
+        story_hashes += self.get_story_text_ids(None, base="02")  # 主线/main story
+        story_hashes += self.get_story_text_ids(None, base="09")  # 额外故事/extra story
+        story_hashes += self.get_story_text_ids(None, base="10")  # 周年庆/anniversary
         tLen = len(story_hashes)
 
         ret = []

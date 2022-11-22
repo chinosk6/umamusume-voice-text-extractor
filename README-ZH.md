@@ -22,8 +22,8 @@ requests~=2.28.1
 ```python
 import voiceex
 
-# 设置保存路径 和 当缺失文件时是否直接下载
-ex = voiceex.VoiceEx(save_path="save", download_missing_voice_files=True)
+# 设置保存路径、当缺失文件时是否直接下载、从所有角色个人剧情中获取音频(耗时很长)
+ex = voiceex.VoiceEx(save_path="save", download_missing_voice_files=True, get_voice_from_all_stories=False)
 
 # 设置下载代理 (可选, 若不需要, 直接注释掉即可)
 ex.set_proxies("http://127.0.0.1:10087")

@@ -35,10 +35,12 @@ class UmaDatabase(downloader.UmaDownloader):
         cursor.close()
         return ret
 
-    def get_story_text_ids(self, chara_id, base="04"):
+    def get_story_text_ids(self, chara_id=None, base="04"):
         cursor = self.meta_conn.cursor()
-        query = cursor.execute("SELECT h, n from a WHERE n LIKE ?",
-                               [f"story/data/{base}/{chara_id}/storytimeline_{base}{chara_id}%"]).fetchall()
+
+        query_sql = f"story/data/{base}/{chara_id}/storytimeline_{base}{chara_id}%" if chara_id is not None else \
+            f"story/data/{base}/____/storytimeline_{base}%"
+        query = cursor.execute("SELECT h, n from a WHERE n LIKE ?", [query_sql]).fetchall()
         ret = [(i[0], i[1]) for i in query]
         cursor.close()
         return ret

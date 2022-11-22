@@ -24,8 +24,8 @@ requests~=2.28.1
 ```python
 import voiceex
 
-# set save folder and download when missing awb/acb files
-ex = voiceex.VoiceEx(save_path="save", download_missing_voice_files=True)
+# set save folder, download when missing awb/acb files, get voice from all character stories (takes a long time)
+ex = voiceex.VoiceEx(save_path="save", download_missing_voice_files=True, get_voice_from_all_stories=False)
 
 # set download proxy (Optional)
 ex.set_proxies("http://127.0.0.1:10087")
