@@ -17,9 +17,9 @@ import voice_extractor
 
 
 class ResourceEx(udb.UmaDatabase):
-    def __init__(self, download_missing_abfile=False):
+    def __init__(self, download_missing_voice_files=False):
         super().__init__()
-        self.download_missing_abfile = download_missing_abfile
+        self.download_missing_voice_files = download_missing_voice_files
 
     @staticmethod
     def extract_all_wav(acb_path: str, awb_path: str, save_path: str, save_file_prefix: str):
@@ -40,7 +40,7 @@ class ResourceEx(udb.UmaDatabase):
             acb_bundle_hash = self.awb_bundle_path_to_acb_bundle_path(awb_bundle_path)[1]
             acb_bundle_path = self.bundle_hash_to_path(acb_bundle_hash)
             if not os.path.isfile(acb_bundle_path):
-                if self.download_missing_abfile:
+                if self.download_missing_voice_files:
                     log.logger(f"{acb_bundle_hash} not found, try download...", warning=True)
                     self.download_sound(acb_bundle_hash, acb_bundle_path)
                     log.logger(f"Download success: {acb_bundle_path}")

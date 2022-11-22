@@ -7,8 +7,8 @@ from .ulogger import logger as log
 
 
 class VoiceEx(ures.ResourceEx):
-    def __init__(self, save_path="save", download_missing_abfile=False):
-        super().__init__(download_missing_abfile=download_missing_abfile)
+    def __init__(self, save_path="save", download_missing_voice_files=False):
+        super().__init__(download_missing_voice_files=download_missing_voice_files)
         self.save_path = save_path
         if not os.path.isdir(self.save_path):
             os.makedirs(self.save_path)
@@ -55,7 +55,7 @@ class VoiceEx(ures.ResourceEx):
                 if bundle_name in failed_names:
                     continue
                 if not os.path.isfile(bundle_name):
-                    if self.download_missing_abfile:
+                    if self.download_missing_voice_files:
                         log.logger(f"{bundle_name} ({i.VoiceSheetId}) not found, try download...", warning=True)
                         self.download_sound(i.voice_ab_hash, bundle_name)
                         log.logger(f"Download success: {bundle_name}")
