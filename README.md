@@ -1,15 +1,15 @@
 # umamusume-voice-text-extractor
 
-- [English](README-EN.md)
+- [Chinese/中文](README-ZH.md)
 
-- 提取语音和对应的文本
+- Extract the voice and corresponding text
 
 
 
-# 使用方法
+# Usage
 
-- 需要环境: `Python 3.8+`、`.Net 6.0`
-- 安装 Python 包: `pip install -r requirements.txt`
+- Required Environment: `Python 3.8+`、`.Net 6.0`
+- Install python package: `pip install -r requirements.txt`
 
 ```
 pydantic~=1.8.2
@@ -19,26 +19,26 @@ UnityPy~=1.8.15
 requests~=2.28.1
 ```
 
-- 根据自己的需求修改 `main.py`, 然后运行: `python main.py`
+- Edit and run `main.py`: `python main.py`
 
 ```python
 import voiceex
 
-# 设置保存路径 和 当缺失文件时是否直接下载
+# set save folder and download when missing awb/acb files
 ex = voiceex.VoiceEx(save_path="save", download_missing_voice_files=True)
 
-# 设置下载代理 (可选, 若不需要, 直接注释掉即可)
+# set download proxy (Optional)
 ex.set_proxies("http://127.0.0.1:10087")
 
 # start extract character No.1024 (Mayano)
 ex.extract_all_char_text(1024)
 ```
 
-- 音频文本对应文件在 `{你设置的 save_path}/output.txt`.
+- The voice-text file is in `{your save_path}/output.txt`.
 
 
 
-# 特别感谢
+# Special Thanks
 
 - [MarshmallowAndroid/UmaMusumeExplorer](https://github.com/MarshmallowAndroid/UmaMusumeExplorer)
 
