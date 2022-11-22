@@ -36,6 +36,12 @@ ex.extract_all_char_text(1024)
 
 
 
+# 提取效果
+
+<img src="img/text.jpg" style="zoom:30%;" /> <img src="img/file.jpg" style="zoom:35%;" />
+
+
+
 # 特别感谢
 
 - [MarshmallowAndroid/UmaMusumeExplorer](https://github.com/MarshmallowAndroid/UmaMusumeExplorer)

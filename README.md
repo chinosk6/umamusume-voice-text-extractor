@@ -38,6 +38,12 @@ ex.extract_all_char_text(1024)
 
 
 
+# Extract Result
+
+<img src="img/text.jpg" style="zoom:30%;" /> <img src="img/file.jpg" style="zoom:35%;" />
+
+
+
 # Special Thanks
 
 - [MarshmallowAndroid/UmaMusumeExplorer](https://github.com/MarshmallowAndroid/UmaMusumeExplorer)
