@@ -17,6 +17,8 @@ UnityPy~=1.8.15
 requests~=2.28.1
 ```
 
+
+
 - 根据自己的需求修改 `main.py`, 然后运行: `python main.py`
 
 ```python
@@ -30,10 +32,28 @@ ex.set_wav_format(22050, 16, 1)
 
 # 设置下载代理 (可选, 若不需要, 直接注释掉即可)
 ex.set_proxies("http://127.0.0.1:10087")
-
-# start extract character No.1024 (Mayano)
-ex.extract_all_char_text(1024)
 ```
+
+ - 单角色模式
+
+```python
+# 单角色模式
+# 开始提取角色 No.1024 (摩耶重炮) 的语音/文本
+ex.extract_all_char_text_single(1024)
+```
+
+ - 多角色模式
+
+```python
+# 多角色模式
+# 设置各角色的输出ID (Union[int, str])
+ex.set_multi_char_out_ids([
+    (1024, "0"), (1046, 1)
+])
+# 开始提取角色 No.1024 (摩耶重炮) 和 No.1046 (醒目飞鹰) 的语音
+ex.extract_all_char_text_multi([1024, 1046])
+```
+
 
 - 音频文本对应文件在 `{你设置的 save_path}/output.txt`.
 
@@ -41,9 +61,14 @@ ex.extract_all_char_text(1024)
 
 # 提取效果
 
-<img src="img/text.jpg" style="zoom:30%;" /> <img src="img/file.jpg" style="zoom:35%;" />
+ - 语音文件
+<img src="img/file.jpg" style="zoom:35%;" />
 
+ - 单角色模式
+<img src="img/text.jpg" style="zoom:30%;" />
 
+ - 多角色模式
+<img src="img/text_multi.jpg" style="zoom:30%;" />
 
 # 特别感谢
 
