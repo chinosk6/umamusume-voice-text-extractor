@@ -25,6 +25,9 @@ import voiceex
 # 设置保存路径、当缺失文件时是否直接下载、从所有角色个人剧情中获取音频(耗时很长)
 ex = voiceex.VoiceEx(save_path="save", download_missing_voice_files=True, get_voice_from_all_stories=False)
 
+# 设置wav采样率, 位数, 声道数 (可选, 若不设置, 则以源文件参数输出)
+ex.set_wav_format(22050, 16, 1)
+
 # 设置下载代理 (可选, 若不需要, 直接注释掉即可)
 ex.set_proxies("http://127.0.0.1:10087")
 

@@ -20,10 +20,15 @@ class ResourceEx(udb.UmaDatabase):
     def __init__(self, download_missing_voice_files=False):
         super().__init__()
         self.download_missing_voice_files = download_missing_voice_files
+        self.wav_format = None
 
-    @staticmethod
-    def extract_all_wav(acb_path: str, awb_path: str, save_path: str, save_file_prefix: str):
+    def set_wav_format(self, rate: int, bits: int, channels: int):
+        self.wav_format = (rate, bits, channels)
+
+    def extract_all_wav(self, acb_path: str, awb_path: str, save_path: str, save_file_prefix: str):
         extractor = voice_extractor.UmaVoiceEx(acb_path, awb_path)
+        if self.wav_format is not None:
+            extractor.SetWaveFormat(*self.wav_format)
         extractor.SetVolume(2.0)
 
         wav_count = extractor.GetAudioCount()
@@ -33,7 +38,6 @@ class ResourceEx(udb.UmaDatabase):
             ret.append(save_name)
         extractor.Close()
         return ret
-
 
     def get_extractor(self, awb_bundle_path: str, acb_bundle_path: str = None, volume=2.0):
         if acb_bundle_path is None:
@@ -46,5 +50,7 @@ class ResourceEx(udb.UmaDatabase):
                     log.logger(f"Download success: {acb_bundle_path}")
 
         extractor = voice_extractor.UmaVoiceEx(acb_bundle_path, awb_bundle_path)
+        if self.wav_format is not None:
+            extractor.SetWaveFormat(*self.wav_format)
         extractor.SetVolume(volume)
         return extractor

@@ -15,6 +15,7 @@ namespace voice_extractor
         private AcbReader acbReader;
         private int fileCount;
         private float wavVolume;
+        private WaveFormat waveFormat;
         private Dictionary<int, int> cueIdToWaveId = new();
         
         public UmaVoiceEx(string acbPath, string awbPath)
@@ -69,17 +70,28 @@ namespace voice_extractor
             }
             
             UmaWaveStream copy = new(awbReader, waveId);
+            ISampleProvider wavSampleProvider;
+            
+            if (waveFormat is not null)
+            {
+                var convertedStream = new MediaFoundationResampler(copy, waveFormat);
+                wavSampleProvider = convertedStream.ToSampleProvider();
+            }
+            else
+            {
+                wavSampleProvider = copy.ToSampleProvider();
+            }
 
             var saveName = $"{savePath}/{saveFileprefix}{waveId}.wav";
             WaveFileWriter.CreateWaveFile16(saveName,
-                new VolumeSampleProvider(copy.ToSampleProvider())
+                new VolumeSampleProvider(wavSampleProvider)
                 {
                     Volume = wavVolume
                 });
             copy.Dispose();
             return saveName;
         }
-
+        
         public string ExtractAudioFromCueId([NotNull]string savePath, string saveFileprefix, int cueId)
         {
             if (!cueIdToWaveId.ContainsKey(cueId))
@@ -89,6 +101,11 @@ namespace voice_extractor
             return ExtractAudioFromWaveId(savePath, saveFileprefix, cueIdToWaveId[cueId]);
         }
 
+        public void SetWaveFormat(int rate, int bits, int channels)
+        {
+            waveFormat = new WaveFormat(rate, bits, channels);
+        }
+        
         public int GetAudioCount()
         {
             return fileCount;
