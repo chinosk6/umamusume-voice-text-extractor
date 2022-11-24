@@ -3,8 +3,8 @@ import voiceex
 
 if __name__ == "__main__":
 
-    # set save folder, download when missing awb/acb files, get voice from all character stories (takes a long time)
-    ex = voiceex.VoiceEx(save_path="save", download_missing_voice_files=True, get_voice_from_all_stories=False)
+    # set save folder, download when missing awb/acb files, get voice from all character stories (takes a long time), use cache (save in "umacache" folder)
+    ex = voiceex.VoiceEx(save_path="save", download_missing_voice_files=True, get_voice_from_all_stories=True, use_cache=True)
 
     # set wave sampling rate, bits, channels (optional)
     ex.set_wav_format(22050, 16, 1)

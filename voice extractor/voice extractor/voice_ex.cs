@@ -28,10 +28,10 @@ namespace voice_extractor
             try
             {
                 acbFile = File.OpenRead(acbPath);
-                acbReader = new(acbFile);
+                acbReader = new AcbReader(acbFile);
 
                 awbFile = File.OpenRead(awbPath);
-                awbReader = new(awbFile);
+                awbReader = new AwbReader(awbFile);
                 fileCount = awbReader.Waves.Count;
                 wavVolume = 2.0f;
                 InitDict();
@@ -61,6 +61,11 @@ namespace voice_extractor
 
             }
         }
+        
+        public static string GetSaveName([NotNull]string savePath, string saveFileprefix, int waveId)
+        {
+            return $"{savePath}/{saveFileprefix}{waveId}.wav";
+        }
 
         public string ExtractAudioFromWaveId([NotNull]string savePath, string saveFileprefix, int waveId)
         {
@@ -82,7 +87,7 @@ namespace voice_extractor
                 wavSampleProvider = copy.ToSampleProvider();
             }
 
-            var saveName = $"{savePath}/{saveFileprefix}{waveId}.wav";
+            var saveName = GetSaveName(savePath, saveFileprefix, waveId);
             WaveFileWriter.CreateWaveFile16(saveName,
                 new VolumeSampleProvider(wavSampleProvider)
                 {
@@ -91,7 +96,7 @@ namespace voice_extractor
             copy.Dispose();
             return saveName;
         }
-        
+
         public string ExtractAudioFromCueId([NotNull]string savePath, string saveFileprefix, int cueId)
         {
             if (!cueIdToWaveId.ContainsKey(cueId))

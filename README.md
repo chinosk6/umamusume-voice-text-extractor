@@ -26,8 +26,8 @@ requests~=2.28.1
 ```python
 import voiceex
 
-# set save folder, download when missing awb/acb files, get voice from all character stories (takes a long time)
-ex = voiceex.VoiceEx(save_path="save", download_missing_voice_files=True, get_voice_from_all_stories=False)
+# set save folder, download when missing awb/acb files, get voice from all character stories (takes a long time), use cache (Save in "umacache" folder. You need to delete the cache file yourself after the game update.)
+ex = voiceex.VoiceEx(save_path="save", download_missing_voice_files=True, get_voice_from_all_stories=False, use_cache=True)
 
 # set wave sampling rate, bits, channels (optional)
 ex.set_wav_format(22050, 16, 1)

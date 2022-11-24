@@ -5,29 +5,64 @@ from . import models as m
 import os
 from .ulogger import logger as log
 import time
-
+import json
 
 class VoiceEx(ures.ResourceEx):
-    def __init__(self, save_path="save", get_voice_from_all_stories=False, download_missing_voice_files=False):
+    def __init__(self, save_path="save", get_voice_from_all_stories=False, download_missing_voice_files=False,
+                 use_cache=False):
         super().__init__(download_missing_voice_files=download_missing_voice_files)
         self.save_path = save_path
         self.get_voice_from_all_stories = get_voice_from_all_stories
+        self.use_cache = use_cache
 
         self.multi_char_out_ids = {}
 
         if not os.path.isdir(self.save_path):
             os.makedirs(self.save_path)
+        self.cache_path = "./umacache"
+        if not os.path.isdir(self.cache_path):
+            os.makedirs(self.cache_path)
+        self.cache = self.load_cache()
+
+    def load_cache(self):
+        try:
+            if os.path.isfile(f"{self.cache_path}/voice_text_cache.json"):
+                with open(f"{self.cache_path}/voice_text_cache.json", "r", encoding="utf8") as f:
+                    return json.load(f)
+        except BaseException as e:
+            log.logger(f"Load cache failed: {e}", error=True)
+        return {}
+
+    def save_cache(self):
+        log.logger("Text cache saved.")
+        with open(f"{self.cache_path}/voice_text_cache.json", "w", encoding="utf8") as f:
+            json.dump(self.cache, f, ensure_ascii=False)
 
     def story_text_check(self, data: dict, story_ab_hash: str, story_resource_name: str,
                          chara_ids: t.Optional[t.List[int]] = None):
-        if all([i in data for i in ["CharaId", "Name", "Text", "ChoiceDataList", "VoiceSheetId", "CueId"]]):
-            if data["VoiceSheetId"]:
-                if chara_ids is not None:
-                    if data["CharaId"] not in chara_ids:
-                        return None
-                return m.VoiceBaseInfo(story_ab_hash=story_ab_hash, story_resource_name=story_resource_name,
-                                       voice_ab_hash=self.get_story_sound_id(data["VoiceSheetId"]), **data)
+        if data["VoiceSheetId"]:
+            if chara_ids is not None:
+                if data["CharaId"] not in chara_ids:
+                    return None
+            return m.VoiceBaseInfo(story_ab_hash=story_ab_hash, story_resource_name=story_resource_name,
+                                   voice_ab_hash=self.get_story_sound_id(data["VoiceSheetId"]), **data)
         return None
+
+    def get_mono_trees(self, t_path):
+        if self.use_cache:
+            if t_path in self.cache:
+                return self.cache[t_path]
+
+        env = UnityPy.load(t_path)
+        objects = env.objects
+        ret = []
+        for obj in objects:
+            if obj.type.name == "MonoBehaviour":
+                mono_tree = obj.read_typetree()
+                if all([i in mono_tree for i in ["CharaId", "Name", "Text", "ChoiceDataList", "VoiceSheetId", "CueId"]]):
+                    ret.append(mono_tree)
+        self.cache[t_path] = ret
+        return ret
 
     def get_story_text(self, chara_ids: t.List[int]) -> t.Dict[int, t.List[m.VoiceBaseInfo]]:
         char_results = {}
@@ -43,15 +78,13 @@ class VoiceEx(ures.ResourceEx):
         for n, (i, name) in enumerate(story_hashes):
             log.logger(f"Loading story text...  {n + 1}/{tLen}")
             t_path = self.bundle_hash_to_path(i)
-            env = UnityPy.load(t_path)
-            for obj in env.objects:
-                if obj.type.name == "MonoBehaviour":
-                    mono_tree = obj.read_typetree()
-                    text_info = self.story_text_check(mono_tree, i, name, chara_ids)
-                    if text_info is None:
-                        continue
-                    _char_id = mono_tree["CharaId"]
-                    char_results[_char_id].append(text_info)
+            mono_trees = self.get_mono_trees(t_path)
+            for mono_tree in mono_trees:
+                text_info = self.story_text_check(mono_tree, i, name, chara_ids)
+                if text_info is None:
+                    continue
+                _char_id = mono_tree["CharaId"]
+                char_results[_char_id].append(text_info)
 
         if not self.get_voice_from_all_stories:
             for chara_id in chara_ids:
@@ -60,16 +93,14 @@ class VoiceEx(ures.ResourceEx):
                 for n, (i, name) in enumerate(chara_story_hashes):
                     log.logger(f"Loading character story text {chara_id}...  {n + 1}/{tLen}")
                     t_path = self.bundle_hash_to_path(i)
-
-                    env = UnityPy.load(t_path)
-                    for obj in env.objects:
-                        if obj.type.name == "MonoBehaviour":
-                            mono_tree = obj.read_typetree()
-                            text_info = self.story_text_check(mono_tree, i, name, [chara_id])
-                            if text_info is None:
-                                continue
-                            _char_id = mono_tree["CharaId"]
-                            char_results[_char_id].append(text_info)
+                    mono_trees = self.get_mono_trees(t_path)
+                    for mono_tree in mono_trees:
+                        text_info = self.story_text_check(mono_tree, i, name, [chara_id])
+                        if text_info is None:
+                            continue
+                        _char_id = mono_tree["CharaId"]
+                        char_results[_char_id].append(text_info)
+        self.save_cache()
         return char_results
 
     @staticmethod

@@ -24,8 +24,8 @@ requests~=2.28.1
 ```python
 import voiceex
 
-# 设置保存路径、当缺失文件时是否直接下载、从所有角色个人剧情中获取音频(耗时很长)
-ex = voiceex.VoiceEx(save_path="save", download_missing_voice_files=True, get_voice_from_all_stories=False)
+# 设置保存路径、当缺失文件时是否直接下载、从所有角色个人剧情中获取音频(耗时很长)、是否使用缓存(保存在"umacache"文件夹中。使用缓存可以极大提高语音文本读取速度。当游戏更新后，您需要自行删除缓存。)
+ex = voiceex.VoiceEx(save_path="save", download_missing_voice_files=True, get_voice_from_all_stories=False, use_cache=True)
 
 # 设置wav采样率, 位数, 声道数 (可选, 若不设置, 则以源文件参数输出)
 ex.set_wav_format(22050, 16, 1)
