@@ -121,6 +121,64 @@ namespace voice_extractor
             wavVolume = value;
         }
 
+        public static ulong GetStreamCriAuthKey(string umaInstallPath)
+        {
+            int IndexOf(byte[] srcBytes, byte[] searchBytes)  
+            {  
+                if (srcBytes == null) { return -1; }  
+                if (searchBytes == null) { return -1; }  
+                if (srcBytes.Length == 0) { return -1; }  
+                if (searchBytes.Length == 0) { return -1; }  
+                if (srcBytes.Length < searchBytes.Length) { return -1; }  
+                for (int i = 0; i < srcBytes.Length - searchBytes.Length; i++)  
+                {  
+                    if (srcBytes[i] == searchBytes[0])  
+                    {  
+                        if (searchBytes.Length == 1) { return i; }  
+                        bool flag = true;  
+                        for (int j = 1; j < searchBytes.Length; j++)  
+                        {  
+                            if (srcBytes[i + j] != searchBytes[j])  
+                            {  
+                                flag = false;  
+                                break;  
+                            }  
+                        }  
+                        if (flag) { return i; }  
+                    }  
+                }  
+                return -1;  
+            }  
+            
+            var assetPath = $"{umaInstallPath}/umamusume_Data/resources.assets";
+            var fileS = File.OpenRead(assetPath);
+            var fileBytes = new byte[fileS.Length];
+            fileS.Read(fileBytes, 0, fileBytes.Length);
+
+            byte[] authFlag = { 0x63, 0x72, 0x69, 0x5f, 0x61, 0x75, 0x74, 0x68 };
+            byte[] numBytes = { 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39 };
+            const byte stopFlag = 0x73;
+            var keyStr = "";
+
+            var flagStartPos = IndexOf(fileBytes, authFlag);
+            
+            var stopFlg = true;
+            while (stopFlg)
+            {
+                var nowByte = fileBytes[flagStartPos];
+                if (numBytes.Contains(nowByte))
+                {
+                    keyStr = $"{(char)nowByte}{keyStr}";
+                } 
+                else if (nowByte.Equals(stopFlag))
+                {
+                    stopFlg = false;
+                }
+                flagStartPos--;
+            }
+            return ulong.Parse(keyStr);
+        }
+
         public void Close()
         {
             acbFile.Dispose();
