@@ -595,8 +595,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "AssetStudio.PInvoke": "0.16.0",
-          "D:\\chinosk_source\\sdk_v2.6.5\\umamusume_project\\umamusume voice extractor\\voice extractor\\AssetStudio\\AssetStudio\\AssetStudio.csproj": "1.0.0"
+          "AssetStudio": "0.16.0",
+          "AssetStudio.PInvoke": "0.16.0"
         },
         "compile": {
           "bin/placeholder/AssetStudioFBXWrapper.dll": {}
@@ -2573,8 +2573,8 @@
     },
     "AssetStudio/0.16.0": {
       "type": "project",
-      "path": "../AssetStudio/AssetStudio/AssetStudio.csproj",
-      "msbuildProject": "../AssetStudio/AssetStudio/AssetStudio.csproj"
+      "path": "D:\\chinosk_source\\sdk_v2.6.5\\umamusume_project\\umamusume voice extractor\\voice extractor\\AssetStudio\\AssetStudio\\AssetStudio.csproj",
+      "msbuildProject": "D:\\chinosk_source\\sdk_v2.6.5\\umamusume_project\\umamusume voice extractor\\voice extractor\\AssetStudio\\AssetStudio\\AssetStudio.csproj"
     },
     "AssetStudio.PInvoke/0.16.0": {
       "type": "project",
@@ -2718,16 +2718,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1105",
-      "level": "Error",
-      "message": "Unable to find project information for 'D:\\chinosk_source\\sdk_v2.6.5\\umamusume_project\\umamusume voice extractor\\voice extractor\\AssetStudio\\AssetStudio\\AssetStudio.csproj'. If you are using Visual Studio, this may be because the project is unloaded or not part of the current solution so run a restore from the command-line. Otherwise, the project file may be invalid or missing targets required for restore.",
-      "libraryId": "D:\\chinosk_source\\sdk_v2.6.5\\umamusume_project\\umamusume voice extractor\\voice extractor\\AssetStudio\\AssetStudio\\AssetStudio.csproj",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    }
-  ]
+  }
 }
