@@ -72,45 +72,62 @@ class VoiceEx(ures.ResourceEx):
                             char_results[_char_id].append(text_info)
         return char_results
 
+    @staticmethod
+    def recheck_data(data: t.List[m.VoiceBaseInfo]):
+        resultlist = []
+        for i in data:
+            resultlist.append(i) if i not in resultlist else ...
+        ret = {}
+        for i in resultlist:
+            if i.voice_ab_hash not in ret:
+                ret[i.voice_ab_hash] = []
+            ret[i.voice_ab_hash].append(i)
+        return ret
+
     def extract_text_and_voice(self, data: t.Dict[int, t.List[m.VoiceBaseInfo]], output_multi: bool):
         failed_names = []
 
         out_file = open(f"{self.save_path}/output.txt", "a", encoding="utf8")
 
         for char_id in data:
-            stories = data[char_id]
-            for i in stories:
-                bundle_name = self.bundle_hash_to_path(i.voice_ab_hash)
+            stories = self.recheck_data(data[char_id])
+            for voice_ab_hash in stories:
+                bundle_name = self.bundle_hash_to_path(voice_ab_hash)
                 try:
                     if bundle_name in failed_names:
                         continue
                     if not os.path.isfile(bundle_name):
                         if self.download_missing_voice_files:
-                            log.logger(f"{bundle_name} ({i.VoiceSheetId}) not found, try download...", warning=True)
-                            self.download_sound(i.voice_ab_hash, bundle_name)
+                            log.logger(f"{bundle_name} not found, try download...", warning=True)
+                            self.download_sound(voice_ab_hash, bundle_name)
                             log.logger(f"Download success: {bundle_name}")
                         else:
-                            log.logger(f"{bundle_name} ({i.VoiceSheetId}) not found!", error=True)
+                            log.logger(f"{bundle_name} not found!", error=True)
                             failed_names.append(bundle_name)
-                        continue
-
+                            continue
                     extractor = self.get_extractor(bundle_name)
-                    save_name = extractor.ExtractAudioFromCueId(f"{self.save_path}/{i.story_resource_name}", "", i.CueId)
-                    save_text = i.Text.replace("\r\n", " ").replace("\n", " ").replace("\r", " ").replace("|", " ")
-                    log.logger(f"{save_name} {save_text}", debug=True)
-
-                    if not output_multi:
-                        out_file.write(f"{save_name[len(self.save_path) + 1:]}|{save_text}\n")
-                    else:
-                        out_file.write(f"{save_name[len(self.save_path) + 1:]}|"
-                                       f"{self.multi_char_out_ids.get(char_id, char_id)}|"
-                                       f"{save_text}\n")
-
-                    extractor.Close()
                 except BaseException as e:
-                    log.logger(f"Exception occurred when extract story text: {e}", error=True)
+                    log.logger(f"Exception occurred when loading bundle: {e}", error=True)
                     failed_names.append(bundle_name)
+                    continue
 
+                for i in stories[voice_ab_hash]:
+                    try:
+                        save_name = extractor.ExtractAudioFromCueId(
+                            f"{self.save_path}/{i.story_resource_name}", "", i.CueId
+                        )
+                        save_text = i.Text.replace("\r\n", " ").replace("\n", " ").replace("\r", " ").replace("|", " ")
+                        log.logger(f"{save_name} {save_text}", debug=True)
+
+                        if not output_multi:
+                            out_file.write(f"{save_name[len(self.save_path) + 1:]}|{save_text}\n")
+                        else:
+                            out_file.write(f"{save_name[len(self.save_path) + 1:]}|"
+                                           f"{self.multi_char_out_ids.get(char_id, char_id)}|"
+                                           f"{save_text}\n")
+                    except BaseException as e:
+                        log.logger(f"Exception occurred when extract story text: {e}", error=True)
+                extractor.Close()
         out_file.close()
 
     def get_extract_character_system_text(self, chara_id: int):
