@@ -6,6 +6,7 @@ import os
 from .ulogger import logger as log
 import time
 import json
+from tqdm import tqdm
 
 class VoiceEx(ures.ResourceEx):
     def __init__(self, save_path="save", get_voice_from_all_stories=False, download_missing_voice_files=False,
@@ -14,9 +15,7 @@ class VoiceEx(ures.ResourceEx):
         self.save_path = save_path
         self.get_voice_from_all_stories = get_voice_from_all_stories
         self.use_cache = use_cache
-
         self.multi_char_out_ids = {}
-
         if not os.path.isdir(self.save_path):
             os.makedirs(self.save_path)
         self.cache_path = "./umacache"
@@ -52,7 +51,6 @@ class VoiceEx(ures.ResourceEx):
         if self.use_cache:
             if t_path in self.cache:
                 return self.cache[t_path]
-
         env = UnityPy.load(t_path)
         objects = env.objects
         ret = []
@@ -74,9 +72,7 @@ class VoiceEx(ures.ResourceEx):
         if self.get_voice_from_all_stories:
             story_hashes += self.get_story_text_ids(None, base="04")
 
-        tLen = len(story_hashes)
-        for n, (i, name) in enumerate(story_hashes):
-            log.logger(f"Loading story text...  {n + 1}/{tLen}")
+        for i, name in tqdm(story_hashes, desc="Loading story text..."):
             t_path = self.bundle_hash_to_path(i)
             mono_trees = self.get_mono_trees(t_path)
             for mono_tree in mono_trees:
@@ -89,9 +85,7 @@ class VoiceEx(ures.ResourceEx):
         if not self.get_voice_from_all_stories:
             for chara_id in chara_ids:
                 chara_story_hashes = self.get_story_text_ids(chara_id, base="04")
-                tLen = len(chara_story_hashes)
-                for n, (i, name) in enumerate(chara_story_hashes):
-                    log.logger(f"Loading character story text {chara_id}...  {n + 1}/{tLen}")
+                for i, name in tqdm(chara_story_hashes, desc=f"Loading character story text {chara_id} ..."):
                     t_path = self.bundle_hash_to_path(i)
                     mono_trees = self.get_mono_trees(t_path)
                     for mono_tree in mono_trees:
@@ -117,12 +111,10 @@ class VoiceEx(ures.ResourceEx):
 
     def extract_text_and_voice(self, data: t.Dict[int, t.List[m.VoiceBaseInfo]], output_multi: bool):
         failed_names = []
-
         out_file = open(f"{self.save_path}/output.txt", "a", encoding="utf8")
-
         for char_id in data:
             stories = self.recheck_data(data[char_id])
-            for voice_ab_hash in stories:
+            for voice_ab_hash in tqdm(stories, desc="Extracting text..."):
                 bundle_name = self.bundle_hash_to_path(voice_ab_hash)
                 try:
                     if bundle_name in failed_names:
@@ -149,7 +141,6 @@ class VoiceEx(ures.ResourceEx):
                         )
                         save_text = i.Text.replace("\r\n", " ").replace("\n", " ").replace("\r", " ").replace("|", " ")
                         log.logger(f"{save_name} {save_text}", debug=True)
-
                         if not output_multi:
                             out_file.write(f"{save_name[len(self.save_path) + 1:]}|{save_text}\n")
                         else:
@@ -163,23 +154,19 @@ class VoiceEx(ures.ResourceEx):
 
     def get_extract_character_system_text(self, chara_id: int):
         chara_text = self.get_character_system_text(chara_id)
-        tLen = len(chara_text)
         ex_text_list = []
 
-        for n, (character_id, text, cue_sheet, cue_id) in enumerate(chara_text):
-            log.logger(f"Loading character_system_text ({chara_id})...   {n + 1}/{tLen}")
+        for character_id, text, cue_sheet, cue_id in tqdm(chara_text, desc=f"Loading character_system_text({chara_id})..."):
             voice_hash = self.get_awb_hash_from_sheetname(cue_sheet)
             if voice_hash is None:
                 log.logger(f"cue_sheet not found: {cue_sheet} ({cue_id}) character: {character_id} text: {text}",
                            error=True)
                 continue
-
             voice_info = m.VoiceBaseInfo(
                 CharaId=character_id, Text=text, VoiceSheetId=cue_sheet, CueId=cue_id,
                 story_resource_name=f"character_system_text/{character_id}/{cue_sheet}", voice_ab_hash=voice_hash
             )
             ex_text_list.append(voice_info)
-
         return {chara_id: ex_text_list}
 
     def extract_chara_text(self, chara_ids: t.List[int], output_multi: bool):

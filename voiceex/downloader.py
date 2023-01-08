@@ -1,6 +1,9 @@
+import time
 import requests
 import typing as t
 import os
+from .ulogger import logger as log
+from tqdm import tqdm
 
 
 class UmaDownloader:
@@ -18,25 +21,35 @@ class UmaDownloader:
         return f"{self.base_host}/Generic/{abhash:.2}/{abhash}"
 
     def download_sound(self, abhash: str, save_name: str,
-                       down_progress_callback: t.Optional[t.Callable[[str], t.Any]] = None):
-        url = self.get_sound_download_url(abhash)
-        resp = requests.get(url, headers={
-            "User-Agent": "UnityPlayer/2019.4.21f1 (UnityWebRequest/1.0, libcurl/7.52.0-DEV)"
-        },
-                            stream=True, proxies=self.proxies)
-        if resp.status_code != 200:
-            raise RuntimeError(f"Can't download file from {url} (HTTP {resp.status_code}).")
+                       down_progress_callback: t.Optional[t.Callable[[int, int], t.Any]] = None, retry_times=0):
+        try:
+            url = self.get_sound_download_url(abhash)
+            resp = requests.get(url, headers={
+                "User-Agent": "UnityPlayer/2019.4.21f1 (UnityWebRequest/1.0, libcurl/7.52.0-DEV)"
+            },
+                                stream=True, proxies=self.proxies)
+            if resp.status_code != 200:
+                raise RuntimeError(f"Can't download file from {url} (HTTP {resp.status_code}).")
 
-        save_path = os.path.split(save_name)[0]
-        if not os.path.isdir(save_path):
-            os.makedirs(save_path)
+            save_path = os.path.split(save_name)[0]
+            if not os.path.isdir(save_path):
+                os.makedirs(save_path)
 
-        total = int(resp.headers.get('content-length', 0))
-        with open(save_name, "wb") as f:
-            down_size = 0
-            for data in resp.iter_content(chunk_size=1024):
-                size = f.write(data)
-                down_size += size
-                down_progress = f"{int(down_size / total * 100)}%" if total != 0 else "?%"
-                if down_progress_callback is not None:
-                    down_progress_callback(down_progress)
+            total = int(resp.headers.get('content-length', 0))
+            with tqdm(total=int(total / 1024)) as bar:
+                with open(save_name, "wb") as f:
+                    down_size = 0
+                    for data in resp.iter_content(chunk_size=1024):
+                        size = f.write(data)
+                        bar.update(int(size / 1024))
+                        down_size += size
+                        if down_progress_callback is not None:
+                            down_progress_callback(down_size, total * 100)
+        except BaseException as e:
+            if retry_times < 3:
+                retry_times += 1
+                log.logger(f"Download failed: {e}, retry: {retry_times}/3", error=True)
+                time.sleep(3)
+                return self.download_sound(abhash, save_name, down_progress_callback, retry_times)
+            else:
+                raise e

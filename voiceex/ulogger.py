@@ -85,4 +85,4 @@ class Logger:
             os.makedirs(f"{self._log_path}")
 
 
-logger = Logger(True, show_tm=False)
+logger = Logger(False, show_tm=False)

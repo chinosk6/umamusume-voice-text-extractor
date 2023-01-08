@@ -15,6 +15,7 @@ colorama~=0.4.4
 pythonnet~=3.0.1
 UnityPy~=1.8.15
 requests~=2.28.1
+tqdm
 ```
 
 
