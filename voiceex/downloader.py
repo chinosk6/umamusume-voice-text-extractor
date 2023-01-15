@@ -27,7 +27,7 @@ class UmaDownloader:
             resp = requests.get(url, headers={
                 "User-Agent": "UnityPlayer/2019.4.21f1 (UnityWebRequest/1.0, libcurl/7.52.0-DEV)"
             },
-                                stream=True, proxies=self.proxies)
+                                stream=True, proxies=self.proxies, timeout=30)
             if resp.status_code != 200:
                 raise RuntimeError(f"Can't download file from {url} (HTTP {resp.status_code}).")
 
@@ -52,4 +52,6 @@ class UmaDownloader:
                 time.sleep(3)
                 return self.download_sound(abhash, save_name, down_progress_callback, retry_times)
             else:
+                if os.path.isfile(save_name):
+                    os.remove(save_name)
                 raise e
