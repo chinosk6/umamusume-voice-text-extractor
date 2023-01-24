@@ -48,9 +48,10 @@ namespace voice_extractor
             foreach (var wave in awbReader.Waves)
             {
                 var waveOrigName = acbReader.GetWaveName(wave.WaveId, 0, false);
-                try
+
+                foreach (var waveName in waveOrigName.Split(";"))
                 {
-                    foreach (var waveName in waveOrigName.Split(";"))
+                    try
                     {
                         var cueidStrSplit = waveName.Split("_");
                         var cueidStr = cueidStrSplit[cueidStrSplit.Length - 1];
@@ -71,16 +72,15 @@ namespace voice_extractor
                             }
                         }
                     }
-                }
-                catch (FormatException)
-                {
-                    
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"convert cueid failed: {waveOrigName} - {ex}");
-                }
+                    catch (FormatException)
+                    {
 
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"convert cueid failed: {waveName} - {ex}");
+                    }
+                }
             }
         }
         
