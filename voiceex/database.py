@@ -48,8 +48,8 @@ class UmaDatabase(downloader.UmaDownloader):
     def get_character_system_text(self, chara_id: int):
         cursor = self.master_conn.cursor()
         query = cursor.execute(
-            "SELECT character_id, text, cue_sheet, cue_id FROM character_system_text WHERE character_id = ?", [chara_id]
-        ).fetchall()
+            "SELECT character_id, text, cue_sheet, cue_id, gender FROM character_system_text WHERE character_id = ?",
+            [chara_id]).fetchall()
         cursor.close()
         return query
 

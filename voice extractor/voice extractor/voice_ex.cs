@@ -17,6 +17,7 @@ namespace voice_extractor
         private float wavVolume;
         private WaveFormat waveFormat;
         private Dictionary<int, int> cueIdToWaveId = new();
+        private Dictionary<int, int> anotherCueIdToWaveId = new();
         
         public UmaVoiceEx(string acbPath, string awbPath)
         {
@@ -46,17 +47,38 @@ namespace voice_extractor
         {
             foreach (var wave in awbReader.Waves)
             {
-                string waveName = acbReader.GetWaveName(wave.WaveId, 0, false);
+                var waveOrigName = acbReader.GetWaveName(wave.WaveId, 0, false);
                 try
                 {
-                    var cueidStrSplit = waveName.Split("_");
-                    var cueidStr = cueidStrSplit[cueidStrSplit.Length - 1];
-                    var cueid = int.Parse(cueidStr);
-                    cueIdToWaveId.Add(cueid, wave.WaveId);
+                    foreach (var waveName in waveOrigName.Split(";"))
+                    {
+                        var cueidStrSplit = waveName.Split("_");
+                        var cueidStr = cueidStrSplit[cueidStrSplit.Length - 1];
+                        var cueid = int.Parse(cueidStr);
+                        if (!cueIdToWaveId.ContainsKey(cueid))
+                        {
+                            cueIdToWaveId.Add(cueid, wave.WaveId);
+                        }
+                        else
+                        {
+                            if (anotherCueIdToWaveId.ContainsKey(cueid))
+                            {
+                                Console.WriteLine($"anotherCueId contains - {waveName} ({cueid}), pass...");
+                            }
+                            else
+                            {
+                                anotherCueIdToWaveId.Add(cueid, wave.WaveId);
+                            }
+                        }
+                    }
+                }
+                catch (FormatException)
+                {
+                    
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"convert cueid failed: {waveName} - {ex}");
+                    Console.WriteLine($"convert cueid failed: {waveOrigName} - {ex}");
                 }
 
             }
@@ -97,13 +119,44 @@ namespace voice_extractor
             return saveName;
         }
 
-        public string ExtractAudioFromCueId([NotNull]string savePath, string saveFileprefix, int cueId)
+        public string ExtractAudioFromCueId([NotNull]string savePath, string saveFileprefix, int cueId, int gender=0)
         {
+            int origWaveId, anotherWaveId;
+
             if (!cueIdToWaveId.ContainsKey(cueId))
             {
-                throw new IndexOutOfRangeException($"cueId: {cueId} not found!");
+                origWaveId = -1;
             }
-            return ExtractAudioFromWaveId(savePath, saveFileprefix, cueIdToWaveId[cueId]);
+            else
+            {
+                origWaveId = cueIdToWaveId[cueId];
+            }
+            
+            if (!anotherCueIdToWaveId.ContainsKey(cueId))
+            {
+                if (origWaveId == -1)
+                {
+                    throw new IndexOutOfRangeException($"{savePath} {saveFileprefix} cueId: {cueId} not found!");
+                }
+                anotherWaveId = origWaveId;
+            }
+            else
+            {
+                anotherWaveId = anotherCueIdToWaveId[cueId];
+                if (origWaveId == -1)
+                {
+                    origWaveId = anotherWaveId;
+                }
+            }
+            /*
+             训练员选择不同的性别会影响部分语音的内容, 这部分语音拥有相同的 CueId, 只有 voice_id 和 gender 不同
+             目前没办法在 awb/acb 文件中获取到 voice_id
+             经过观察发现, 在 CueId 相同的情况下, gender 值为 1 的 WaveId 总是大于 gender 值为 2 的 WaveId
+             因此暂时使用下面的方案, 期待大佬们提出更好的解决方案~
+             性别 0 和 2 使用较小的 WaveId, 1 使用较大的 WaveId
+             */
+            return ExtractAudioFromWaveId(savePath, saveFileprefix, 
+                gender == 1 ? Math.Max(origWaveId, anotherWaveId) : Math.Min(origWaveId, anotherWaveId));
         }
 
         public void SetWaveFormat(int rate, int bits, int channels)

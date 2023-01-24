@@ -137,7 +137,7 @@ class VoiceEx(ures.ResourceEx):
                 for i in stories[voice_ab_hash]:
                     try:
                         save_name = extractor.ExtractAudioFromCueId(
-                            f"{self.save_path}/{i.story_resource_name}", "", i.CueId
+                            f"{self.save_path}/{i.story_resource_name}", "", i.CueId, i.gender
                         )
                         save_text = i.Text.replace("\r\n", " ").replace("\n", " ").replace("\r", " ").replace("|", " ")
                         log.logger(f"{save_name} {save_text}", debug=True)
@@ -156,14 +156,15 @@ class VoiceEx(ures.ResourceEx):
         chara_text = self.get_character_system_text(chara_id)
         ex_text_list = []
 
-        for character_id, text, cue_sheet, cue_id in tqdm(chara_text, desc=f"Loading character_system_text({chara_id})..."):
+        for character_id, text, cue_sheet, cue_id, gender in tqdm(chara_text,
+                                                                  desc=f"Loading character_system_text({chara_id})..."):
             voice_hash = self.get_awb_hash_from_sheetname(cue_sheet)
             if voice_hash is None:
                 log.logger(f"cue_sheet not found: {cue_sheet} ({cue_id}) character: {character_id} text: {text}",
                            error=True)
                 continue
             voice_info = m.VoiceBaseInfo(
-                CharaId=character_id, Text=text, VoiceSheetId=cue_sheet, CueId=cue_id,
+                CharaId=character_id, Text=text, VoiceSheetId=cue_sheet, CueId=cue_id, gender=gender,
                 story_resource_name=f"character_system_text/{character_id}/{cue_sheet}", voice_ab_hash=voice_hash
             )
             ex_text_list.append(voice_info)
