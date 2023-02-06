@@ -1,5 +1,7 @@
 import os
 import sqlite3
+import time
+
 from . import downloader
 
 
@@ -14,6 +16,12 @@ class UmaDatabase(downloader.UmaDownloader):
 
     def bundle_hash_to_path(self, bundle_hash: str):
         return f"{self.base_path}/dat/{bundle_hash[:2]}/{bundle_hash}"
+
+    def get_bundle_hash_from_path(self, path: str):
+        cursor = self.meta_conn.cursor()
+        query = cursor.execute("SELECT h FROM a WHERE n=?", [path]).fetchone()
+        if query is not None:
+            return query[0]
 
     def get_awb_hash_from_sheetname(self, n: str):
         cursor = self.meta_conn.cursor()
@@ -65,3 +73,42 @@ class UmaDatabase(downloader.UmaDownloader):
         query = cursor.execute("SELECT n, h FROM a WHERE n=?", [acb_full_name]).fetchone()
         cursor.close()
         return query
+
+    def get_live_ids(self):
+        cursor = self.master_conn.cursor()
+        query = cursor.execute("SELECT music_id FROM live_data WHERE has_live=1").fetchall()
+        cursor.close()
+        return [i[0] for i in query]
+
+    def get_live_permission(self, music_id: int):
+        cursor = self.master_conn.cursor()
+        query = cursor.execute("SELECT chara_id FROM live_permission_data WHERE music_id=?", [music_id]).fetchall()
+        if query:
+            cursor.close()
+            return [i[0] for i in query]
+        else:
+            query = cursor.execute("SELECT song_chara_type FROM live_data WHERE music_id=?", [music_id]).fetchone()
+            if query is None:
+                return []
+            if query[0] != 1:
+                return []
+            else:
+                cursor.close()
+                cursor = self.meta_conn.cursor()
+                query = cursor.execute("SELECT n FROM a WHERE n LIKE ?",
+                                       [f"sound/l/{music_id}/snd_bgm_live_{music_id}_chara______01.awb"]).fetchall()
+                ret = []
+                for i in query:
+                    try:
+                        p_id = int(i[0][len(f"sound/l/{music_id}/snd_bgm_live_{music_id}_chara_"):-len("_01.awb")])
+                        ret.append(p_id)
+                    except:
+                        continue
+                cursor.close()
+                return ret
+
+    def get_all_chara_ids(self):
+        cursor = self.master_conn.cursor()
+        query = cursor.execute("SELECT id FROM chara_data").fetchall()
+        cursor.close()
+        return [i[0] for i in query]

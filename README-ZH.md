@@ -13,12 +13,21 @@
 pydantic~=1.8.2
 colorama~=0.4.4
 pythonnet~=3.0.1
-UnityPy~=1.8.15
+UnityPy~=1.9.21
 requests~=2.28.1
 tqdm
+PyQt5~=5.15.4
 ```
 
 
+
+## 使用GUI
+
+- `python gui_main.py`
+
+
+
+## 无GUI
 
 - 根据自己的需求修改 `main.py`, 然后运行: `python main.py`
 

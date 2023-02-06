@@ -3,6 +3,7 @@ from . import database as udb
 from pythonnet import set_runtime
 from clr_loader import get_coreclr
 from .ulogger import logger as log
+from typing import List
 
 rt = get_coreclr(
     runtime_config="./voice extractor/voice extractor/bin/Release/net6.0/voice extractor.runtimeconfig.json"
@@ -12,6 +13,8 @@ import clr
 
 # clr.FindAssembly("voice_extractor.dll")
 clr.AddReference("./voice extractor/voice extractor/bin/Release/net6.0/voice extractor")
+from System.Collections.Generic import List as CsList
+from System import UInt64, String
 
 import voice_extractor
 
@@ -54,3 +57,55 @@ class ResourceEx(udb.UmaDatabase):
             extractor.SetWaveFormat(*self.wav_format)
         extractor.SetVolume(volume)
         return extractor
+
+    @staticmethod
+    def get_uninited_extractor():
+        return voice_extractor.UmaVoiceEx
+
+    @staticmethod
+    def cut_wav_batch(file_name: str, save_name_prefix: str, time_ms_list: List[List[int]]):
+        lst_param = CsList[CsList[UInt64]]()
+        for i in time_ms_list:
+            add = CsList[UInt64]()
+            for j in i:
+                add.Add(j)
+            lst_param.Add(add)
+        result = voice_extractor.UmaVoiceEx.CutWavFileBatch(file_name, save_name_prefix, lst_param)
+        return list(result)
+
+    @staticmethod
+    def mix_wavs(files: List[str], save_name: str):
+        lst_param = CsList[String]()
+        for i in files:
+            lst_param.Add(i)
+        save_dir = os.path.split(save_name)[0]
+        if not os.path.isdir(save_dir):
+            os.makedirs(save_dir)
+        voice_extractor.UmaVoiceEx.MixWav(lst_param, save_name)
+
+    @staticmethod
+    def ConcatenateWavFiles(save_name: str, files: List[str]):
+        lst_param = CsList[String]()
+        for i in files:
+            lst_param.Add(i)
+        voice_extractor.UmaVoiceEx.ConcatenateWavFiles(save_name, lst_param)
+
+    @staticmethod
+    def SilenceWavPartsByActivePos(file_name: str, save_name: str, active_ms: List[List[int]]):
+        lst_param = CsList[CsList[UInt64]]()
+        for i in active_ms:
+            add_p = CsList[UInt64]()
+            for j in i:
+                add_p.Add(j)
+            lst_param.Add(add_p)
+        voice_extractor.UmaVoiceEx.SilenceWavPartsByActivePos(file_name, save_name, lst_param)
+
+
+# fs = ResourceEx.cut_wav_batch("25.wav", "./25", [[1000, 2000], [3000, 5000]])
+# for i in fs:
+#     voice_extractor.UmaVoiceEx.ResampleWav(i, f"{i}_re.wav", 44100, 16, 1)
+
+# ResourceEx.mix_wavs([r"save\music\1053\bgm0.wav", "save/music/1053/chara_0.wav", "save/music/1053/chara_1.wav"],
+#                     "save/music/1053/mix.wav")
+# voice_extractor.UmaVoiceEx.RemoveAudioSilence("save/music/1053/cutbylrc/1046/1046_42.wav")
+# ResourceEx.ConcatenateWavFiles(r"save\music\1059\aaa.wav", [r"save\music\1059\mix_all.wav", r"save\music\1059\bgm0.wav"])
