@@ -1,6 +1,7 @@
 # umamusume-voice-text-extractor
 
 - 提取语音和对应的文本
+- GUI版目前正在测试，如果出现异常，请发 issue 或者使用 releases 中的稳定版。
 
 
 

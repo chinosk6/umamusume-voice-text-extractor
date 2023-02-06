@@ -1,8 +1,8 @@
 # umamusume-voice-text-extractor
 
 - [Chinese/中文](README-ZH.md)
-
 - Extract the voice and corresponding text
+- The GUI version is still being tested. If exception occur, send issue or use the stable version in releases.
 
 
 
