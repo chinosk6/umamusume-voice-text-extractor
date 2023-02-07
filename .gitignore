@@ -10,3 +10,6 @@ __pycache__
 /umacache
 /temp
 /ex_config.json
+/build
+/dist
+/umamusume_voice_text_extractor.spec
