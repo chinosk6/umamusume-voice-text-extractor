@@ -8,6 +8,8 @@
 
 # Usage
 
+- Download brainy file in [Releases](https://github.com/chinosk6/umamusume-voice-text-extractor/releases) , or:
+
 - Required Environment: [Python 3.8+](https://www.python.org/downloads/)、[.Net 6.0](https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0)
 - Install python package: `pip install -r requirements.txt`
 
@@ -25,7 +27,9 @@ PyQt5~=5.15.4
 
 ## With GUI
 
-- `python gui_main.py`
+- Run brainy file from [Releases](https://github.com/chinosk6/umamusume-voice-text-extractor/releases) : `run.bat`
+
+- Run source code: `python gui_main.py`
 
 
 

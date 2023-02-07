@@ -7,6 +7,8 @@
 
 # 使用方法
 
+- 从 [Releases](https://github.com/chinosk6/umamusume-voice-text-extractor/releases) 下载二进制文件，或者:
+
 - 需要环境: [Python 3.8+](https://www.python.org/downloads/)、[.Net 6.0 运行时](https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0)
 - 安装 Python 包: `pip install -r requirements.txt`
 
@@ -24,7 +26,10 @@ PyQt5~=5.15.4
 
 ## 使用GUI
 
-- `python gui_main.py`
+- 直接运行 [Releases](https://github.com/chinosk6/umamusume-voice-text-extractor/releases) 压缩包内的二进制文件: `run.bat`
+- 从源码运行: `python gui_main.py`
+
+
 
 ### 单角色提取
 
