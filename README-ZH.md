@@ -26,6 +26,30 @@ PyQt5~=5.15.4
 
 - `python gui_main.py`
 
+### 单角色提取
+
+- 提取结果例: `xxx/xxx.wav|こんにちは`
+- 操作说明: 点击目标角色，然后开始提取即可。<br><img src="img/single_zh.png" style="zoom:67%;" />
+
+
+
+### 多角色提取
+
+- 提取结果例: `xxx/xxx.wav|0|こんにちは`
+- 操作说明: 双击目标角色添加到列表, 可以自行修改`保存ID` 。<br><img src="img/multi_zh.jpg" style="zoom:67%;" />
+
+
+
+### Live 音乐提取
+
+- 操作方法: 点击目标音乐，然后点击目标角色即可。<br><img src="img/music_zh.jpg" style="zoom:67%;" />
+
+
+
+### Live 音乐混合
+
+- 在目标角色上点击右键，添加到目标位置即可。大于 `歌唱角色位置数` 的部分将被忽略。<br><img src="img/mix_zh.jpg" style="zoom:67%;" />
+
 
 
 ## 无GUI
