@@ -209,7 +209,7 @@ class LiveMusicExtractor(umares.ResourceEx):
                     if wave_id >= 0:
                         try:
                             current_file_name = save_file_names[n][char_id][wave_id]
-                        except IndexError:
+                        except (IndexError, KeyError):
                             continue
                         next_time_ms = singing_data_keys[t_index + 1] if t_index + 1 < len(singing_data_keys) \
                             else time_ms + 30000
