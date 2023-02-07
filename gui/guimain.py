@@ -272,6 +272,14 @@ class UIChange(QObject):
         )
         if self.ui.checkBox_me_proxy.isChecked():
             music_ex.set_proxies(self.ui.lineEdit_me_proxy.text())
+        try:
+            rate = int(self.ui.lineEdit_me_rate.text())
+            bits = int(self.ui.lineEdit_me_bits.text())
+            channels = int(self.ui.lineEdit_me_channels.text())
+            music_ex.set_wav_format(rate, bits, channels)
+        except:
+            pass
+
         return music_ex
 
     def extract_live_bgm(self):

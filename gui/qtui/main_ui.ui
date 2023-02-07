@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>903</width>
+    <width>935</width>
     <height>657</height>
    </rect>
   </property>
@@ -371,7 +371,7 @@
        <attribute name="title">
         <string>Live Music Extractor</string>
        </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="0,0,0">
           <item>
@@ -501,7 +501,7 @@
                </attribute>
                <layout class="QVBoxLayout" name="verticalLayout_11">
                 <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_10" stretch="1,2,2,2">
+                 <layout class="QVBoxLayout" name="verticalLayout_10" stretch="1,2">
                   <item>
                    <layout class="QHBoxLayout" name="horizontalLayout_6">
                     <property name="sizeConstraint">
@@ -557,32 +557,6 @@
                    </layout>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_extract_bgm">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>50</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string>Extract BGM</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="pushButton_extract_chara_sound">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>50</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string>Extract Full Chara Sound</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
                    <widget class="QGroupBox" name="groupBox_7">
                     <property name="title">
                      <string/>
@@ -591,6 +565,107 @@
                      <property name="rightMargin">
                       <number>11</number>
                      </property>
+                     <item>
+                      <widget class="QGroupBox" name="groupBox_4">
+                       <property name="title">
+                        <string>Wave Format</string>
+                       </property>
+                       <layout class="QGridLayout" name="gridLayout">
+                        <item row="0" column="0">
+                         <widget class="QLabel" name="label_12">
+                          <property name="text">
+                           <string>Rate: </string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item row="0" column="1">
+                         <widget class="QLineEdit" name="lineEdit_me_rate">
+                          <property name="minimumSize">
+                           <size>
+                            <width>0</width>
+                            <height>0</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>75</width>
+                            <height>16777215</height>
+                           </size>
+                          </property>
+                          <property name="text">
+                           <string>22050</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item row="0" column="2">
+                         <widget class="QLabel" name="label_13">
+                          <property name="text">
+                           <string>Bits: </string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item row="0" column="3">
+                         <widget class="QLineEdit" name="lineEdit_me_bits">
+                          <property name="maximumSize">
+                           <size>
+                            <width>75</width>
+                            <height>16777215</height>
+                           </size>
+                          </property>
+                          <property name="text">
+                           <string>16</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item row="1" column="0">
+                         <widget class="QLabel" name="label_14">
+                          <property name="text">
+                           <string>Channels: </string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item row="1" column="1">
+                         <widget class="QLineEdit" name="lineEdit_me_channels">
+                          <property name="maximumSize">
+                           <size>
+                            <width>75</width>
+                            <height>16777215</height>
+                           </size>
+                          </property>
+                          <property name="text">
+                           <string>1</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="pushButton_extract_bgm">
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>50</height>
+                        </size>
+                       </property>
+                       <property name="text">
+                        <string>Extract BGM</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="pushButton_extract_chara_sound">
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>50</height>
+                        </size>
+                       </property>
+                       <property name="text">
+                        <string>Extract Full Chara Sound</string>
+                       </property>
+                      </widget>
+                     </item>
                      <item>
                       <widget class="QPushButton" name="pushButton_extract_sound_by_lrc">
                        <property name="minimumSize">
@@ -777,7 +852,7 @@
                        <item>
                         <widget class="QPushButton" name="pushButton_me_delete_select">
                          <property name="text">
-                          <string>Delete Select</string>
+                          <string>Remove Selecting</string>
                          </property>
                         </widget>
                        </item>

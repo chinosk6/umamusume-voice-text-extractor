@@ -64,7 +64,7 @@ namespace voice_extractor
                         {
                             if (anotherCueIdToWaveId.ContainsKey(cueid))
                             {
-                                Console.WriteLine($"anotherCueId contains - {waveName} ({cueid}), pass...");
+                                // Console.WriteLine($"anotherCueId contains - {waveName} ({cueid}), pass...");
                             }
                             else
                             {
@@ -249,7 +249,8 @@ namespace voice_extractor
             
             using (WaveFileReader reader = new WaveFileReader(fileName))
             {
-                var fileLength = (int)reader.Length;using (WaveFileWriter writer = new WaveFileWriter(saveName, reader.WaveFormat))
+                var fileLength = (int)reader.Length;using (WaveFileWriter writer = new WaveFileWriter(saveName, 
+                                                               reader.WaveFormat))
                 {
                     var cutFromStart = TimeSpan.FromMilliseconds(startMs);
                     var cutFromEnd = TimeSpan.FromMilliseconds(endMs);
@@ -283,7 +284,8 @@ namespace voice_extractor
                     var startMs = i[0];
                     var endMs = i[1];
 
-                    var fileLength = (int)reader.Length; using (WaveFileWriter writer = new WaveFileWriter(saveName, reader.WaveFormat))
+                    var fileLength = (int)reader.Length; using (WaveFileWriter writer = new WaveFileWriter(saveName, 
+                                                                    reader.WaveFormat))
                     {
                         var cutFromStart = TimeSpan.FromMilliseconds(startMs);
                         var cutFromEnd = TimeSpan.FromMilliseconds(endMs);
@@ -325,6 +327,11 @@ namespace voice_extractor
 
         public static void ResampleWav(string fileName, string saveName, int rate, int bits, int channels)
         {
+            var savePath = Path.GetDirectoryName(saveName);
+            if (savePath != null)
+            {
+                Directory.CreateDirectory(savePath);
+            }
             var convertedStream = new MediaFoundationResampler(new WaveFileReader(fileName), 
                 new WaveFormat(rate, bits, channels));
             var wavSampleProvider = convertedStream.ToSampleProvider();
@@ -396,7 +403,9 @@ namespace voice_extractor
                         {
                             if (!reader.WaveFormat.Equals(waveFileWriter.WaveFormat))
                             {
-                                throw new InvalidOperationException("Can't concatenate WAV Files that don't share the same format");
+                                throw new InvalidOperationException(
+                                    "Can't concatenate WAV Files that don't share the same format"
+                                    );
                             }
                         }
 

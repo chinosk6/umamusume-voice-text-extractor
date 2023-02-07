@@ -1,4 +1,5 @@
 import os
+import shutil
 from .. import resource as umares
 import UnityPy
 from . import models
@@ -84,6 +85,20 @@ class LiveMusicExtractor(umares.ResourceEx):
             exactor.SetWaveFormat(*self.wav_format)
         return exactor.ExtractAudioFromWaveId(f"{self.save_path}/music/{music_id}", "bgm", 0)
 
+    @staticmethod
+    def resample_file(data: t.Union[list, str], rate: int, bits: int, channels: int):
+        if isinstance(data, str):
+            fname = os.path.split(data)[1]
+            umares.voice_extractor.UmaVoiceEx.ResampleWav(data, f"temp/{fname}", rate, bits, channels)
+            if os.path.isfile(f"temp/{fname}"):
+                shutil.move(f"temp/{fname}", data)
+        elif isinstance(data, list):
+            for i in data:
+                fname = os.path.split(i)[1]
+                umares.voice_extractor.UmaVoiceEx.ResampleWav(i, f"temp/{fname}", rate, bits, channels)
+                if os.path.isfile(f"temp/{fname}"):
+                    shutil.move(f"temp/{fname}", i)
+
     def extract_live_chara_sound(self, music_id, chara_id, wave_id: t.Optional[int] = 0):
         acb_hash = self.get_bundle_hash_from_path(f"sound/l/{music_id}/snd_bgm_live_{music_id}_chara_{chara_id}_01.acb")
         awb_hash = self.get_bundle_hash_from_path(f"sound/l/{music_id}/snd_bgm_live_{music_id}_chara_{chara_id}_01.awb")
@@ -95,10 +110,11 @@ class LiveMusicExtractor(umares.ResourceEx):
         if self.wav_format is not None:
             exactor.SetWaveFormat(*self.wav_format)
         if wave_id is None:
-            return [exactor.ExtractAudioFromWaveId(f"{self.save_path}/music/{music_id}", "chara_", i)
+            return [exactor.ExtractAudioFromWaveId(f"{self.save_path}/music/{music_id}/chara_{chara_id}", "chara_", i)
                     for i in exactor.GetWaveIds()]
         else:
-            return exactor.ExtractAudioFromWaveId(f"{self.save_path}/music/{music_id}", "chara_", wave_id)
+            return exactor.ExtractAudioFromWaveId(f"{self.save_path}/music/{music_id}/chara_{chara_id}", "chara_",
+                                                  wave_id)
 
     def cut_live_chara_song_by_lrc(self, music_id, chara_id, remove_audio_silence=False, output_chara_id=None):
         lrc_data = self.get_lrc(music_id)
@@ -127,6 +143,8 @@ class LiveMusicExtractor(umares.ResourceEx):
                 for n, i in enumerate(lrc_list):
                     if remove_audio_silence:
                         self.get_uninited_extractor().RemoveAudioSilence(cut_files[n])
+                        if self.wav_format is not None:
+                            self.resample_file(cut_files[n], *self.wav_format)
                     lrc_out = i.replace("\r", " ").replace("\n", " ")
                     if output_chara_id is None:
                         f.write(f"{cut_files[n]}|{lrc_out}\n")
