@@ -8,7 +8,7 @@
 
 # Usage
 
-- Required Environment: `Python 3.8+`、`.Net 6.0`
+- Required Environment: [Python 3.8+](https://www.python.org/downloads/)、[.Net 6.0](https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0)
 - Install python package: `pip install -r requirements.txt`
 
 ```
@@ -39,7 +39,7 @@ PyQt5~=5.15.4
 ### Extract Multi Characters
 
 - Extract result example: `xxx/xxx.wav|0|こんにちは`
-- Double-click the target character to add to the list, you can modify the `SaveID`。<br><img src="img/multi_en.jpg" style="zoom:67%;" />
+- Double-click the target character to add to the list, you can modify the `SaveID`.<br><img src="img/multi_en.jpg" style="zoom:67%;" />
 
 
 

@@ -7,7 +7,7 @@
 
 # 使用方法
 
-- 需要环境: `Python 3.8+`、`.Net 6.0`
+- 需要环境: [Python 3.8+](https://www.python.org/downloads/)、[.Net 6.0 运行时](https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0)
 - 安装 Python 包: `pip install -r requirements.txt`
 
 ```
