@@ -143,8 +143,8 @@ class LiveMusicExtractor(umares.ResourceEx):
                 for n, i in enumerate(lrc_list):
                     if remove_audio_silence:
                         self.get_uninited_extractor().RemoveAudioSilence(cut_files[n])
-                        if self.wav_format is not None:
-                            self.resample_file(cut_files[n], *self.wav_format)
+                        # if self.wav_format is not None:
+                        #     self.resample_file(cut_files[n], *self.wav_format)
                     lrc_out = i.replace("\r", " ").replace("\n", " ")
                     if output_chara_id is None:
                         f.write(f"{cut_files[n]}|{lrc_out}\n")
