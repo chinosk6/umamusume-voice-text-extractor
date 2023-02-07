@@ -180,7 +180,7 @@ class LiveMusicExtractor(umares.ResourceEx):
                 save_file_names[i][wave_id] = ex_name
         return save_file_names
 
-    def mix_live_song_all_sing(self, music_id: int, chara_list: t.Optional[t.List[int]]):
+    def mix_live_song_all_sing(self, music_id: int, chara_list: t.Optional[t.List[int]], volume: float):
         music_bgm = self.extract_live_music_bgm(music_id)
         save_file_names = self.get_charas_singing_data(music_id, chara_list)
         save_name = f"{self.save_path}/music/{music_id}/mix_all.wav"
@@ -188,10 +188,10 @@ class LiveMusicExtractor(umares.ResourceEx):
         for chara_id in save_file_names:
             for wave_id in save_file_names[chara_id]:
                 file_list.append(save_file_names[chara_id][wave_id])
-        self.mix_wavs(file_list, save_name)
+        self.mix_wavs(file_list, save_name, volume)
         return save_name
 
-    def mix_live_song_by_parts(self, music_id: int, *charas: t.List[int]):
+    def mix_live_song_by_parts(self, music_id: int, *charas: t.List[int], volume: float):
         charas = charas[:7]
         music_bgm = self.extract_live_music_bgm(music_id)
         save_file_names = [self.get_charas_singing_data(music_id, i) for i in charas]
@@ -222,7 +222,7 @@ class LiveMusicExtractor(umares.ResourceEx):
             save_name_p = f"{file_name}_sl.wav"
             target_files.append(save_name_p)
             self.SilenceWavPartsByActivePos(file_name, save_name_p, ftimes)
-        self.mix_wavs([music_bgm] + target_files, save_name)
+        self.mix_wavs([music_bgm] + target_files, save_name, volume)
         for i in target_files:
             os.remove(i)
         return save_name

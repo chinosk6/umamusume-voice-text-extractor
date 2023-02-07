@@ -74,14 +74,14 @@ class ResourceEx(udb.UmaDatabase):
         return list(result)
 
     @staticmethod
-    def mix_wavs(files: List[str], save_name: str):
+    def mix_wavs(files: List[str], save_name: str, volume: float):
         lst_param = CsList[String]()
         for i in files:
             lst_param.Add(i)
         save_dir = os.path.split(save_name)[0]
         if not os.path.isdir(save_dir):
             os.makedirs(save_dir)
-        voice_extractor.UmaVoiceEx.MixWav(lst_param, save_name)
+        voice_extractor.UmaVoiceEx.MixWav(lst_param, save_name, volume)
 
     @staticmethod
     def ConcatenateWavFiles(save_name: str, files: List[str]):

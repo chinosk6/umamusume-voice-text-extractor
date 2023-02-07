@@ -346,15 +346,20 @@ namespace voice_extractor
             }
         }
 
-        public static void MixWav(List<string> files, string saveName)
+        public static void MixWav(List<string> files, string saveName, float volume)
         {
+            if (volume < 0 && volume > 1)
+            {
+                volume = files.Count < 15 ? 0.8f : 0.5f;
+            }
+            
             var readers = new List<AudioFileReader>();
             var nowIndex = 0;
             foreach (var reader in files.Select(file => new AudioFileReader(file)))
             {
                 if (nowIndex > 0)
                 {
-                    reader.Volume = files.Count < 15 ? 0.8f : 0.5f;
+                    reader.Volume = volume;
                 }
                 readers.Add(reader);
                 nowIndex++;

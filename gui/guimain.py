@@ -3,7 +3,7 @@ import os
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import QObject, QSize
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QStyleFactory, QFileDialog, QTableWidgetItem, \
+from PyQt5.QtWidgets import QApplication, QMainWindow, QStyleFactory, QFileDialog, QTableWidgetItem, \
     QListWidgetItem, QListWidget, QMenu, QAction
 from .qtui.ui_import import MainUI
 import ctypes
@@ -245,20 +245,22 @@ class UIChange(QObject):
             return
         self.ui.lineEdit_chara_id.setText(str(chara_id))
 
-    def add_char_to_mix_list(self, mx_index: int, chara_id, ex):
+    def add_char_to_mix_list(self, mx_index: int, chara_ids, ex):
         def _():
-            self.add_chara_to_list_widget(getattr(self.ui, f"listWidget_mx_{mx_index}"), chara_id, ex)
+            idx = getattr(self.ui, f"listWidget_mx_{mx_index}")
+            for i in chara_ids:
+                self.add_chara_to_list_widget(idx, i, ex)
         return _
 
     def singing_char_contex(self, position):
         popMenu = QMenu()
-        item = self.ui.listWidget_singing_chara_list.itemAt(position)
-        if item:
+        items = self.ui.listWidget_singing_chara_list.selectedItems()
+        if items:
             ex = voiceex.live_music.LiveMusicExtractor("./temp")
             for i in range(8)[1:]:
                 creAct = QAction(f"Add to mixer position {i}", self)
                 popMenu.addAction(creAct)
-                creAct.triggered.connect(self.add_char_to_mix_list(i, item.text(), ex))
+                creAct.triggered.connect(self.add_char_to_mix_list(i, [item.text() for item in items], ex))
         popMenu.exec_(self.ui.listWidget_singing_chara_list.mapToGlobal(position))
 
     def init_main_window(self):
@@ -367,7 +369,7 @@ class UIChange(QObject):
                         widget: QListWidget = getattr(self.ui, f"listWidget_mx_{i}")
                         args0 += [int(i.text()) for i in get_widget_all_items(widget)]
                     ex = self.get_live_extractor()
-                    save_name = ex.mix_live_song_all_sing(music_id, list(set(args0)))
+                    save_name = ex.mix_live_song_all_sing(music_id, list(set(args0)), float(self.ui.lineEdit_chara_vol.text()))
                     print(f"Extract success: {save_name}")
                 else:
                     args = []
@@ -375,7 +377,7 @@ class UIChange(QObject):
                         widget: QListWidget = getattr(self.ui, f"listWidget_mx_{i}")
                         args.append([int(i.text()) for i in get_widget_all_items(widget)])
                     ex = self.get_live_extractor()
-                    save_name = ex.mix_live_song_by_parts(music_id, *args)
+                    save_name = ex.mix_live_song_by_parts(music_id, *args, volume=float(self.ui.lineEdit_chara_vol.text()))
                     print(f"Extract success: {save_name}")
             finally:
                 self.set_start_btn_stat_signal.emit(True)
