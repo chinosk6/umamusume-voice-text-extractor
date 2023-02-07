@@ -21,12 +21,13 @@ tChinese_lang_id = [0x0404, 0x0c04, 0x1404, 0x048E]  # zh-TW, zh-HK, zh-MO, zh-y
 
 # translate = QtCore.QCoreApplication.translate
 
-class MainDialog(QDialog):
-    def __init__(self, parent=None):
-        super(QDialog, self).__init__(parent)
-        self.ui = MainUI()
-        self.ui.setupUi(self)
+class MainWindow(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super(MainWindow, self).__init__(*args, **kwargs)
 
+    def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
+        super(MainWindow, self).closeEvent(a0)
+        os._exit(0)
 
 class UIChange(QObject):
     show_msgbox_signal = QtCore.pyqtSignal(str, str)
@@ -41,7 +42,7 @@ class UIChange(QObject):
         self.trans = QtCore.QTranslator()
         self.load_i18n()
 
-        self.window = QMainWindow()
+        self.window = MainWindow()
         self.window.setWindowIcon(QtGui.QIcon(":/img/linqin_nawone.ico"))
         self.ui = MainUI()
         self.ui.setupUi(self.window)
@@ -152,6 +153,13 @@ class UIChange(QObject):
         self.ui.pushButton_extract_chara_sound.setEnabled(stat)
         self.ui.pushButton_extract_sound_by_lrc.setEnabled(stat)
         self.ui.pushButton_start_mix.setEnabled(stat)
+        voiceex.m.user_config.save_path_ve = self.ui.lineEdit_ve_save_path.text().strip()
+        voiceex.m.user_config.save_path_me = self.ui.lineEdit_me_save_path.text().strip()
+        voiceex.m.user_config.proxy_ve = self.ui.lineEdit_ve_proxy.text().strip()
+        voiceex.m.user_config.proxy_me = self.ui.lineEdit_me_proxy.text().strip()
+        voiceex.m.user_config.use_proxy_ve = self.ui.checkBox_ve_use_proxy.isChecked()
+        voiceex.m.user_config.use_proxy_me = self.ui.checkBox_me_proxy.isChecked()
+        voiceex.m.user_config.save_data()
 
     def get_voice_ex(self):
         ex = voiceex.VoiceEx(save_path=self.ui.lineEdit_ve_save_path.text(),
@@ -253,14 +261,19 @@ class UIChange(QObject):
                 creAct.triggered.connect(self.add_char_to_mix_list(i, item.text(), ex))
         popMenu.exec_(self.ui.listWidget_singing_chara_list.mapToGlobal(position))
 
-
     def init_main_window(self):
+        self.ui.listWidget_singing_chara_list.setIconSize(QSize(48, 48))
+        self.ui.lineEdit_ve_save_path.setText(voiceex.m.user_config.save_path_ve)
+        self.ui.lineEdit_me_save_path.setText(voiceex.m.user_config.save_path_me)
+        self.ui.lineEdit_ve_proxy.setText(voiceex.m.user_config.proxy_ve)
+        self.ui.lineEdit_me_proxy.setText(voiceex.m.user_config.proxy_me)
+        self.ui.checkBox_ve_use_proxy.setChecked(voiceex.m.user_config.use_proxy_ve)
+        self.ui.checkBox_me_proxy.setChecked(voiceex.m.user_config.use_proxy_me)
         music_ex = voiceex.live_music.LiveMusicExtractor("./temp")
         chara_list = music_ex.get_all_chara_ids()
         self.build_ve_chara_list(chara_list, music_ex)
         music_list = music_ex.get_live_ids()
         self.build_me_music_list(music_list, music_ex)
-        self.ui.listWidget_singing_chara_list.setIconSize(QSize(48, 48))
 
     def singing_char_onclick(self, index: QtCore.QModelIndex):
         self.ui.lineEdit_chara_id.setText(str(index.data()))
@@ -371,7 +384,6 @@ class UIChange(QObject):
     def show_main_window(self):
         self.window.show()
         self.init_main_window()
-
 
     def ui_run_main(self):
         self.show_main_window()

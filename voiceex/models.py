@@ -1,3 +1,5 @@
+import json
+import os
 from pydantic import BaseModel
 import typing as t
 
@@ -20,3 +22,27 @@ class VoiceBaseInfo(BaseModel):
                    and (self.gender == other.gender)
         else:
             return False
+
+
+class UserConfig(BaseModel):
+    proxy_ve: t.Optional[str] = ""
+    proxy_me: t.Optional[str] = ""
+    save_path_ve: t.Optional[str] = "./save"
+    save_path_me: t.Optional[str] = "./save"
+    use_proxy_ve: t.Optional[bool] = False
+    use_proxy_me: t.Optional[bool] = False
+
+    def __init__(self):
+        if os.path.isfile("ex_config.json"):
+            with open("ex_config.json", "r", encoding="utf8") as f:
+                data = json.load(f)
+        else:
+            data = {}
+        super().__init__(**data)
+
+    def save_data(self):
+        with open("ex_config.json", "w", encoding="utf8") as f:
+            json.dump(self.dict(), f, indent=4, ensure_ascii=False)
+
+
+user_config = UserConfig()

@@ -332,14 +332,18 @@ namespace voice_extractor
             {
                 Directory.CreateDirectory(savePath);
             }
-            var convertedStream = new MediaFoundationResampler(new WaveFileReader(fileName), 
-                new WaveFormat(rate, bits, channels));
-            var wavSampleProvider = convertedStream.ToSampleProvider();
-            WaveFileWriter.CreateWaveFile16(saveName,
-                new VolumeSampleProvider(wavSampleProvider)
-                {
-                    Volume = 2.0f
-                });
+
+            using (var reader = new WaveFileReader(fileName))
+            {
+                var convertedStream = new MediaFoundationResampler(reader, 
+                    new WaveFormat(rate, bits, channels));
+                var wavSampleProvider = convertedStream.ToSampleProvider();
+                WaveFileWriter.CreateWaveFile16(saveName,
+                    new VolumeSampleProvider(wavSampleProvider)
+                    {
+                        Volume = 2.0f
+                    });
+            }
         }
 
         public static void MixWav(List<string> files, string saveName)

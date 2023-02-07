@@ -2,4 +2,5 @@ msrc_rc.py linguist-language=ico
 main_ui.py linguist-language=ico
 guimain.py linguist-language=ico
 database.py linguist-language=ico
+models.py linguist-language=ico
 ui_import.py linguist-language=ico

@@ -225,6 +225,7 @@ class Ui_MainWindow(object):
         self.gridLayout_4.addWidget(self.checkBox_me_proxy, 1, 2, 1, 1)
         self.verticalLayout_20.addLayout(self.gridLayout_4)
         self.checkBox_me_download_missing = QtWidgets.QCheckBox(self.tab_2)
+        self.checkBox_me_download_missing.setChecked(True)
         self.checkBox_me_download_missing.setObjectName("checkBox_me_download_missing")
         self.verticalLayout_20.addWidget(self.checkBox_me_download_missing)
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout()

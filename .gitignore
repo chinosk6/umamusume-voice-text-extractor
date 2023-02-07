@@ -9,3 +9,4 @@ __pycache__
 *.DotSettings.user
 /umacache
 /temp
+/ex_config.json
