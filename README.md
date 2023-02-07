@@ -32,26 +32,26 @@ PyQt5~=5.15.4
 ### Extract Single Character
 
 - Extract result example: `xxx/xxx.wav|こんにちは`
-- Click the target character, and then begin to extract.<br><img src="img/single_en.jpg" style="zoom:67%;" />
+- Click the target character, and then click `Start`.<br><img src="img/single_en.jpg" style="zoom:67%;" />
 
 
 
 ### Extract Multi Characters
 
 - Extract result example: `xxx/xxx.wav|0|こんにちは`
-- Double-click the target role to add to the list, you can modify the `saveID`。<br><img src="img/multi_en.jpg" style="zoom:67%;" />
+- Double-click the target character to add to the list, you can modify the `SaveID`。<br><img src="img/multi_en.jpg" style="zoom:67%;" />
 
 
 
 ### Live Music Extract
 
-- Click on the target music, then click on the target character.<br><img src="img/music_en.jpg" style="zoom:67%;" />
+- Click the target music, then click the target character.<br><img src="img/music_en.jpg" style="zoom:67%;" />
 
 
 
 ### Live Music Mixer
 
-- Right-click on the target role and add it to the target location. Parts greater than `Singing Pos Count` will be ignored.<br><img src="img/mix_en.jpg" style="zoom:67%;" />
+- Right-click on the target character and add it to the target position. Parts greater than `Singing Pos Count` will be ignored.<br><img src="img/mix_en.jpg" style="zoom:67%;" />
 
 
 
