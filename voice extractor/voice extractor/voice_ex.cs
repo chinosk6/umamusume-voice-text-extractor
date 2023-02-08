@@ -348,7 +348,7 @@ namespace voice_extractor
 
         public static void MixWav(List<string> files, string saveName, float volume)
         {
-            if (volume < 0 && volume > 1)
+            if (volume < 0)
             {
                 volume = files.Count < 15 ? 0.8f : 0.5f;
             }
