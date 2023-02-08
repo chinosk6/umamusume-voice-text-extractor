@@ -86,7 +86,7 @@
     <message>
         <location filename="main_ui.py" line="492"/>
         <source>Get voice from all stories</source>
-        <translation type="unfinished">从所有故事中提取对应角色的语言</translation>
+        <translation type="unfinished">从所有故事中提取对应角色的语音</translation>
     </message>
     <message>
         <location filename="main_ui.py" line="493"/>
