@@ -4,7 +4,7 @@
 
 
 
-# 使用方法
+# 安装
 
 - 以下两种方法二选一即可
 
@@ -36,10 +36,15 @@ PyQt5~=5.15.4
 
 
 
+
+
+# 使用方法
+
 ## 使用GUI
 
 - 直接运行 [Releases](https://github.com/chinosk6/umamusume-voice-text-extractor/releases) 压缩包内的二进制文件: `run.bat`
 - 从源码运行: `python gui_main.py`
+- 将 `Wave参数` 部分任意一项清空, 则会按照原音频参数输出
 
 
 

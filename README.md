@@ -5,13 +5,13 @@
 
 
 
-# Usage
+# Install
 
 ## Use binary files
 
 - Install [.Net 6.0 Runtime](https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0)
 
-- Download brainy file in [Releases](https://github.com/chinosk6/umamusume-voice-text-extractor/releases)
+- Download binary file in [Releases](https://github.com/chinosk6/umamusume-voice-text-extractor/releases)
 - Double-click `run.bat`
 
 
@@ -33,11 +33,15 @@ PyQt5~=5.15.4
 
 
 
+
+
+# Usage
+
 ## With GUI
 
-- Run brainy file from [Releases](https://github.com/chinosk6/umamusume-voice-text-extractor/releases) : `run.bat`
-
+- Run binary file from [Releases](https://github.com/chinosk6/umamusume-voice-text-extractor/releases) : `run.bat`
 - Run source code: `python gui_main.py`
+- Empty any of the `Wave Format` sections, the output will follow the original format.
 
 
 
