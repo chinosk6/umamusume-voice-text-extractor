@@ -83,7 +83,9 @@ class LiveMusicExtractor(umares.ResourceEx):
         exactor = self.get_extractor(awb_path, acb_path)
         if self.wav_format is not None:
             exactor.SetWaveFormat(*self.wav_format)
-        return exactor.ExtractAudioFromWaveId(f"{self.save_path}/music/{music_id}", "bgm", 0)
+        ret = exactor.ExtractAudioFromWaveId(f"{self.save_path}/music/{music_id}", "bgm", 0)
+        exactor.Close()
+        return ret
 
     @staticmethod
     def resample_file(data: t.Union[list, str], rate: int, bits: int, channels: int):
@@ -110,11 +112,13 @@ class LiveMusicExtractor(umares.ResourceEx):
         if self.wav_format is not None:
             exactor.SetWaveFormat(*self.wav_format)
         if wave_id is None:
-            return [exactor.ExtractAudioFromWaveId(f"{self.save_path}/music/{music_id}/chara_{chara_id}", "chara_", i)
+            ret = [exactor.ExtractAudioFromWaveId(f"{self.save_path}/music/{music_id}/chara_{chara_id}", "chara_", i)
                     for i in exactor.GetWaveIds()]
         else:
-            return exactor.ExtractAudioFromWaveId(f"{self.save_path}/music/{music_id}/chara_{chara_id}", "chara_",
+            ret = exactor.ExtractAudioFromWaveId(f"{self.save_path}/music/{music_id}/chara_{chara_id}", "chara_",
                                                   wave_id)
+        exactor.Close()
+        return ret
 
     def cut_live_chara_song_by_lrc(self, music_id, chara_id, remove_audio_silence=False, output_chara_id=None):
         lrc_data = self.get_lrc(music_id)
@@ -178,6 +182,7 @@ class LiveMusicExtractor(umares.ResourceEx):
                 if i not in save_file_names:
                     save_file_names[i] = {}
                 save_file_names[i][wave_id] = ex_name
+            extractor.Close()
         return save_file_names
 
     def mix_live_song_all_sing(self, music_id: int, chara_list: t.Optional[t.List[int]], volume: float):

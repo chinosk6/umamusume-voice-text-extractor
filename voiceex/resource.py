@@ -42,15 +42,19 @@ class ResourceEx(udb.UmaDatabase):
         extractor.Close()
         return ret
 
+    def check_and_download_sound(self, file_hash, file_path):
+        if not os.path.isfile(file_path):
+            if self.download_missing_voice_files:
+                log.logger(f"{file_hash} not found, try download...", warning=True)
+                self.download_sound(file_hash, file_path)
+                log.logger(f"Download success: {file_path}")
+
     def get_extractor(self, awb_bundle_path: str, acb_bundle_path: str = None, volume=2.0):
         if acb_bundle_path is None:
             acb_bundle_hash = self.awb_bundle_path_to_acb_bundle_path(awb_bundle_path)[1]
             acb_bundle_path = self.bundle_hash_to_path(acb_bundle_hash)
-            if not os.path.isfile(acb_bundle_path):
-                if self.download_missing_voice_files:
-                    log.logger(f"{acb_bundle_hash} not found, try download...", warning=True)
-                    self.download_sound(acb_bundle_hash, acb_bundle_path)
-                    log.logger(f"Download success: {acb_bundle_path}")
+            self.check_and_download_sound(acb_bundle_hash, acb_bundle_path)
+        self.check_and_download_sound(os.path.split(awb_bundle_path)[1], awb_bundle_path)
 
         extractor = voice_extractor.UmaVoiceEx(acb_bundle_path, awb_bundle_path)
         if self.wav_format is not None:
