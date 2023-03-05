@@ -1,13 +1,25 @@
 # umamusume-voice-text-extractor
 
 - 提取语音和对应的文本
-- GUI版目前正在测试，如果出现异常，请发 issue 或者使用 releases 中的稳定版。
 
 
 
 # 使用方法
 
-- 从 [Releases](https://github.com/chinosk6/umamusume-voice-text-extractor/releases) 下载二进制文件，或者:
+- 以下两种方法二选一即可
+
+
+
+## 使用编译好的二进制文件
+
+- 安装 [.Net 6.0 运行时](https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0)
+
+- 下载 [Releases](https://github.com/chinosk6/umamusume-voice-text-extractor/releases) 中的二进制文件
+- 双击 `run.bat` 运行
+
+
+
+## 从代码运行
 
 - 需要环境: [Python 3.8+](https://www.python.org/downloads/)、[.Net 6.0 运行时](https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0)
 - 安装 Python 包: `pip install -r requirements.txt`

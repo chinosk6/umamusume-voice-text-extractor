@@ -2,15 +2,23 @@
 
 - [Chinese/中文](README-ZH.md)
 - Extract the voice and corresponding text
-- The GUI version is still being tested. If exception occur, send issue or use the stable version in releases.
 
 
 
 # Usage
 
-- Download brainy file in [Releases](https://github.com/chinosk6/umamusume-voice-text-extractor/releases) , or:
+## Use binary files
 
-- Required Environment: [Python 3.8+](https://www.python.org/downloads/)、[.Net 6.0](https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0)
+- Install [.Net 6.0 Runtime](https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0)
+
+- Download brainy file in [Releases](https://github.com/chinosk6/umamusume-voice-text-extractor/releases)
+- Double-click `run.bat`
+
+
+
+## Run from code
+
+- Required Environment: [Python 3.8+](https://www.python.org/downloads/)、[.Net 6.0 Runtime](https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0)
 - Install python package: `pip install -r requirements.txt`
 
 ```
