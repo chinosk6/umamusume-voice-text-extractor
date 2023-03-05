@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(935, 657)
+        MainWindow.resize(935, 690)
         MainWindow.setMinimumSize(QtCore.QSize(0, 0))
         MainWindow.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
@@ -517,11 +517,11 @@ class Ui_MainWindow(object):
         self.label_3.setText(_translate("MainWindow", "Chara ID"))
         self.groupBox_4.setTitle(_translate("MainWindow", "Wave Format"))
         self.label_12.setText(_translate("MainWindow", "Rate: "))
-        self.lineEdit_me_rate.setText(_translate("MainWindow", "22050"))
+        self.lineEdit_me_rate.setText(_translate("MainWindow", "48000"))
         self.label_13.setText(_translate("MainWindow", "Bits: "))
         self.lineEdit_me_bits.setText(_translate("MainWindow", "16"))
         self.label_14.setText(_translate("MainWindow", "Channels: "))
-        self.lineEdit_me_channels.setText(_translate("MainWindow", "1"))
+        self.lineEdit_me_channels.setText(_translate("MainWindow", "2"))
         self.pushButton_extract_bgm.setText(_translate("MainWindow", "Extract BGM"))
         self.pushButton_extract_chara_sound.setText(_translate("MainWindow", "Extract Full Chara Sound"))
         self.pushButton_extract_sound_by_lrc.setText(_translate("MainWindow", "Extract Chara Sound By Lrc"))

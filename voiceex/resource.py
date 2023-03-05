@@ -53,7 +53,9 @@ class ResourceEx(udb.UmaDatabase):
         if acb_bundle_path is None:
             acb_bundle_hash = self.awb_bundle_path_to_acb_bundle_path(awb_bundle_path)[1]
             acb_bundle_path = self.bundle_hash_to_path(acb_bundle_hash)
-            self.check_and_download_sound(acb_bundle_hash, acb_bundle_path)
+        else:
+            acb_bundle_hash = os.path.split(acb_bundle_path)[1]
+        self.check_and_download_sound(acb_bundle_hash, acb_bundle_path)
         self.check_and_download_sound(os.path.split(awb_bundle_path)[1], awb_bundle_path)
 
         extractor = voice_extractor.UmaVoiceEx(acb_bundle_path, awb_bundle_path)

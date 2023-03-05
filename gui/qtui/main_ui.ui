@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>935</width>
-    <height>657</height>
+    <height>690</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -599,7 +599,7 @@
                            </size>
                           </property>
                           <property name="text">
-                           <string>22050</string>
+                           <string>48000</string>
                           </property>
                          </widget>
                         </item>
@@ -639,7 +639,7 @@
                            </size>
                           </property>
                           <property name="text">
-                           <string>1</string>
+                           <string>2</string>
                           </property>
                          </widget>
                         </item>
