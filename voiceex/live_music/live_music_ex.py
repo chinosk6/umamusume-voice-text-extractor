@@ -217,7 +217,7 @@ class LiveMusicExtractor(umares.ResourceEx):
                         except (IndexError, KeyError):
                             continue
                         next_time_ms = singing_data_keys[t_index + 1] if t_index + 1 < len(singing_data_keys) \
-                            else time_ms + 30000
+                            else time_ms + 600000
                         if current_file_name not in file_on_times:
                             file_on_times[current_file_name] = []
                         file_on_times[current_file_name].append([time_ms, next_time_ms])
