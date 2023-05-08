@@ -114,7 +114,7 @@ class VoiceEx(ures.ResourceEx):
         out_file = open(f"{self.save_path}/output.txt", "a", encoding="utf8")
         for char_id in data:
             stories = self.recheck_data(data[char_id])
-            for voice_ab_hash in tqdm(stories, desc="Extracting text..."):
+            for voice_ab_hash in tqdm(stories, desc=f"Extracting text({char_id})..."):
                 bundle_name = self.bundle_hash_to_path(voice_ab_hash)
                 try:
                     if bundle_name in failed_names:

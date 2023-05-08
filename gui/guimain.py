@@ -204,7 +204,7 @@ class UIChange(QObject):
                         chara_id = item_chara_id.text()
                         item_save_id = self.ui.tableWidget_ve_extarct.item(i, 1)
                         save_id = item_save_id.text() if item_save_id is not None else chara_id
-                        chara_ids.append(chara_id)
+                        chara_ids.append(int(chara_id))
                         save_ids.append(save_id)
                 ex.set_multi_char_out_ids([(i, save_ids[n]) for n, i in enumerate(chara_ids)])
                 ex.extract_all_char_text_multi(chara_ids)
