@@ -39,6 +39,7 @@ namespace voice_extractor
             }
             catch (Exception ex)
             {
+                Close();
                 throw new Exception($"File load failed: {ex.Message}");
             }
         }
@@ -460,10 +461,10 @@ namespace voice_extractor
         
         public void Close()
         {
-            acbFile.Dispose();
-            awbFile.Dispose();
-            acbReader.Dispose();
-            awbReader.Dispose();
+            acbFile?.Dispose();
+            awbFile?.Dispose();
+            acbReader?.Dispose();
+            awbReader?.Dispose();
         }
         
     }

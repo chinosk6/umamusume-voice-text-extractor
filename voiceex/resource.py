@@ -15,6 +15,7 @@ import clr
 clr.AddReference("./voice extractor/voice extractor/bin/Release/net6.0/voice extractor")
 from System.Collections.Generic import List as CsList
 from System import UInt64, String
+from System.IO import InvalidDataException
 
 import voice_extractor
 

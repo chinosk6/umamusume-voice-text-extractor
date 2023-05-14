@@ -135,11 +135,12 @@ class VoiceEx(ures.ResourceEx):
                     continue
 
                 for i in stories[voice_ab_hash]:
-                    try:
+                    def _ex():
                         save_name = extractor.ExtractAudioFromCueId(
                             f"{self.save_path}/{i.story_resource_name}", "", i.CueId, i.gender
                         )
-                        save_text = i.Text.replace("\r\n", " ").replace("\n", " ").replace("\r", " ").replace("|", " ")
+                        save_text = i.Text.replace("\r\n", " ").replace("\n", " ").replace("\r", " ").replace("|",
+                                                                                                              " ")
                         log.logger(f"{save_name} {save_text}", debug=True)
                         if not output_multi:
                             out_file.write(f"{save_name[len(self.save_path) + 1:]}|{save_text}\n")
@@ -147,6 +148,15 @@ class VoiceEx(ures.ResourceEx):
                             out_file.write(f"{save_name[len(self.save_path) + 1:]}|"
                                            f"{self.multi_char_out_ids.get(char_id, char_id)}|"
                                            f"{save_text}\n")
+                    try:
+                        _ex()
+                    except ures.InvalidDataException:
+                        log.logger(f"InvalidData: {voice_ab_hash} - {bundle_name}", error=True)
+                        if self.download_missing_voice_files:
+                            log.logger(f"Try redownloading: {voice_ab_hash} - {bundle_name}", warning=True)
+                            self.download_sound(voice_ab_hash, bundle_name)
+                            log.logger(f"Download success: {bundle_name}")
+                            _ex()
                     except BaseException as e:
                         log.logger(f"Exception occurred when extract story text: {e}", error=True)
                 extractor.Close()
