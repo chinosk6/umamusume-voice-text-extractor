@@ -3,8 +3,7 @@ import requests
 import typing as t
 import os
 from .ulogger import logger as log
-from tqdm import tqdm
-
+from .progress_bar import progress
 
 class UmaDownloader:
     def __init__(self):
@@ -36,15 +35,18 @@ class UmaDownloader:
                 os.makedirs(save_path)
 
             total = int(resp.headers.get('content-length', 0))
-            with tqdm(total=int(total / 1024)) as bar:
-                with open(save_name, "wb") as f:
-                    down_size = 0
-                    for data in resp.iter_content(chunk_size=1024):
-                        size = f.write(data)
-                        bar.update(int(size / 1024))
-                        down_size += size
-                        if down_progress_callback is not None:
-                            down_progress_callback(down_size, total * 100)
+
+            with open(save_name, "wb") as f:
+                task = progress.add_task("Downloading...", total=int(total / 1024))
+                down_size = 0
+                for data in resp.iter_content(chunk_size=1024):
+                    size = f.write(data)
+                    progress.update(task, advance=int(size / 1024))
+                    down_size += size
+                    if down_progress_callback is not None:
+                        down_progress_callback(down_size, total * 100)
+            progress.remove_task(task)
+
         except BaseException as e:
             if retry_times < 3:
                 retry_times += 1

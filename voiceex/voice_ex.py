@@ -6,7 +6,7 @@ import os
 from .ulogger import logger as log
 import time
 import json
-from tqdm import tqdm
+from .progress_bar import track
 
 class VoiceEx(ures.ResourceEx):
     def __init__(self, save_path="save", get_voice_from_all_stories=False, download_missing_voice_files=False,
@@ -72,7 +72,7 @@ class VoiceEx(ures.ResourceEx):
         if self.get_voice_from_all_stories:
             story_hashes += self.get_story_text_ids(None, base="04")
 
-        for i, name in tqdm(story_hashes, desc="Loading story text..."):
+        for i, name in track(story_hashes, description="Loading story text..."):
             t_path = self.bundle_hash_to_path(i)
             mono_trees = self.get_mono_trees(t_path)
             for mono_tree in mono_trees:
@@ -85,7 +85,7 @@ class VoiceEx(ures.ResourceEx):
         if not self.get_voice_from_all_stories:
             for chara_id in chara_ids:
                 chara_story_hashes = self.get_story_text_ids(chara_id, base="04")
-                for i, name in tqdm(chara_story_hashes, desc=f"Loading character story text {chara_id} ..."):
+                for i, name in track(chara_story_hashes, description=f"Loading character story text {chara_id} ..."):
                     t_path = self.bundle_hash_to_path(i)
                     mono_trees = self.get_mono_trees(t_path)
                     for mono_tree in mono_trees:
@@ -114,7 +114,7 @@ class VoiceEx(ures.ResourceEx):
         out_file = open(f"{self.save_path}/output.txt", "a", encoding="utf8")
         for char_id in data:
             stories = self.recheck_data(data[char_id])
-            for voice_ab_hash in tqdm(stories, desc=f"Extracting text({char_id})..."):
+            for voice_ab_hash in track(stories, description=f"Extracting text({char_id})..."):
                 bundle_name = self.bundle_hash_to_path(voice_ab_hash)
                 try:
                     if bundle_name in failed_names:
@@ -166,8 +166,8 @@ class VoiceEx(ures.ResourceEx):
         chara_text = self.get_character_system_text(chara_id)
         ex_text_list = []
 
-        for character_id, text, cue_sheet, cue_id, gender in tqdm(chara_text,
-                                                                  desc=f"Loading character_system_text({chara_id})..."):
+        for character_id, text, cue_sheet, cue_id, gender in track(chara_text,
+                                                                  description=f"Loading character_system_text({chara_id})..."):
             voice_hash = self.get_awb_hash_from_sheetname(cue_sheet)
             if voice_hash is None:
                 log.logger(f"cue_sheet not found: {cue_sheet} ({cue_id}) character: {character_id} text: {text}",

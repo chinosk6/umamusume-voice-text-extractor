@@ -26,9 +26,9 @@ pydantic~=1.8.2
 colorama~=0.4.4
 pythonnet~=3.0.1
 UnityPy~=1.9.21
-requests~=2.28.1
-tqdm
+requests~=2.31.0
 PyQt5~=5.15.4
+rich~=13.5.2
 ```
 
 

@@ -4,7 +4,7 @@ from .. import resource as umares
 import UnityPy
 from . import models
 import typing as t
-from tqdm import tqdm
+from ..progress_bar import track
 import io
 
 
@@ -168,7 +168,7 @@ class LiveMusicExtractor(umares.ResourceEx):
                     vaild_chara_ids.append(i)
 
         save_file_names = {}
-        for i in tqdm(vaild_chara_ids, desc=desc):
+        for i in track(vaild_chara_ids, description=desc):
             awb_hash = self.get_bundle_hash_from_path(f"sound/l/{music_id}/snd_bgm_live_{music_id}_chara_{i}_01.awb")
             acb_hash = self.get_bundle_hash_from_path(f"sound/l/{music_id}/snd_bgm_live_{music_id}_chara_{i}_01.acb")
             if not all([awb_hash, acb_hash]):
@@ -222,7 +222,7 @@ class LiveMusicExtractor(umares.ResourceEx):
                             file_on_times[current_file_name] = []
                         file_on_times[current_file_name].append([time_ms, next_time_ms])
         target_files = []
-        for file_name in tqdm(file_on_times, desc="Preprocessing files..."):
+        for file_name in track(file_on_times, description="Preprocessing files..."):
             ftimes = file_on_times[file_name]
             save_name_p = f"{file_name}_sl.wav"
             target_files.append(save_name_p)
