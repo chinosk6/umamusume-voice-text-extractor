@@ -34,7 +34,7 @@ namespace voice_extractor
                 awbFile = File.OpenRead(awbPath);
                 awbReader = new AwbReader(awbFile);
                 fileCount = awbReader.Waves.Count;
-                wavVolume = 2.0f;
+                wavVolume = 1.0f;
                 InitDict();
             }
             catch (Exception ex)
