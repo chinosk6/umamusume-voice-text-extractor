@@ -11,6 +11,8 @@ def track(sequence, description: str = "Working...", total: Optional[float] = No
     is_sub_track=False, sub_remove_end=False):
     if progress.live.console._live:
         is_sub_track = True
+    if not sequence:
+        return sequence
 
     if not is_sub_track:
         with progress:
