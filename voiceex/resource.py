@@ -50,7 +50,7 @@ class ResourceEx(udb.UmaDatabase):
                 self.download_sound(file_hash, file_path)
                 log.logger(f"Download success: {file_path}")
 
-    def get_extractor(self, awb_bundle_path: str, acb_bundle_path: str = None, volume=2.0):
+    def get_extractor(self, awb_bundle_path: str, acb_bundle_path: str = None, volume=1.0):
         if acb_bundle_path is None:
             acb_bundle_hash = self.awb_bundle_path_to_acb_bundle_path(awb_bundle_path)[1]
             acb_bundle_path = self.bundle_hash_to_path(acb_bundle_hash)
