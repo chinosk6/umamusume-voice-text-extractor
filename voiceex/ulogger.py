@@ -1,9 +1,10 @@
 import time
 from colorama import init
 import os
+import sys
 
 init(autoreset=True)
-
+new_stdout = sys.stdout
 
 class Style:
     DEFAULT = 0
@@ -72,7 +73,7 @@ class Logger:
             self._printout(f"{_tm}[INFO] {msg}")
 
     def _printout(self, content, color=Color.DEFAULT, bgcolor=BGColor.DEFAULT, style=Style.DEFAULT):
-        print("\033[{};{};{}m{}\033[0m".format(style, color, bgcolor, content))
+        new_stdout.write("\033[{};{};{}m{}\033[0m\n".format(style, color, bgcolor, content))
         if self.write_out_log:
             self._write_log(content)
 

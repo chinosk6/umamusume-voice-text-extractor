@@ -71,7 +71,7 @@ class UIChange(QObject):
         self.ui.pushButton_multi_start.clicked.connect(self.ve_start_extract_multi)
         self.ui.listWidget_music_list.clicked.connect(self.music_list_onclick)
         self.ui.listWidget_singing_chara_list.customContextMenuRequested.connect(self.singing_char_contex)
-        self.ui.listWidget_singing_chara_list.clicked.connect(self.singing_char_onclick)
+        self.ui.listWidget_singing_chara_list.itemSelectionChanged.connect(self.singing_char_onselect)
         self.ui.pushButton_extract_bgm.clicked.connect(self.extract_live_bgm)
         self.ui.pushButton_extract_chara_sound.clicked.connect(self.extract_live_chara_sound_full)
         self.ui.pushButton_extract_sound_by_lrc.clicked.connect(self.extract_live_chara_sound_by_lrc)
@@ -238,13 +238,6 @@ class UIChange(QObject):
         self.ui.lineEdit_music_id.setText(str(music_id))
         self.ui.label_singing_count.setText(str(music_ex.get_live_pos_count(music_id)))
 
-    def singing_char_onlick(self, index: QtCore.QModelIndex):
-        try:
-            chara_id = int(index.data())
-        except:
-            return
-        self.ui.lineEdit_chara_id.setText(str(chara_id))
-
     def add_char_to_mix_list(self, mx_index: int, chara_ids, ex):
         def _():
             idx = getattr(self.ui, f"listWidget_mx_{mx_index}")
@@ -277,8 +270,9 @@ class UIChange(QObject):
         music_list = music_ex.get_live_ids()
         self.build_me_music_list(music_list, music_ex)
 
-    def singing_char_onclick(self, index: QtCore.QModelIndex):
-        self.ui.lineEdit_chara_id.setText(str(index.data()))
+    def singing_char_onselect(self):
+        selected = self.ui.listWidget_singing_chara_list.selectedItems()
+        self.ui.lineEdit_chara_id.setText("|".join([i.data(0) for i in selected]))
 
     def get_live_extractor(self):
         music_ex = voiceex.live_music.LiveMusicExtractor(
@@ -304,8 +298,9 @@ class UIChange(QObject):
                 ex = self.get_live_extractor()
                 music_id = self.ui.lineEdit_music_id.text().strip()
                 if music_id:
-                    save_name = ex.extract_live_music_bgm(music_id)
-                    print(f"Extract success: {save_name}")
+                    save_name = ex.extract_live_music_bgm(music_id, oke_index="01", raise_notfound_error=False)
+                    save_name2 = ex.extract_live_music_bgm(music_id, oke_index="02", raise_notfound_error=False)
+                    print(f"Extract success: {save_name}, {save_name2}")
             finally:
                 self.set_start_btn_stat_signal.emit(True)
         Thread(target=_).start()
@@ -316,12 +311,13 @@ class UIChange(QObject):
             try:
                 ex = self.get_live_extractor()
                 music_id = self.ui.lineEdit_music_id.text().strip()
-                chara_id = self.ui.lineEdit_chara_id.text().strip()
-                if not all([music_id, chara_id]):
+                chara_ids = self.ui.lineEdit_chara_id.text().strip().split("|")
+                if not all([music_id, chara_ids]):
                     return
-                save_names = ex.extract_live_chara_sound(music_id, chara_id, None)
-                save_names_str = "\n".join(save_names)
-                print(f"Extract success:\n{save_names_str}")
+                for chara_id in chara_ids:
+                    save_names = ex.extract_live_chara_sound(music_id, chara_id, None)
+                    save_names_str = "\n".join(save_names)
+                    print(f"Extract success:\n{save_names_str}")
             finally:
                 self.set_start_btn_stat_signal.emit(True)
         Thread(target=_).start()
@@ -332,13 +328,14 @@ class UIChange(QObject):
             try:
                 ex = self.get_live_extractor()
                 music_id = self.ui.lineEdit_music_id.text().strip()
-                chara_id = self.ui.lineEdit_chara_id.text().strip()
-                if not all([music_id, chara_id]):
+                chara_ids = self.ui.lineEdit_chara_id.text().strip().split("|")
+                if not all([music_id, chara_ids]):
                     return
-                save_name = ex.cut_live_chara_song_by_lrc(
-                    int(music_id), int(chara_id), remove_audio_silence=self.ui.checkBox_remove_silence.isChecked()
-                )
-                print(f"Extract success. See {save_name}")
+                for chara_id in chara_ids:
+                    save_name = ex.cut_live_chara_song_by_lrc(
+                        int(music_id), int(chara_id), remove_audio_silence=self.ui.checkBox_remove_silence.isChecked()
+                    )
+                    print(f"Extract success. See {save_name}")
             finally:
                 self.set_start_btn_stat_signal.emit(True)
         Thread(target=_).start()
@@ -369,16 +366,16 @@ class UIChange(QObject):
                         widget: QListWidget = getattr(self.ui, f"listWidget_mx_{i}")
                         args0 += [int(i.text()) for i in get_widget_all_items(widget)]
                     ex = self.get_live_extractor()
-                    save_name = ex.mix_live_song_all_sing(music_id, list(set(args0)), float(self.ui.lineEdit_chara_vol.text()))
-                    print(f"Extract success: {save_name}")
+                    save_names = ex.mix_live_song_all_sing(music_id, list(set(args0)), float(self.ui.lineEdit_chara_vol.text()))
+                    print(f"Extract success: {save_names}")
                 else:
                     args = []
                     for i in range(8)[1:]:
                         widget: QListWidget = getattr(self.ui, f"listWidget_mx_{i}")
                         args.append([int(i.text()) for i in get_widget_all_items(widget)])
                     ex = self.get_live_extractor()
-                    save_name = ex.mix_live_song_by_parts(music_id, *args, volume=float(self.ui.lineEdit_chara_vol.text()))
-                    print(f"Extract success: {save_name}")
+                    save_names = ex.mix_live_song_by_parts(music_id, *args, volume=float(self.ui.lineEdit_chara_vol.text()))
+                    print(f"Extract success: {save_names}")
             finally:
                 self.set_start_btn_stat_signal.emit(True)
         Thread(target=_).start()

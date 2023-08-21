@@ -76,9 +76,10 @@ class UmaDatabase(downloader.UmaDownloader):
 
     def get_live_ids(self):
         cursor = self.master_conn.cursor()
-        query = cursor.execute("SELECT music_id FROM live_data WHERE has_live=1").fetchall()
+        query = cursor.execute("SELECT music_id FROM live_data WHERE has_live=1 OR music_type=99 ORDER BY music_id").fetchall()
+        # query2 = cursor.execute("SELECT music_id FROM live_data WHERE NOT (has_live=1 OR music_type=99) ORDER BY music_id").fetchall()
         cursor.close()
-        return [i[0] for i in query]
+        return [i[0] for i in query]  # + [i[0] for i in query2]
 
     def get_live_permission(self, music_id: int):
         cursor = self.master_conn.cursor()
