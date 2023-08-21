@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "dgSpecHash": "uwUX4OLSGPFIGqukhLurZ9ujegSMgqwlTDgMvkLa1XPXoxG3IJ1ehwnUzlJoHHWbbrQOUO5EGbMTHPQAy6h1tA==",
-  "success": false,
+  "dgSpecHash": "PcoIQeHwAOZHd/wh6UEaTh21cM1NFlB0YeRd70pNpyjZrFlAFPDDp5QjmfVGmvvP8Ofn4IJO8JH9XwdyLZT1xA==",
+  "success": true,
   "projectFilePath": "C:\\Users\\Y7000\\Desktop\\sdk_v2.6.5\\umamusume_project\\umamusume voice extractor\\voice extractor\\voice extractor\\voice extractor.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Y7000\\.nuget\\packages\\k4os.compression.lz4\\1.2.16\\k4os.compression.lz4.1.2.16.nupkg.sha512",
@@ -47,15 +47,5 @@
     "C:\\Users\\Y7000\\.nuget\\packages\\system.threading.tasks.parallel\\4.3.0\\system.threading.tasks.parallel.4.3.0.nupkg.sha512",
     "C:\\Users\\Y7000\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1105",
-      "level": "Error",
-      "message": "Unable to find project information for 'D:\\chinosk_source\\sdk_v2.6.5\\umamusume_project\\umamusume voice extractor\\voice extractor\\AssetStudio\\AssetStudio\\AssetStudio.csproj'. If you are using Visual Studio, this may be because the project is unloaded or not part of the current solution so run a restore from the command-line. Otherwise, the project file may be invalid or missing targets required for restore.",
-      "libraryId": "D:\\chinosk_source\\sdk_v2.6.5\\umamusume_project\\umamusume voice extractor\\voice extractor\\AssetStudio\\AssetStudio\\AssetStudio.csproj",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    }
-  ]
+  "logs": []
 }
