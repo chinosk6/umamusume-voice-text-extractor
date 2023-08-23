@@ -14,7 +14,7 @@ def get_progress():
 progress = get_progress()
 
 def track(sequence, description: str = "Working...", total: Optional[float] = None, update_period: float = 0.1,
-    is_sub_track=False, sub_remove_end=False):
+    is_sub_track=False, sub_remove_end=False, sub_advance_is_seq_len=False):
     global progress
 
     if progress.live.console._live:
@@ -28,9 +28,17 @@ def track(sequence, description: str = "Working...", total: Optional[float] = No
         with progress:
             yield from progress.track(sequence, total=total, description=description, update_period=update_period)
     else:
-        task = progress.add_task(description=description, total=total or len(sequence))
-        for i in sequence:
-            progress.update(task, advance=1)
-            yield i
-        if sub_remove_end:
-            progress.remove_task(task)
+        need_stop_flag = False
+        if not progress.live.is_started:
+            need_stop_flag = True
+            progress.start()
+        try:
+            task = progress.add_task(description=description, total=total or len(sequence))
+            for i in sequence:
+                progress.update(task, advance=1 if not sub_advance_is_seq_len else len(i))
+                yield i
+            if sub_remove_end:
+                progress.remove_task(task)
+        finally:
+            if need_stop_flag:
+                progress.stop()

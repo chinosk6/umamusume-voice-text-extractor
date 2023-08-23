@@ -3,7 +3,7 @@ import requests
 import typing as t
 import os
 from .ulogger import logger as log
-from .progress_bar import progress
+from .progress_bar import track
 
 class UmaDownloader:
     def __init__(self):
@@ -37,15 +37,13 @@ class UmaDownloader:
             total = int(resp.headers.get('content-length', 0))
 
             with open(save_name, "wb") as f:
-                task = progress.add_task("Downloading...", total=int(total / 1024))
                 down_size = 0
-                for data in resp.iter_content(chunk_size=1024):
+                for data in track(resp.iter_content(chunk_size=1024), total=total, description="Downloading...",
+                                  is_sub_track=True, sub_remove_end=True, sub_advance_is_seq_len=True):
                     size = f.write(data)
-                    progress.update(task, advance=int(size / 1024))
                     down_size += size
                     if down_progress_callback is not None:
                         down_progress_callback(down_size, total * 100)
-            progress.remove_task(task)
 
         except BaseException as e:
             if retry_times < 3:
