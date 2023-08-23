@@ -13,3 +13,6 @@ __pycache__
 /build
 /dist
 /umamusume_voice_text_extractor.spec
+/voice extractor/UmaMusumeAudio/obj
+/voice extractor/UmaMusumeAudio/bin
+/voice extractor/voice extractor/obj
