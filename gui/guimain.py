@@ -2,7 +2,7 @@ import sys
 import os
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import QObject, QSize
-from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtGui import QIcon, QPixmap, QDesktopServices
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStyleFactory, QFileDialog, QTableWidgetItem, \
     QListWidgetItem, QListWidget, QMenu, QAction
 from .qtui.ui_import import MainUI
@@ -11,7 +11,7 @@ from threading import Thread
 import voiceex
 
 try:
-    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("myappid")
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("umaVoiceTextExtractor")
 except:
     pass
 
@@ -41,6 +41,7 @@ class UIChange(QObject):
 
         self.trans = QtCore.QTranslator()
         self.load_i18n()
+        self._img_ico_cache = {}
 
         self.window = MainWindow()
         self.window.setWindowIcon(QtGui.QIcon(":/img/linqin_nawone.ico"))
@@ -80,6 +81,10 @@ class UIChange(QObject):
         self.ui.pushButton_start_mix.clicked.connect(self.live_start_mix)
         self.ui.pushButton_me_select_save_path.clicked.connect(self.set_path(self.ui.lineEdit_me_save_path))
         self.ui.pushButton_ve_select_save_path.clicked.connect(self.set_path(self.ui.lineEdit_ve_save_path))
+        self.ui.listWidget_jukebox_list.itemSelectionChanged.connect(self.jukebox_onselect)
+        self.ui.tabWidget_music_type.currentChanged.connect(self.music_tab_changed)
+        self.ui.horizontalSlider_volume.valueChanged.connect(self.vol_changed)
+        self.ui.horizontalSlider_volume.sliderReleased.connect(lambda: voiceex.m.user_config.save_data())
 
     def signal_reg(self):  # 信号槽注册
         self.show_msgbox_signal.connect(self.show_message_box)
@@ -147,11 +152,13 @@ class UIChange(QObject):
             widget.addItem(f"      {chara_id}")
 
     def set_extract_button_enable(self, stat: bool):
+        active_index = self.ui.tabWidget_music_type.currentIndex()
+        if active_index == 0:
+            self.ui.pushButton_extract_chara_sound.setEnabled(stat)
+            self.ui.pushButton_extract_sound_by_lrc.setEnabled(stat)
         self.ui.pushButton_single_start.setEnabled(stat)
         self.ui.pushButton_multi_start.setEnabled(stat)
         self.ui.pushButton_extract_bgm.setEnabled(stat)
-        self.ui.pushButton_extract_chara_sound.setEnabled(stat)
-        self.ui.pushButton_extract_sound_by_lrc.setEnabled(stat)
         self.ui.pushButton_start_mix.setEnabled(stat)
         voiceex.m.user_config.save_path_ve = self.ui.lineEdit_ve_save_path.text().strip()
         voiceex.m.user_config.save_path_me = self.ui.lineEdit_me_save_path.text().strip()
@@ -212,18 +219,26 @@ class UIChange(QObject):
                 self.set_start_btn_stat_signal.emit(True)
         Thread(target=_).start()
 
-    def build_me_music_list(self, music_list: list, ex: voiceex.live_music.LiveMusicExtractor):
+    def build_me_music_list(self, music_list: list, ex: voiceex.live_music.LiveMusicExtractor, list_widget: QListWidget):
+        if list_widget is None:
+            list_widget = self.ui.listWidget_music_list
         # self.ui.listWidget_music_list.setStyleSheet("QListView::item { height: 100px; }")
-        self.ui.listWidget_music_list.setIconSize(QSize(64, 64))
+        list_widget.setIconSize(QSize(64, 64))
         for n, music_id in enumerate(music_list):
+            img_key = f"music_{music_id}"
+            if img_key in self._img_ico_cache:
+                list_widget.addItem(QListWidgetItem(self._img_ico_cache[img_key], str(music_id)))
+                continue
+
             img = ex.get_song_jacket(music_id)
             if img is not None:
                 pm = QPixmap()
                 pm.loadFromData(img.getvalue())
                 icon = QIcon(pm)
-                self.ui.listWidget_music_list.addItem(QListWidgetItem(icon, str(music_id)))
+                self._img_ico_cache[img_key] = icon
+                list_widget.addItem(QListWidgetItem(icon, str(music_id)))
             else:
-                self.ui.listWidget_music_list.addItem(f"      {music_id}")
+                list_widget.addItem(f"      {music_id}")
 
     def music_list_onclick(self, index: QtCore.QModelIndex):
         try:
@@ -264,11 +279,14 @@ class UIChange(QObject):
         self.ui.lineEdit_me_proxy.setText(voiceex.m.user_config.proxy_me)
         self.ui.checkBox_ve_use_proxy.setChecked(voiceex.m.user_config.use_proxy_ve)
         self.ui.checkBox_me_proxy.setChecked(voiceex.m.user_config.use_proxy_me)
+        self.ui.horizontalSlider_volume.setValue(int(voiceex.m.user_config.volume * 10))
         music_ex = voiceex.live_music.LiveMusicExtractor("./temp")
         chara_list = music_ex.get_all_chara_ids()
         self.build_ve_chara_list(chara_list, music_ex)
         music_list = music_ex.get_live_ids()
-        self.build_me_music_list(music_list, music_ex)
+        self.build_me_music_list(music_list, music_ex, self.ui.listWidget_music_list)
+        jukebox_list = music_ex.get_jukebox_ids()
+        self.build_me_music_list(jukebox_list, music_ex, self.ui.listWidget_jukebox_list)
 
     def singing_char_onselect(self):
         selected = self.ui.listWidget_singing_chara_list.selectedItems()
@@ -291,16 +309,51 @@ class UIChange(QObject):
 
         return music_ex
 
+    def vol_changed(self, changed_value: int):
+        new_value = changed_value / 10
+        voiceex.m.user_config.volume = new_value
+        self.ui.label_volume.setText(f"{new_value:.1f}")
+
+    def music_tab_changed(self, current_index: int):
+        enable = True
+        if current_index == 0:
+            enable = True
+        elif current_index == 1:
+            enable = False
+
+        self.ui.lineEdit_chara_id.setEnabled(enable)
+        self.ui.pushButton_extract_chara_sound.setEnabled(enable)
+        self.ui.pushButton_extract_sound_by_lrc.setEnabled(enable)
+        self.ui.checkBox_remove_silence.setEnabled(enable)
+        self.ui.lineEdit_music_id.clear()
+
+    def jukebox_onselect(self):
+        selected = self.ui.listWidget_jukebox_list.selectedItems()
+        self.ui.lineEdit_music_id.setText("|".join([i.data(0) for i in selected]))
+
     def extract_live_bgm(self):
         def _():
             self.set_start_btn_stat_signal.emit(False)
             try:
-                ex = self.get_live_extractor()
-                music_id = self.ui.lineEdit_music_id.text().strip()
-                if music_id:
-                    save_name = ex.extract_live_music_bgm(music_id, oke_index="01", raise_notfound_error=False)
-                    save_name2 = ex.extract_live_music_bgm(music_id, oke_index="02", raise_notfound_error=False)
-                    print(f"Extract success: {save_name}, {save_name2}")
+                active_index = self.ui.tabWidget_music_type.currentIndex()
+                if active_index == 0:
+                    ex = self.get_live_extractor()
+                    music_id = self.ui.lineEdit_music_id.text().strip()
+                    if music_id:
+                        save_name = ex.extract_live_music_bgm(music_id, oke_index="01", raise_notfound_error=False)
+                        save_name2 = ex.extract_live_music_bgm(music_id, oke_index="02", raise_notfound_error=False)
+                        voiceex.log.logger(f"Extract success: {save_name}, {save_name2}")
+                elif active_index == 1:
+                    ex = self.get_live_extractor()
+                    music_ids = self.ui.lineEdit_music_id.text().strip().split("|")
+                    for i in voiceex.track(music_ids, description="Extracting Jukebox Music..."):
+                        music_id = i.strip()
+                        if music_id:
+                            save_name = ex.extract_live_music_bgm(music_id, oke_index="01", raise_notfound_error=False,
+                                                                  is_jukebox=True)
+                            save_name2 = ex.extract_live_music_bgm(music_id, oke_index="02", raise_notfound_error=False,
+                                                                   is_jukebox=True)
+                            voiceex.log.logger(f"Extract success: {save_name}, {save_name2}")
             finally:
                 self.set_start_btn_stat_signal.emit(True)
         Thread(target=_).start()
@@ -317,7 +370,7 @@ class UIChange(QObject):
                 for chara_id in chara_ids:
                     save_names = ex.extract_live_chara_sound(music_id, chara_id, None)
                     save_names_str = "\n".join(save_names)
-                    print(f"Extract success:\n{save_names_str}")
+                    voiceex.log.logger(f"Extract success:\n{save_names_str}")
             finally:
                 self.set_start_btn_stat_signal.emit(True)
         Thread(target=_).start()
@@ -335,7 +388,7 @@ class UIChange(QObject):
                     save_name = ex.cut_live_chara_song_by_lrc(
                         int(music_id), int(chara_id), remove_audio_silence=self.ui.checkBox_remove_silence.isChecked()
                     )
-                    print(f"Extract success. See {save_name}")
+                    voiceex.log.logger(f"Extract success. See {save_name}")
             finally:
                 self.set_start_btn_stat_signal.emit(True)
         Thread(target=_).start()
@@ -367,7 +420,7 @@ class UIChange(QObject):
                         args0 += [int(i.text()) for i in get_widget_all_items(widget)]
                     ex = self.get_live_extractor()
                     save_names = ex.mix_live_song_all_sing(music_id, list(set(args0)), float(self.ui.lineEdit_chara_vol.text()))
-                    print(f"Extract success: {save_names}")
+                    voiceex.log.logger(f"Extract success: {save_names}")
                 else:
                     args = []
                     for i in range(8)[1:]:
@@ -375,7 +428,7 @@ class UIChange(QObject):
                         args.append([int(i.text()) for i in get_widget_all_items(widget)])
                     ex = self.get_live_extractor()
                     save_names = ex.mix_live_song_by_parts(music_id, *args, volume=float(self.ui.lineEdit_chara_vol.text()))
-                    print(f"Extract success: {save_names}")
+                    voiceex.log.logger(f"Extract success: {save_names}")
             finally:
                 self.set_start_btn_stat_signal.emit(True)
         Thread(target=_).start()

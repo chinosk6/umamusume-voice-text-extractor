@@ -74,13 +74,10 @@ class LiveMusicExtractor(umares.ResourceEx):
         if not is_jukebox:
             acb_hash = self.get_bundle_hash_from_path(f"sound/l/{music_id}/snd_bgm_live_{music_id}_oke_{oke_index}.acb")
             awb_hash = self.get_bundle_hash_from_path(f"sound/l/{music_id}/snd_bgm_live_{music_id}_oke_{oke_index}.awb")
-            # if not all([acb_hash, awb_hash]):
-            #     return self.extract_live_music_bgm(music_id, oke_index, raise_notfound_error, is_jukebox=True)
         else:
-            raise NotImplementedError("Can't export jukebox music now.")  # TODO Can't export jukebox music
-            # oke_index = "gamesize" if oke_index == "01" else "short"
-            # acb_hash = self.get_bundle_hash_from_path(f"sound/b/snd_bgm_cs{music_id}_{oke_index}.acb")
-            # awb_hash = self.get_bundle_hash_from_path(f"sound/b/snd_bgm_cs{music_id}_{oke_index}.awb")
+            oke_index = "gamesize" if oke_index == "01" else "short"
+            acb_hash = self.get_bundle_hash_from_path(f"sound/b/snd_bgm_cs{music_id}_{oke_index}.acb")
+            awb_hash = self.get_bundle_hash_from_path(f"sound/b/snd_bgm_cs{music_id}_{oke_index}.awb")
         if not all([acb_hash, awb_hash]):
             if raise_notfound_error:
                 raise FileNotFoundError(f"Music bgm not found.")
@@ -91,7 +88,8 @@ class LiveMusicExtractor(umares.ResourceEx):
         exactor = self.get_extractor(awb_path, acb_path)
         if self.wav_format is not None:
             exactor.SetWaveFormat(*self.wav_format)
-        ret = exactor.ExtractAudioFromWaveId(f"{self.save_path}/music/{music_id}", f"bgm_{oke_index}_", 0)
+        ret = exactor.ExtractAudioFromWaveId(f"{self.save_path}/{'jukebox' if is_jukebox else 'music'}/{music_id}",
+                                             f"bgm_{oke_index}_", 0)
         exactor.Close()
         return ret
 

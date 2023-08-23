@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>935</width>
-    <height>690</height>
+    <width>982</width>
+    <height>734</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -369,569 +369,692 @@
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>Live Music Extractor</string>
+        <string>Music Extractor</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="0,0,0">
+         <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="0,0">
           <item>
-           <widget class="QGroupBox" name="groupBox_5">
-            <property name="title">
-             <string>Music List</string>
+           <widget class="QTabWidget" name="tabWidget_music_type">
+            <property name="currentIndex">
+             <number>0</number>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_7">
-             <item>
-              <widget class="QListWidget" name="listWidget_music_list"/>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QGroupBox" name="groupBox_6">
-            <property name="title">
-             <string>Singing Character List</string>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_8">
-             <item>
-              <widget class="QListWidget" name="listWidget_singing_chara_list">
-               <property name="contextMenuPolicy">
-                <enum>Qt::CustomContextMenu</enum>
-               </property>
-               <property name="selectionMode">
-                <enum>QAbstractItemView::ExtendedSelection</enum>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_20">
-            <item>
-             <layout class="QGridLayout" name="gridLayout_4">
-              <item row="0" column="2">
-               <widget class="QPushButton" name="pushButton_me_select_save_path">
-                <property name="text">
-                 <string>select</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_6">
-                <property name="text">
-                 <string>Save path</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLineEdit" name="lineEdit_me_save_path">
-                <property name="text">
-                 <string>./save</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_8">
-                <property name="text">
-                 <string>Proxy</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="lineEdit_me_proxy">
-                <property name="placeholderText">
-                 <string>eg. http://127.0.0.1:10087</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QCheckBox" name="checkBox_me_proxy">
-                <property name="text">
-                 <string>Use Proxy</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBox_me_download_missing">
-              <property name="text">
-               <string>Download missing files</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <widget class="QWidget" name="tab_live">
+             <attribute name="title">
+              <string>Live Music</string>
+             </attribute>
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
-               <widget class="QLabel" name="label_2">
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>30</height>
-                 </size>
+               <widget class="QGroupBox" name="groupBox_5">
+                <property name="title">
+                 <string>Music List</string>
                 </property>
-                <property name="text">
-                 <string>Music ID</string>
-                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_7">
+                 <item>
+                  <widget class="QListWidget" name="listWidget_music_list"/>
+                 </item>
+                </layout>
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="lineEdit_music_id">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
+               <widget class="QGroupBox" name="groupBox_6">
+                <property name="title">
+                 <string>Singing Character List</string>
                 </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>30</height>
-                 </size>
-                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_8">
+                 <item>
+                  <widget class="QListWidget" name="listWidget_singing_chara_list">
+                   <property name="contextMenuPolicy">
+                    <enum>Qt::CustomContextMenu</enum>
+                   </property>
+                   <property name="selectionMode">
+                    <enum>QAbstractItemView::ExtendedSelection</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </item>
              </layout>
-            </item>
-            <item>
-             <widget class="QTabWidget" name="tabWidget_2">
-              <property name="currentIndex">
-               <number>0</number>
-              </property>
-              <widget class="QWidget" name="tab_3">
-               <attribute name="title">
-                <string>Extractor</string>
-               </attribute>
-               <layout class="QVBoxLayout" name="verticalLayout_11">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_10" stretch="1,2">
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_6">
-                    <property name="sizeConstraint">
-                     <enum>QLayout::SetMinimumSize</enum>
-                    </property>
-                    <item>
-                     <widget class="QLabel" name="label_3">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Chara ID</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLineEdit" name="lineEdit_chara_id">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <widget class="QGroupBox" name="groupBox_7">
-                    <property name="title">
-                     <string/>
-                    </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_9">
-                     <property name="rightMargin">
-                      <number>11</number>
-                     </property>
+            </widget>
+            <widget class="QWidget" name="tab_jukebox">
+             <attribute name="title">
+              <string>Jukebox Music</string>
+             </attribute>
+             <layout class="QHBoxLayout" name="horizontalLayout_11">
+              <item>
+               <widget class="QGroupBox" name="groupBox_10">
+                <property name="title">
+                 <string>Music List</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_21">
+                 <item>
+                  <widget class="QListWidget" name="listWidget_jukebox_list">
+                   <property name="selectionMode">
+                    <enum>QAbstractItemView::ExtendedSelection</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_11">
+            <property name="title">
+             <string>Config</string>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_12">
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_20">
+               <item>
+                <layout class="QGridLayout" name="gridLayout_4">
+                 <item row="0" column="2">
+                  <widget class="QPushButton" name="pushButton_me_select_save_path">
+                   <property name="text">
+                    <string>select</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_6">
+                   <property name="text">
+                    <string>Save path</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLineEdit" name="lineEdit_me_save_path">
+                   <property name="text">
+                    <string>./save</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_8">
+                   <property name="text">
+                    <string>Proxy</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="lineEdit_me_proxy">
+                   <property name="placeholderText">
+                    <string>eg. http://127.0.0.1:10087</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <widget class="QCheckBox" name="checkBox_me_proxy">
+                   <property name="text">
+                    <string>Use Proxy</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_me_download_missing">
+                 <property name="text">
+                  <string>Download missing files</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                 <item>
+                  <widget class="QLabel" name="label_2">
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Music ID</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_music_id">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QTabWidget" name="tabWidget_2">
+                 <property name="currentIndex">
+                  <number>0</number>
+                 </property>
+                 <widget class="QWidget" name="tab_3">
+                  <attribute name="title">
+                   <string>Extractor</string>
+                  </attribute>
+                  <layout class="QVBoxLayout" name="verticalLayout_11">
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_10" stretch="1,2">
                      <item>
-                      <widget class="QGroupBox" name="groupBox_4">
-                       <property name="title">
-                        <string>Wave Format</string>
+                      <layout class="QHBoxLayout" name="horizontalLayout_ex_chara_id">
+                       <property name="sizeConstraint">
+                        <enum>QLayout::SetMinimumSize</enum>
                        </property>
-                       <layout class="QGridLayout" name="gridLayout">
-                        <item row="0" column="0">
-                         <widget class="QLabel" name="label_12">
-                          <property name="text">
-                           <string>Rate: </string>
+                       <item>
+                        <widget class="QLabel" name="label_mex_chara_id">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string>Chara ID</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLineEdit" name="lineEdit_chara_id">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                     <item>
+                      <widget class="QGroupBox" name="groupBox_7">
+                       <property name="title">
+                        <string/>
+                       </property>
+                       <layout class="QVBoxLayout" name="verticalLayout_9">
+                        <property name="rightMargin">
+                         <number>11</number>
+                        </property>
+                        <item>
+                         <widget class="QGroupBox" name="groupBox_4">
+                          <property name="title">
+                           <string>Wave Format</string>
                           </property>
+                          <layout class="QGridLayout" name="gridLayout">
+                           <item row="0" column="0">
+                            <widget class="QLabel" name="label_12">
+                             <property name="text">
+                              <string>Rate: </string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item row="0" column="1">
+                            <widget class="QLineEdit" name="lineEdit_me_rate">
+                             <property name="minimumSize">
+                              <size>
+                               <width>0</width>
+                               <height>0</height>
+                              </size>
+                             </property>
+                             <property name="maximumSize">
+                              <size>
+                               <width>75</width>
+                               <height>16777215</height>
+                              </size>
+                             </property>
+                             <property name="text">
+                              <string>48000</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item row="0" column="2">
+                            <widget class="QLabel" name="label_13">
+                             <property name="text">
+                              <string>Bits: </string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item row="0" column="3">
+                            <widget class="QLineEdit" name="lineEdit_me_bits">
+                             <property name="maximumSize">
+                              <size>
+                               <width>75</width>
+                               <height>16777215</height>
+                              </size>
+                             </property>
+                             <property name="text">
+                              <string>16</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item row="1" column="0">
+                            <widget class="QLabel" name="label_14">
+                             <property name="text">
+                              <string>Channels: </string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item row="1" column="1">
+                            <widget class="QLineEdit" name="lineEdit_me_channels">
+                             <property name="maximumSize">
+                              <size>
+                               <width>75</width>
+                               <height>16777215</height>
+                              </size>
+                             </property>
+                             <property name="text">
+                              <string>2</string>
+                             </property>
+                            </widget>
+                           </item>
+                          </layout>
                          </widget>
                         </item>
-                        <item row="0" column="1">
-                         <widget class="QLineEdit" name="lineEdit_me_rate">
+                        <item>
+                         <widget class="QPushButton" name="pushButton_extract_bgm">
                           <property name="minimumSize">
                            <size>
                             <width>0</width>
-                            <height>0</height>
+                            <height>50</height>
                            </size>
                           </property>
-                          <property name="maximumSize">
+                          <property name="text">
+                           <string>Extract BGM</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="pushButton_extract_chara_sound">
+                          <property name="minimumSize">
                            <size>
-                            <width>75</width>
-                            <height>16777215</height>
+                            <width>0</width>
+                            <height>50</height>
                            </size>
                           </property>
                           <property name="text">
-                           <string>48000</string>
+                           <string>Extract Full Chara Sound</string>
                           </property>
                          </widget>
                         </item>
-                        <item row="0" column="2">
-                         <widget class="QLabel" name="label_13">
-                          <property name="text">
-                           <string>Bits: </string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item row="0" column="3">
-                         <widget class="QLineEdit" name="lineEdit_me_bits">
-                          <property name="maximumSize">
+                        <item>
+                         <widget class="QPushButton" name="pushButton_extract_sound_by_lrc">
+                          <property name="minimumSize">
                            <size>
-                            <width>75</width>
-                            <height>16777215</height>
+                            <width>0</width>
+                            <height>50</height>
                            </size>
                           </property>
                           <property name="text">
-                           <string>16</string>
+                           <string>Extract Chara Sound By Lrc</string>
                           </property>
                          </widget>
                         </item>
-                        <item row="1" column="0">
-                         <widget class="QLabel" name="label_14">
+                        <item>
+                         <widget class="QCheckBox" name="checkBox_remove_silence">
                           <property name="text">
-                           <string>Channels: </string>
+                           <string>Remove Silence Part</string>
                           </property>
-                         </widget>
-                        </item>
-                        <item row="1" column="1">
-                         <widget class="QLineEdit" name="lineEdit_me_channels">
-                          <property name="maximumSize">
-                           <size>
-                            <width>75</width>
-                            <height>16777215</height>
-                           </size>
-                          </property>
-                          <property name="text">
-                           <string>2</string>
+                          <property name="checked">
+                           <bool>true</bool>
                           </property>
                          </widget>
                         </item>
                        </layout>
                       </widget>
                      </item>
-                     <item>
-                      <widget class="QPushButton" name="pushButton_extract_bgm">
-                       <property name="minimumSize">
-                        <size>
-                         <width>0</width>
-                         <height>50</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Extract BGM</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QPushButton" name="pushButton_extract_chara_sound">
-                       <property name="minimumSize">
-                        <size>
-                         <width>0</width>
-                         <height>50</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Extract Full Chara Sound</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QPushButton" name="pushButton_extract_sound_by_lrc">
-                       <property name="minimumSize">
-                        <size>
-                         <width>0</width>
-                         <height>50</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Extract Chara Sound By Lrc</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QCheckBox" name="checkBox_remove_silence">
-                       <property name="text">
-                        <string>Remove Silence Part</string>
-                       </property>
-                       <property name="checked">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
-                     </item>
                     </layout>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
-              </widget>
-              <widget class="QWidget" name="tab_4">
-               <attribute name="title">
-                <string>Mixer</string>
-               </attribute>
-               <layout class="QVBoxLayout" name="verticalLayout_24">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_19" stretch="0,0">
-                  <item>
-                   <widget class="QGroupBox" name="groupBox_8">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>400</height>
-                     </size>
-                    </property>
-                    <property name="title">
-                     <string>Position Sets</string>
-                    </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_25">
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="tab_4">
+                  <attribute name="title">
+                   <string>Mixer</string>
+                  </attribute>
+                  <layout class="QVBoxLayout" name="verticalLayout_24">
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_19" stretch="0,0">
                      <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_7">
-                       <property name="sizeConstraint">
-                        <enum>QLayout::SetMaximumSize</enum>
-                       </property>
-                       <item>
-                        <widget class="QLabel" name="label_4">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>16777215</width>
-                           <height>30</height>
-                          </size>
-                         </property>
-                         <property name="text">
-                          <string>Singing Pos Count:</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="label_singing_count">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>16777215</width>
-                           <height>30</height>
-                          </size>
-                         </property>
-                         <property name="text">
-                          <string>0</string>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </item>
-                     <item>
-                      <layout class="QVBoxLayout" name="verticalLayout_23">
-                       <item>
-                        <widget class="QTabWidget" name="tabWidget_parts">
-                         <property name="maximumSize">
-                          <size>
-                           <width>16777215</width>
-                           <height>10000</height>
-                          </size>
-                         </property>
-                         <property name="currentIndex">
-                          <number>0</number>
-                         </property>
-                         <widget class="QWidget" name="tab_5">
-                          <attribute name="title">
-                           <string>1</string>
-                          </attribute>
-                          <layout class="QVBoxLayout" name="verticalLayout_12">
-                           <item>
-                            <widget class="QListWidget" name="listWidget_mx_1"/>
-                           </item>
-                          </layout>
-                         </widget>
-                         <widget class="QWidget" name="tab_6">
-                          <attribute name="title">
-                           <string>2</string>
-                          </attribute>
-                          <layout class="QVBoxLayout" name="verticalLayout_13">
-                           <item>
-                            <widget class="QListWidget" name="listWidget_mx_2"/>
-                           </item>
-                          </layout>
-                         </widget>
-                         <widget class="QWidget" name="tab_7">
-                          <attribute name="title">
-                           <string>3</string>
-                          </attribute>
-                          <layout class="QVBoxLayout" name="verticalLayout_14">
-                           <item>
-                            <widget class="QListWidget" name="listWidget_mx_3"/>
-                           </item>
-                          </layout>
-                         </widget>
-                         <widget class="QWidget" name="tab_8">
-                          <attribute name="title">
-                           <string>4</string>
-                          </attribute>
-                          <layout class="QVBoxLayout" name="verticalLayout_15">
-                           <item>
-                            <widget class="QListWidget" name="listWidget_mx_4"/>
-                           </item>
-                          </layout>
-                         </widget>
-                         <widget class="QWidget" name="tab_9">
-                          <attribute name="title">
-                           <string>5</string>
-                          </attribute>
-                          <layout class="QVBoxLayout" name="verticalLayout_16">
-                           <item>
-                            <widget class="QListWidget" name="listWidget_mx_5"/>
-                           </item>
-                          </layout>
-                         </widget>
-                         <widget class="QWidget" name="tab_10">
-                          <attribute name="title">
-                           <string>6</string>
-                          </attribute>
-                          <layout class="QVBoxLayout" name="verticalLayout_17">
-                           <item>
-                            <widget class="QListWidget" name="listWidget_mx_6"/>
-                           </item>
-                          </layout>
-                         </widget>
-                         <widget class="QWidget" name="tab_11">
-                          <attribute name="title">
-                           <string>7</string>
-                          </attribute>
-                          <layout class="QVBoxLayout" name="verticalLayout_18">
-                           <item>
-                            <widget class="QListWidget" name="listWidget_mx_7"/>
-                           </item>
-                          </layout>
-                         </widget>
-                        </widget>
-                       </item>
-                      </layout>
-                     </item>
-                     <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_10">
-                       <item>
-                        <widget class="QPushButton" name="pushButton_me_delete_select">
-                         <property name="text">
-                          <string>Remove Selecting</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QPushButton" name="pushButton_me_clear">
-                         <property name="text">
-                          <string>Clear</string>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </item>
-                    </layout>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QGroupBox" name="groupBox_9">
-                    <property name="title">
-                     <string>Mix Config</string>
-                    </property>
-                    <layout class="QGridLayout" name="gridLayout_5">
-                     <item row="1" column="0">
-                      <widget class="QLabel" name="label_15">
-                       <property name="text">
-                        <string>Character Volume</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="1">
-                      <widget class="QLineEdit" name="lineEdit_chara_vol">
-                       <property name="text">
-                        <string>0.85</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="2" column="0" colspan="2">
-                      <widget class="QPushButton" name="pushButton_start_mix">
-                       <property name="minimumSize">
-                        <size>
-                         <width>40</width>
-                         <height>40</height>
-                        </size>
-                       </property>
+                      <widget class="QGroupBox" name="groupBox_8">
                        <property name="maximumSize">
                         <size>
                          <width>16777215</width>
-                         <height>80</height>
+                         <height>400</height>
                         </size>
                        </property>
-                       <property name="text">
-                        <string>Start Mix</string>
+                       <property name="title">
+                        <string>Position Sets</string>
                        </property>
+                       <layout class="QVBoxLayout" name="verticalLayout_25">
+                        <item>
+                         <layout class="QHBoxLayout" name="horizontalLayout_7">
+                          <property name="sizeConstraint">
+                           <enum>QLayout::SetMaximumSize</enum>
+                          </property>
+                          <item>
+                           <widget class="QLabel" name="label_4">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>16777215</width>
+                              <height>30</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>Singing Pos Count:</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="label_singing_count">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>16777215</width>
+                              <height>30</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>0</string>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                        <item>
+                         <layout class="QVBoxLayout" name="verticalLayout_23">
+                          <item>
+                           <widget class="QTabWidget" name="tabWidget_parts">
+                            <property name="maximumSize">
+                             <size>
+                              <width>16777215</width>
+                              <height>10000</height>
+                             </size>
+                            </property>
+                            <property name="currentIndex">
+                             <number>0</number>
+                            </property>
+                            <widget class="QWidget" name="tab_5">
+                             <attribute name="title">
+                              <string>1</string>
+                             </attribute>
+                             <layout class="QVBoxLayout" name="verticalLayout_12">
+                              <item>
+                               <widget class="QListWidget" name="listWidget_mx_1"/>
+                              </item>
+                             </layout>
+                            </widget>
+                            <widget class="QWidget" name="tab_6">
+                             <attribute name="title">
+                              <string>2</string>
+                             </attribute>
+                             <layout class="QVBoxLayout" name="verticalLayout_13">
+                              <item>
+                               <widget class="QListWidget" name="listWidget_mx_2"/>
+                              </item>
+                             </layout>
+                            </widget>
+                            <widget class="QWidget" name="tab_7">
+                             <attribute name="title">
+                              <string>3</string>
+                             </attribute>
+                             <layout class="QVBoxLayout" name="verticalLayout_14">
+                              <item>
+                               <widget class="QListWidget" name="listWidget_mx_3"/>
+                              </item>
+                             </layout>
+                            </widget>
+                            <widget class="QWidget" name="tab_8">
+                             <attribute name="title">
+                              <string>4</string>
+                             </attribute>
+                             <layout class="QVBoxLayout" name="verticalLayout_15">
+                              <item>
+                               <widget class="QListWidget" name="listWidget_mx_4"/>
+                              </item>
+                             </layout>
+                            </widget>
+                            <widget class="QWidget" name="tab_9">
+                             <attribute name="title">
+                              <string>5</string>
+                             </attribute>
+                             <layout class="QVBoxLayout" name="verticalLayout_16">
+                              <item>
+                               <widget class="QListWidget" name="listWidget_mx_5"/>
+                              </item>
+                             </layout>
+                            </widget>
+                            <widget class="QWidget" name="tab_10">
+                             <attribute name="title">
+                              <string>6</string>
+                             </attribute>
+                             <layout class="QVBoxLayout" name="verticalLayout_17">
+                              <item>
+                               <widget class="QListWidget" name="listWidget_mx_6"/>
+                              </item>
+                             </layout>
+                            </widget>
+                            <widget class="QWidget" name="tab_11">
+                             <attribute name="title">
+                              <string>7</string>
+                             </attribute>
+                             <layout class="QVBoxLayout" name="verticalLayout_18">
+                              <item>
+                               <widget class="QListWidget" name="listWidget_mx_7"/>
+                              </item>
+                             </layout>
+                            </widget>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                        <item>
+                         <layout class="QHBoxLayout" name="horizontalLayout_10">
+                          <item>
+                           <widget class="QPushButton" name="pushButton_me_delete_select">
+                            <property name="text">
+                             <string>Remove Selecting</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QPushButton" name="pushButton_me_clear">
+                            <property name="text">
+                             <string>Clear</string>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
                       </widget>
                      </item>
-                     <item row="0" column="0" colspan="2">
-                      <widget class="QCheckBox" name="checkBox_all_singing">
-                       <property name="text">
-                        <string>Force All Singing</string>
+                     <item>
+                      <widget class="QGroupBox" name="groupBox_9">
+                       <property name="title">
+                        <string>Mix Config</string>
                        </property>
+                       <layout class="QGridLayout" name="gridLayout_5">
+                        <item row="1" column="0">
+                         <widget class="QLabel" name="label_15">
+                          <property name="text">
+                           <string>Character Volume</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item row="1" column="1">
+                         <widget class="QLineEdit" name="lineEdit_chara_vol">
+                          <property name="text">
+                           <string>0.85</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item row="2" column="0" colspan="2">
+                         <widget class="QPushButton" name="pushButton_start_mix">
+                          <property name="minimumSize">
+                           <size>
+                            <width>40</width>
+                            <height>40</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>16777215</width>
+                            <height>80</height>
+                           </size>
+                          </property>
+                          <property name="text">
+                           <string>Start Mix</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item row="0" column="0" colspan="2">
+                         <widget class="QCheckBox" name="checkBox_all_singing">
+                          <property name="text">
+                           <string>Force All Singing</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
                       </widget>
                      </item>
                     </layout>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
-              </widget>
-             </widget>
-            </item>
-           </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
           </item>
          </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_14">
+       <attribute name="title">
+        <string>More Settings</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_27">
+        <item>
+         <widget class="QGroupBox" name="groupBox_12">
+          <property name="title">
+           <string>Global Config</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_22">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>Extracted Volume</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSlider" name="horizontalSlider_volume">
+               <property name="maximum">
+                <number>100</number>
+               </property>
+               <property name="pageStep">
+                <number>0</number>
+               </property>
+               <property name="value">
+                <number>10</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_volume">
+               <property name="text">
+                <string>1.0</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_13">
+          <property name="title">
+           <string>About</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_26">
+           <item>
+            <widget class="DesktopTextBrowser" name="textBrowser_about">
+             <property name="html">
+              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Microsoft YaHei'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt; font-weight:600;&quot;&gt;This Repo&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/chinosk6/umamusume-voice-text-extractor&quot;&gt;&lt;span style=&quot; font-size:11pt; text-decoration: underline; color:#0000ff;&quot;&gt;chinosk6/umamusume-voice-text-extractor&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt; font-weight:600;&quot;&gt;Credits&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/MarshmallowAndroid/UmaMusumeExplorer&quot;&gt;&lt;span style=&quot; font-size:11pt; text-decoration: underline; color:#0000ff;&quot;&gt;MarshmallowAndroid/UmaMusumeExplorer&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:11pt; color:#0000ff;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt; font-weight:600;&quot;&gt;Copyright&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.cygames.co.jp&quot;&gt;&lt;span style=&quot; font-size:11pt; text-decoration: underline; color:#0000ff;&quot;&gt;Cygames&lt;/span&gt;&lt;/a&gt; &lt;a href=&quot;https://umamusume.jp&quot;&gt;&lt;span style=&quot; font-size:11pt; text-decoration: underline; color:#0000ff;&quot;&gt;Umamusume&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -940,6 +1063,13 @@
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DesktopTextBrowser</class>
+   <extends>QTextBrowser</extends>
+   <header>.ui_overwrite.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="msrc.qrc"/>
  </resources>

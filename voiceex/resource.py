@@ -3,7 +3,8 @@ from . import database as udb
 from pythonnet import set_runtime
 from clr_loader import get_coreclr
 from .ulogger import logger as log
-from typing import List
+from typing import List, Optional
+from . import models as m
 
 rt = get_coreclr(
     runtime_config="./voice extractor/voice extractor/bin/Release/net6.0/voice extractor.runtimeconfig.json"
@@ -33,7 +34,6 @@ class ResourceEx(udb.UmaDatabase):
         extractor = voice_extractor.UmaVoiceEx(acb_path, awb_path)
         if self.wav_format is not None:
             extractor.SetWaveFormat(*self.wav_format)
-        extractor.SetVolume(2.0)
 
         wav_count = extractor.GetAudioCount()
         ret = []
@@ -50,7 +50,7 @@ class ResourceEx(udb.UmaDatabase):
                 self.download_sound(file_hash, file_path)
                 log.logger(f"Download success: {file_path}")
 
-    def get_extractor(self, awb_bundle_path: str, acb_bundle_path: str = None, volume=1.0):
+    def get_extractor(self, awb_bundle_path: str, acb_bundle_path: str = None, volume: Optional[float] = None):
         if acb_bundle_path is None:
             acb_bundle_hash = self.awb_bundle_path_to_acb_bundle_path(awb_bundle_path)[1]
             acb_bundle_path = self.bundle_hash_to_path(acb_bundle_hash)
@@ -62,7 +62,7 @@ class ResourceEx(udb.UmaDatabase):
         extractor = voice_extractor.UmaVoiceEx(acb_bundle_path, awb_bundle_path)
         if self.wav_format is not None:
             extractor.SetWaveFormat(*self.wav_format)
-        extractor.SetVolume(volume)
+        extractor.SetVolume(volume if volume is not None else m.user_config.volume)
         return extractor
 
     @staticmethod

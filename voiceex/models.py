@@ -31,6 +31,7 @@ class UserConfig(BaseModel):
     save_path_me: t.Optional[str] = "./save"
     use_proxy_ve: t.Optional[bool] = False
     use_proxy_me: t.Optional[bool] = False
+    volume: t.Optional[float] = 1.5
 
     def __init__(self):
         if os.path.isfile("ex_config.json"):

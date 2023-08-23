@@ -1,16 +1,26 @@
 from rich.progress import Progress, MofNCompleteColumn, TextColumn, BarColumn, TaskProgressColumn, TimeRemainingColumn
 from typing import Optional
 from colorama import deinit
+from . import ulogger
 
 deinit()
-progress = Progress(TextColumn("[progress.description]{task.description}"),
+
+def get_progress():
+    return Progress(TextColumn("[progress.description]{task.description}"),
                     BarColumn(complete_style="#F92672", finished_style="green", pulse_style="yellow"),
-                    MofNCompleteColumn(), TaskProgressColumn(), TimeRemainingColumn())
+                    MofNCompleteColumn(), TaskProgressColumn(), TimeRemainingColumn(),
+                    console=ulogger.console)
+
+progress = get_progress()
 
 def track(sequence, description: str = "Working...", total: Optional[float] = None, update_period: float = 0.1,
     is_sub_track=False, sub_remove_end=False):
+    global progress
+
     if progress.live.console._live:
         is_sub_track = True
+    else:
+        progress = get_progress()
     if not sequence:
         return sequence
 
