@@ -106,13 +106,3 @@ class ResourceEx(udb.UmaDatabase):
                 add_p.Add(j)
             lst_param.Add(add_p)
         voice_extractor.UmaVoiceEx.SilenceWavPartsByActivePos(file_name, save_name, lst_param)
-
-
-# fs = ResourceEx.cut_wav_batch("25.wav", "./25", [[1000, 2000], [3000, 5000]])
-# for i in fs:
-#     voice_extractor.UmaVoiceEx.ResampleWav(i, f"{i}_re.wav", 44100, 16, 1)
-
-# ResourceEx.mix_wavs([r"save\music\1053\bgm0.wav", "save/music/1053/chara_0.wav", "save/music/1053/chara_1.wav"],
-#                     "save/music/1053/mix.wav")
-# voice_extractor.UmaVoiceEx.RemoveAudioSilence("save/music/1053/cutbylrc/1046/1046_42.wav")
-# ResourceEx.ConcatenateWavFiles(r"save\music\1059\aaa.wav", [r"save\music\1059\mix_all.wav", r"save\music\1059\bgm0.wav"])

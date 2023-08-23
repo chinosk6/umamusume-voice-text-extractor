@@ -4,5 +4,7 @@ guimain.py linguist-language=ico
 database.py linguist-language=ico
 models.py linguist-language=ico
 ui_import.py linguist-language=ico
+ui_overwrite.py linguist-language=ico
 progress_bar.py linguist-language=ico
 resource.py linguist-language=ico
+database.py linguist-language=ico
