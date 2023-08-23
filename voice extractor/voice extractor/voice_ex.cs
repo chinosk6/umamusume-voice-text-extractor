@@ -105,6 +105,7 @@ namespace voice_extractor
             }
             
             UmaWaveStream copy = new(awbReader, waveId);
+            copy.Loop = false;
             ISampleProvider wavSampleProvider;
             
             if (waveFormat is not null)
