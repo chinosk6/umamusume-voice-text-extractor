@@ -15,7 +15,8 @@ import clr
 # clr.FindAssembly("voice_extractor.dll")
 clr.AddReference("./voice extractor/voice extractor/bin/Release/net6.0/voice extractor")
 from System.Collections.Generic import List as CsList
-from System import UInt64, String
+from System.Collections.Generic import Dictionary as CsDict
+from System import UInt64, String, Object
 from System.IO import InvalidDataException
 
 import voice_extractor
@@ -82,6 +83,13 @@ class ResourceEx(udb.UmaDatabase):
 
     @staticmethod
     def mix_wavs(files: List[str], save_name: str, volume: float):
+        """
+        mix wav files
+        :param files: file list
+        :param save_name: save name
+        :param volume: volume, 1.0 is full. -1: dont' change volume. -2: automatic balance of loudness
+        :return: None
+        """
         lst_param = CsList[String]()
         for i in files:
             lst_param.Add(i)
@@ -106,3 +114,13 @@ class ResourceEx(udb.UmaDatabase):
                 add_p.Add(j)
             lst_param.Add(add_p)
         voice_extractor.UmaVoiceEx.SilenceWavPartsByActivePos(file_name, save_name, lst_param)
+
+    @staticmethod
+    def AdjustVolume(file_name: str, volume_changes: List[dict], output_path):
+        lst_param = CsList[CsDict[String, Object]]()
+        for i in volume_changes:
+            add_p = CsDict[String, Object]()
+            for k in i:
+                add_p.Add(k, i[k])
+            lst_param.Add(add_p)
+        return voice_extractor.UmaVoiceEx.AdjustVolume(file_name, lst_param, output_path)

@@ -419,7 +419,9 @@ class UIChange(QObject):
                         widget: QListWidget = getattr(self.ui, f"listWidget_mx_{i}")
                         args0 += [int(i.text()) for i in get_widget_all_items(widget)]
                     ex = self.get_live_extractor()
-                    save_names = ex.mix_live_song_all_sing(music_id, list(set(args0)), float(self.ui.lineEdit_chara_vol.text()))
+                    chara_vol_str = self.ui.lineEdit_chara_vol.text().strip()
+                    chara_vol_str = chara_vol_str or "-2"
+                    save_names = ex.mix_live_song_all_sing(music_id, list(set(args0)), float(chara_vol_str))
                     voiceex.log.logger(f"Extract success: {save_names}")
                 else:
                     args = []
@@ -427,7 +429,9 @@ class UIChange(QObject):
                         widget: QListWidget = getattr(self.ui, f"listWidget_mx_{i}")
                         args.append([int(i.text()) for i in get_widget_all_items(widget)])
                     ex = self.get_live_extractor()
-                    save_names = ex.mix_live_song_by_parts(music_id, *args, volume=float(self.ui.lineEdit_chara_vol.text()))
+                    chara_vol_str = self.ui.lineEdit_chara_vol.text().strip()
+                    chara_vol_str = chara_vol_str or "-2"
+                    save_names = ex.mix_live_song_by_parts(music_id, *args, volume=float(chara_vol_str))
                     voiceex.log.logger(f"Extract success: {save_names}")
             finally:
                 self.set_start_btn_stat_signal.emit(True)

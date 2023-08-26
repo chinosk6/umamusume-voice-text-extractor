@@ -542,7 +542,7 @@
                <item>
                 <widget class="QTabWidget" name="tabWidget_2">
                  <property name="currentIndex">
-                  <number>0</number>
+                  <number>1</number>
                  </property>
                  <widget class="QWidget" name="tab_3">
                   <attribute name="title">
@@ -932,8 +932,17 @@
                         </item>
                         <item row="1" column="1">
                          <widget class="QLineEdit" name="lineEdit_chara_vol">
+                          <property name="toolTip">
+                           <string>Leave blank to automatically balance the loudness. -1 will not change volume. 1.0 is the full volume.</string>
+                          </property>
+                          <property name="inputMask">
+                           <string/>
+                          </property>
                           <property name="text">
-                           <string>0.85</string>
+                           <string>-1</string>
+                          </property>
+                          <property name="placeholderText">
+                           <string>Leave blank to automatically balance the loudness. -1 will not change volume. 1.0 is the full volume.</string>
                           </property>
                          </widget>
                         </item>

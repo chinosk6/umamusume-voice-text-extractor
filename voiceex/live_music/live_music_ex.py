@@ -1,3 +1,4 @@
+import math
 import os
 import shutil
 from .. import resource as umares
@@ -86,11 +87,13 @@ class LiveMusicExtractor(umares.ResourceEx):
         acb_path = self.bundle_hash_to_path(acb_hash)
         awb_path = self.bundle_hash_to_path(awb_hash)
         exactor = self.get_extractor(awb_path, acb_path)
-        if self.wav_format is not None:
-            exactor.SetWaveFormat(*self.wav_format)
-        ret = exactor.ExtractAudioFromWaveId(f"{self.save_path}/{'jukebox' if is_jukebox else 'music'}/{music_id}",
-                                             f"bgm_{oke_index}_", 0)
-        exactor.Close()
+        try:
+            if self.wav_format is not None:
+                exactor.SetWaveFormat(*self.wav_format)
+            ret = exactor.ExtractAudioFromWaveId(f"{self.save_path}/{'jukebox' if is_jukebox else 'music'}/{music_id}",
+                                                 f"bgm_{oke_index}_", 0)
+        finally:
+            exactor.Close()
         return ret
 
     @staticmethod
@@ -193,22 +196,53 @@ class LiveMusicExtractor(umares.ResourceEx):
 
     def mix_live_song_all_sing(self, music_id: int, chara_list: t.Optional[t.List[int]], volume: float):
         save_names = []
+
+        save_singing_file_names = self.get_charas_singing_data(music_id, chara_list)
+        temp_singing_name = f"temp/live/{music_id}/mix_all_no_bgm.wav"
+        save_singing_name = f"{self.save_path}/music/{music_id}/mix_all_no_bgm.wav"
+        file_list = []
+        for chara_id in save_singing_file_names:
+            for wave_id in save_singing_file_names[chara_id]:
+                file_list.append(save_singing_file_names[chara_id][wave_id])
+        self.mix_wavs(file_list, temp_singing_name, -1)
+        self.AdjustVolume(temp_singing_name,
+                          [{"start": 0, "end": 600000, "db": -10 * math.log10(len(save_singing_file_names))}],
+                          save_singing_name)
+        os.remove(temp_singing_name)
+
         for oke in ["01", "02"]:
             music_bgm = self.extract_live_music_bgm(music_id, oke_index=oke, raise_notfound_error=False)
             if not music_bgm:
                 continue
-            save_file_names = self.get_charas_singing_data(music_id, chara_list)
             save_name = f"{self.save_path}/music/{music_id}/mix_all_oke_{oke}.wav"
-            file_list = [music_bgm]
-            for chara_id in save_file_names:
-                for wave_id in save_file_names[chara_id]:
-                    file_list.append(save_file_names[chara_id][wave_id])
-            self.mix_wavs(file_list, save_name, volume)
+            self.mix_wavs([music_bgm, save_singing_name], save_name, volume)
             save_names.append(save_name)
         return save_names
 
+    @staticmethod
+    def get_overlap_times(dictionary):
+        overlap_times = []
+        time_counts = {}
+
+        for file, times in dictionary.items():
+            for time in times:
+                start = time[0]
+                end = time[1]
+
+                # 更新时间段的文件数量
+                if (start, end) not in time_counts:
+                    time_counts[(start, end)] = 1
+                else:
+                    time_counts[(start, end)] += 1
+
+        # 遍历时间数量字典，找到重叠时间段并添加到重叠时间列表中
+        for time, count in time_counts.items():
+            if count >= 1:
+                overlap_times.append({"start": time[0], "end": time[1], "count": count})
+        return overlap_times
+
     def mix_live_song_by_parts(self, music_id: int, *charas: t.List[int], volume: float):
-        charas = charas[:7]
+        # charas = charas[:7]
         save_file_names = [self.get_charas_singing_data(music_id, i) for i in charas]
         singing_data = self.get_parts(music_id)
         singing_data_keys = list(singing_data.keys())
@@ -236,12 +270,22 @@ class LiveMusicExtractor(umares.ResourceEx):
             save_name_p = f"{file_name}_sl.wav"
             target_files.append(save_name_p)
             self.SilenceWavPartsByActivePos(file_name, save_name_p, ftimes)
+
+        silence_mixed_temp_name = f"temp/live/{music_id}/mix_by_parts_no_bgm.wav"
+        silence_mixed_save_name = f"{self.save_path}/music/{music_id}/mix_by_parts_no_bgm.wav"
+        self.mix_wavs(target_files, silence_mixed_temp_name, -1)
+        overlap_times = self.get_overlap_times(file_on_times)
+        for n, overlap in enumerate(overlap_times):
+            overlap_times[n]["db"] = -10 * math.log10(overlap["count"])
+        self.AdjustVolume(silence_mixed_temp_name, overlap_times, silence_mixed_save_name)
+        os.remove(silence_mixed_temp_name)
+
         save_names = []
         for oke in ["01", "02"]:
             music_bgm = self.extract_live_music_bgm(music_id, oke_index=oke, raise_notfound_error=False)
             if music_bgm:
                 save_name = f"{self.save_path}/music/{music_id}/mix_by_parts_oke_{oke}.wav"
-                self.mix_wavs([music_bgm] + target_files, save_name, volume)
+                self.mix_wavs([music_bgm, silence_mixed_save_name], save_name, volume)
                 save_names.append(save_name)
         for i in target_files:
             os.remove(i)

@@ -4,257 +4,257 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="main_ui.py" line="539"/>
+        <location filename="main_ui.py" line="541"/>
         <source>Umamusume Voice Text Extractor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="540"/>
+        <location filename="main_ui.py" line="542"/>
         <source>Character List</source>
         <translation type="unfinished">角色列表</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="574"/>
+        <location filename="main_ui.py" line="576"/>
         <source>Config</source>
         <translation type="unfinished">配置</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="577"/>
+        <location filename="main_ui.py" line="579"/>
         <source>./save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="575"/>
+        <location filename="main_ui.py" line="577"/>
         <source>select</source>
         <translation type="unfinished">选择</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="576"/>
+        <location filename="main_ui.py" line="578"/>
         <source>Save path</source>
         <translation type="unfinished">保存路径</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="578"/>
+        <location filename="main_ui.py" line="580"/>
         <source>Proxy</source>
         <translation type="unfinished">代理设置</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="579"/>
+        <location filename="main_ui.py" line="581"/>
         <source>eg. http://127.0.0.1:10087</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="580"/>
+        <location filename="main_ui.py" line="582"/>
         <source>Use Proxy</source>
         <translation type="unfinished">使用代理</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="584"/>
+        <location filename="main_ui.py" line="586"/>
         <source>Wave Format</source>
         <translation type="unfinished">Wave参数</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="585"/>
+        <location filename="main_ui.py" line="587"/>
         <source>Rate: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="550"/>
+        <location filename="main_ui.py" line="552"/>
         <source>22050</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="587"/>
+        <location filename="main_ui.py" line="589"/>
         <source>Bits: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="588"/>
+        <location filename="main_ui.py" line="590"/>
         <source>16</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="589"/>
+        <location filename="main_ui.py" line="591"/>
         <source>Channels: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="599"/>
+        <location filename="main_ui.py" line="601"/>
         <source>1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="555"/>
+        <location filename="main_ui.py" line="557"/>
         <source>Get voice from all stories</source>
         <translation type="unfinished">从所有故事中提取对应角色的语音</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="556"/>
+        <location filename="main_ui.py" line="558"/>
         <source>Download missing voice files</source>
         <translation type="unfinished">下载缺失的语音文件</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="557"/>
+        <location filename="main_ui.py" line="559"/>
         <source>Use cache</source>
         <translation type="unfinished">使用缓存</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="558"/>
+        <location filename="main_ui.py" line="560"/>
         <source>Character ID</source>
         <translation type="unfinished">角色ID</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="566"/>
+        <location filename="main_ui.py" line="568"/>
         <source>Start</source>
         <translation type="unfinished">开始提取</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="560"/>
+        <location filename="main_ui.py" line="562"/>
         <source>Single Character Mode</source>
         <translation type="unfinished">单角色提取模式</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="562"/>
+        <location filename="main_ui.py" line="564"/>
         <source>CharaID</source>
         <translation type="unfinished">角色ID</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="564"/>
+        <location filename="main_ui.py" line="566"/>
         <source>SaveID</source>
         <translation type="unfinished">保存ID</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="606"/>
+        <location filename="main_ui.py" line="608"/>
         <source>Remove Selecting</source>
         <translation type="unfinished">移除选择</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="567"/>
+        <location filename="main_ui.py" line="569"/>
         <source>Multi Character Mode</source>
         <translation type="unfinished">多角色提取模式</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="568"/>
+        <location filename="main_ui.py" line="570"/>
         <source>Voice Extractor</source>
         <translation type="unfinished">角色语音提取</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="572"/>
+        <location filename="main_ui.py" line="574"/>
         <source>Music List</source>
         <translation type="unfinished">音乐列表</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="570"/>
+        <location filename="main_ui.py" line="572"/>
         <source>Singing Character List</source>
         <translation type="unfinished">歌唱角色</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="581"/>
+        <location filename="main_ui.py" line="583"/>
         <source>Download missing files</source>
         <translation type="unfinished">下载缺失的文件</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="582"/>
+        <location filename="main_ui.py" line="584"/>
         <source>Music ID</source>
         <translation type="unfinished">音乐ID</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="583"/>
+        <location filename="main_ui.py" line="585"/>
         <source>Chara ID</source>
         <translation type="unfinished">角色ID</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="591"/>
+        <location filename="main_ui.py" line="593"/>
         <source>Extract BGM</source>
         <translation type="unfinished">提取BGM</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="592"/>
+        <location filename="main_ui.py" line="594"/>
         <source>Extract Full Chara Sound</source>
         <translation type="unfinished">提取角色清唱</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="593"/>
+        <location filename="main_ui.py" line="595"/>
         <source>Extract Chara Sound By Lrc</source>
         <translation type="unfinished">提取角色清唱并根据歌词分割</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="594"/>
+        <location filename="main_ui.py" line="596"/>
         <source>Remove Silence Part</source>
         <translation type="unfinished">删除音频首尾空白</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="595"/>
+        <location filename="main_ui.py" line="597"/>
         <source>Extractor</source>
         <translation type="unfinished">提取器</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="596"/>
+        <location filename="main_ui.py" line="598"/>
         <source>Position Sets</source>
         <translation type="unfinished">位置设定</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="597"/>
+        <location filename="main_ui.py" line="599"/>
         <source>Singing Pos Count:</source>
         <translation type="unfinished">歌唱角色位置数：</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="598"/>
+        <location filename="main_ui.py" line="600"/>
         <source>0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="600"/>
+        <location filename="main_ui.py" line="602"/>
         <source>2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="601"/>
+        <location filename="main_ui.py" line="603"/>
         <source>3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="602"/>
+        <location filename="main_ui.py" line="604"/>
         <source>4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="603"/>
+        <location filename="main_ui.py" line="605"/>
         <source>5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="604"/>
+        <location filename="main_ui.py" line="606"/>
         <source>6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="605"/>
+        <location filename="main_ui.py" line="607"/>
         <source>7</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="607"/>
+        <location filename="main_ui.py" line="609"/>
         <source>Clear</source>
         <translation type="unfinished">清除</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="608"/>
+        <location filename="main_ui.py" line="610"/>
         <source>Mix Config</source>
         <translation type="unfinished">音频混合设置</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="612"/>
+        <location filename="main_ui.py" line="615"/>
         <source>Force All Singing</source>
         <translation type="unfinished">强制全部歌唱</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="611"/>
+        <location filename="main_ui.py" line="614"/>
         <source>Start Mix</source>
         <translation type="unfinished">开始混合</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="613"/>
+        <location filename="main_ui.py" line="616"/>
         <source>Mixer</source>
         <translation type="unfinished">混合器</translation>
     </message>
@@ -264,52 +264,47 @@
         <translation type="obsolete">Live 音乐提取</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="609"/>
+        <location filename="main_ui.py" line="611"/>
         <source>Character Volume</source>
         <translation type="unfinished">角色音量</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="610"/>
-        <source>0.85</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="main_ui.py" line="571"/>
+        <location filename="main_ui.py" line="573"/>
         <source>Live Music</source>
         <translation type="unfinished">Live 音乐</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="573"/>
+        <location filename="main_ui.py" line="575"/>
         <source>Jukebox Music</source>
         <translation type="unfinished">点唱机音乐</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="586"/>
+        <location filename="main_ui.py" line="588"/>
         <source>48000</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="614"/>
+        <location filename="main_ui.py" line="617"/>
         <source>Music Extractor</source>
         <translation type="unfinished">音乐提取</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="616"/>
+        <location filename="main_ui.py" line="619"/>
         <source>Extracted Volume</source>
         <translation type="unfinished">提取音量</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="617"/>
+        <location filename="main_ui.py" line="620"/>
         <source>1.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="618"/>
+        <location filename="main_ui.py" line="621"/>
         <source>About</source>
         <translation type="unfinished">关于</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="619"/>
+        <location filename="main_ui.py" line="622"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -325,14 +320,19 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="631"/>
+        <location filename="main_ui.py" line="634"/>
         <source>More Settings</source>
         <translation type="unfinished">更多设置</translation>
     </message>
     <message>
-        <location filename="main_ui.py" line="615"/>
+        <location filename="main_ui.py" line="618"/>
         <source>Global Config</source>
         <translation type="unfinished">全局设置</translation>
+    </message>
+    <message>
+        <location filename="main_ui.py" line="613"/>
+        <source>Leave blank to automatically balance the loudness. -1 will not change volume. 1.0 is the full volume.</source>
+        <translation type="unfinished">留空自动平衡响度。-1不改变音量。满音量为 1.0。</translation>
     </message>
 </context>
 </TS>
