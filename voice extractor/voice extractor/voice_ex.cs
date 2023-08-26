@@ -18,7 +18,7 @@ namespace voice_extractor
         private WaveFormat waveFormat;
         private Dictionary<int, int> cueIdToWaveId = new();
         private Dictionary<int, int> anotherCueIdToWaveId = new();
-        
+
         public UmaVoiceEx(string acbPath, string awbPath)
         {
             if (!File.Exists(acbPath) || !File.Exists(awbPath))
@@ -75,7 +75,6 @@ namespace voice_extractor
                     }
                     catch (FormatException)
                     {
-
                     }
                     catch (Exception ex)
                     {
@@ -84,8 +83,8 @@ namespace voice_extractor
                 }
             }
         }
-        
-        public static string GetSaveName([NotNull]string savePath, string saveFileprefix, int waveId)
+
+        public static string GetSaveName([NotNull] string savePath, string saveFileprefix, int waveId)
         {
             return $"{savePath}/{saveFileprefix}{waveId}.wav";
         }
@@ -97,17 +96,17 @@ namespace voice_extractor
             return ret;
         }
 
-        public string ExtractAudioFromWaveId([NotNull]string savePath, string saveFileprefix, int waveId)
+        public string ExtractAudioFromWaveId([NotNull] string savePath, string saveFileprefix, int waveId)
         {
             if (!Directory.Exists(savePath))
             {
                 Directory.CreateDirectory(savePath);
             }
-            
+
             UmaWaveStream copy = new(awbReader, waveId);
             copy.Loop = false;
             ISampleProvider wavSampleProvider;
-            
+
             if (waveFormat is not null)
             {
                 var convertedStream = new MediaFoundationResampler(copy, waveFormat);
@@ -128,7 +127,7 @@ namespace voice_extractor
             return saveName;
         }
 
-        public string ExtractAudioFromCueId([NotNull]string savePath, string saveFileprefix, int cueId, int gender=0)
+        public string ExtractAudioFromCueId([NotNull] string savePath, string saveFileprefix, int cueId, int gender = 0)
         {
             int origWaveId, anotherWaveId;
 
@@ -140,13 +139,14 @@ namespace voice_extractor
             {
                 origWaveId = cueIdToWaveId[cueId];
             }
-            
+
             if (!anotherCueIdToWaveId.ContainsKey(cueId))
             {
                 if (origWaveId == -1)
                 {
                     throw new IndexOutOfRangeException($"{savePath} {saveFileprefix} cueId: {cueId} not found!");
                 }
+
                 anotherWaveId = origWaveId;
             }
             else
@@ -157,6 +157,7 @@ namespace voice_extractor
                     origWaveId = anotherWaveId;
                 }
             }
+
             /*
              训练员选择不同的性别会影响部分语音的内容, 这部分语音拥有相同的 CueId, 只有 voice_id 和 gender 不同
              目前没办法在 awb/acb 文件中获取到 voice_id
@@ -164,7 +165,7 @@ namespace voice_extractor
              因此暂时使用下面的方案, 期待大佬们提出更好的解决方案~
              性别 0 和 2 使用较小的 WaveId, 1 使用较大的 WaveId
              */
-            return ExtractAudioFromWaveId(savePath, saveFileprefix, 
+            return ExtractAudioFromWaveId(savePath, saveFileprefix,
                 gender == 1 ? Math.Max(origWaveId, anotherWaveId) : Math.Min(origWaveId, anotherWaveId));
         }
 
@@ -172,7 +173,7 @@ namespace voice_extractor
         {
             waveFormat = new WaveFormat(rate, bits, channels);
         }
-        
+
         public int GetAudioCount()
         {
             return fileCount;
@@ -185,33 +186,43 @@ namespace voice_extractor
 
         public static ulong GetStreamCriAuthKey(string umaInstallPath)
         {
-            int IndexOf(byte[] srcBytes, byte[] searchBytes)  
-            {  
-                if (srcBytes == null) { return -1; }  
-                if (searchBytes == null) { return -1; }  
-                if (srcBytes.Length == 0) { return -1; }  
-                if (searchBytes.Length == 0) { return -1; }  
-                if (srcBytes.Length < searchBytes.Length) { return -1; }  
-                for (int i = 0; i < srcBytes.Length - searchBytes.Length; i++)  
-                {  
-                    if (srcBytes[i] == searchBytes[0])  
-                    {  
-                        if (searchBytes.Length == 1) { return i; }  
-                        bool flag = true;  
-                        for (int j = 1; j < searchBytes.Length; j++)  
-                        {  
-                            if (srcBytes[i + j] != searchBytes[j])  
-                            {  
-                                flag = false;  
-                                break;  
-                            }  
-                        }  
-                        if (flag) { return i; }  
-                    }  
-                }  
-                return -1;  
-            }  
-            
+            int IndexOf(byte[] srcBytes, byte[] searchBytes)
+            {
+                if (srcBytes == null) return -1;
+                if (searchBytes == null) return -1;
+                if (srcBytes.Length == 0) return -1;
+                if (searchBytes.Length == 0) return -1;
+                if (srcBytes.Length < searchBytes.Length) return -1;
+
+                for (int i = 0; i < srcBytes.Length - searchBytes.Length; i++)
+                {
+                    if (srcBytes[i] == searchBytes[0])
+                    {
+                        if (searchBytes.Length == 1)
+                        {
+                            return i;
+                        }
+
+                        bool flag = true;
+                        for (int j = 1; j < searchBytes.Length; j++)
+                        {
+                            if (srcBytes[i + j] != searchBytes[j])
+                            {
+                                flag = false;
+                                break;
+                            }
+                        }
+
+                        if (flag)
+                        {
+                            return i;
+                        }
+                    }
+                }
+
+                return -1;
+            }
+
             var assetPath = $"{umaInstallPath}/umamusume_Data/resources.assets";
             var fileS = File.OpenRead(assetPath);
             var fileBytes = new byte[fileS.Length];
@@ -223,7 +234,7 @@ namespace voice_extractor
             var keyStr = "";
 
             var flagStartPos = IndexOf(fileBytes, authFlag);
-            
+
             var stopFlg = true;
             while (stopFlg)
             {
@@ -231,13 +242,15 @@ namespace voice_extractor
                 if (numBytes.Contains(nowByte))
                 {
                     keyStr = $"{(char)nowByte}{keyStr}";
-                } 
+                }
                 else if (nowByte.Equals(stopFlag))
                 {
                     stopFlg = false;
                 }
+
                 flagStartPos--;
             }
+
             return ulong.Parse(keyStr);
         }
 
@@ -248,11 +261,11 @@ namespace voice_extractor
             {
                 Directory.CreateDirectory(savePath);
             }
-            
-            using (WaveFileReader reader = new WaveFileReader(fileName))
+
+            using (var reader = new WaveFileReader(fileName))
             {
-                var fileLength = (int)reader.Length;using (WaveFileWriter writer = new WaveFileWriter(saveName, 
-                                                               reader.WaveFormat))
+                var fileLength = (int)reader.Length;
+                using (var writer = new WaveFileWriter(saveName, reader.WaveFormat))
                 {
                     var cutFromStart = TimeSpan.FromMilliseconds(startMs);
                     var cutFromEnd = TimeSpan.FromMilliseconds(endMs);
@@ -276,7 +289,7 @@ namespace voice_extractor
             }
 
             var ret = new List<string>();
-            using (WaveFileReader reader = new WaveFileReader(fileName))
+            using (var reader = new WaveFileReader(fileName))
             {
                 foreach (var i in timeMsList)
                 {
@@ -286,8 +299,9 @@ namespace voice_extractor
                     var startMs = i[0];
                     var endMs = i[1];
 
-                    var fileLength = (int)reader.Length; using (WaveFileWriter writer = new WaveFileWriter(saveName, 
-                                                                    reader.WaveFormat))
+                    var fileLength = (int)reader.Length;
+                    using (WaveFileWriter writer = new WaveFileWriter(saveName,
+                               reader.WaveFormat))
                     {
                         var cutFromStart = TimeSpan.FromMilliseconds(startMs);
                         var cutFromEnd = TimeSpan.FromMilliseconds(endMs);
@@ -301,11 +315,11 @@ namespace voice_extractor
                     }
                 }
             }
-            
+
             return ret;
         }
 
-        private static void TrimWavFile(WaveFileReader reader, WaveFileWriter writer, int startPos, int endPos, 
+        private static void TrimWavFile(WaveFileReader reader, WaveFileWriter writer, int startPos, int endPos,
             bool dispose = true)
         {
             reader.Position = startPos;
@@ -337,35 +351,91 @@ namespace voice_extractor
 
             using (var reader = new WaveFileReader(fileName))
             {
-                var convertedStream = new MediaFoundationResampler(reader, 
+                var convertedStream = new MediaFoundationResampler(reader,
                     new WaveFormat(rate, bits, channels));
                 var wavSampleProvider = convertedStream.ToSampleProvider();
                 WaveFileWriter.CreateWaveFile16(saveName,
                     new VolumeSampleProvider(wavSampleProvider)
                     {
-                        Volume = 2.0f
+                        Volume = 1.0f
                     });
             }
         }
 
+        private static float GetRms(AudioFileReader audioFileReader)
+        {
+            const int blockSize = 1024;
+            var buffer = new float[blockSize];
+            double sumSquared = 0;
+            int read;
+            var samplesCount = 0;
+
+            do
+            {
+                read = audioFileReader.Read(buffer, 0, blockSize);
+                for (var i = 0; i < read; i++)
+                {
+                    if (buffer[i] > 0)
+                    {
+                        var sampleDb = 20 * Math.Log10(buffer[i]);
+                        if (sampleDb > -40)
+                        {
+                            sumSquared += buffer[i] * buffer[i];
+                            samplesCount++;
+                        }
+                    }
+                }
+            } while (read > 0);
+
+            var rms = Math.Sqrt(sumSquared / samplesCount);
+            audioFileReader.Position = 0;
+            return Convert.ToSingle(rms);
+        }
+
+        public static float CalculateVolumeGain(float musicRms, float voiceRms, float plusVoiceDb)
+        {
+            // 将音乐和人声的RMS值转换为分贝（dB）
+            var musicDb = (float)(20 * Math.Log10(musicRms));
+            var voiceDb = (float)(20 * Math.Log10(voiceRms));
+            // 计算音量增益（音乐音量加2dB）
+            var volumeGainDb = musicDb + plusVoiceDb - voiceDb;
+            // 将音量增益转换为线性值
+            var volumeGain = (float)Math.Pow(10, volumeGainDb / 20);
+            return volumeGain;
+        }
+
         public static void MixWav(List<string> files, string saveName, float volume)
         {
-            if (volume < 0)
-            {
-                volume = files.Count < 15 ? 0.8f : 0.5f;
-            }
-            
             var readers = new List<AudioFileReader>();
             var nowIndex = 0;
+            var musicRms = 0.0f;
             foreach (var reader in files.Select(file => new AudioFileReader(file)))
             {
                 if (nowIndex > 0)
                 {
-                    reader.Volume = volume;
+                    if (volume >= 0)
+                    {
+                        reader.Volume = volume;
+                    }
+                    else
+                    {
+                        if (volume <= -2.0)
+                        {
+                            var voiceRms = GetRms(reader);
+                            reader.Volume = CalculateVolumeGain(musicRms, voiceRms, 0.0f);
+                            // Console.WriteLine($"volume {saveName}: {musicRms}, {voiceRms} {reader.Volume}");
+                        }
+                    }
                 }
+                else
+                {
+                    musicRms = GetRms(reader);
+                }
+
                 readers.Add(reader);
                 nowIndex++;
             }
+
             var mixer = new MixingSampleProvider(readers);
             WaveFileWriter.CreateWaveFile16(saveName, mixer);
             // WaveFileWriter.CreateWaveFile(saveName, mixer.ToWaveProvider());
@@ -393,7 +463,7 @@ namespace voice_extractor
             File.Delete(fileName);
             File.Move(tempName, fileName);
         }
-        
+
         public static void ConcatenateWavFiles(string outputFile, IEnumerable<string> sourceFiles)
         {
             var buffer = new byte[1024];
@@ -416,7 +486,7 @@ namespace voice_extractor
                             {
                                 throw new InvalidOperationException(
                                     "Can't concatenate WAV Files that don't share the same format"
-                                    );
+                                );
                             }
                         }
 
@@ -432,11 +502,16 @@ namespace voice_extractor
             {
                 waveFileWriter?.Dispose();
             }
-
         }
-        
+
         public static void SilenceWavPartsByActivePos(string fileName, string saveName, List<List<ulong>> activeMs)
         {
+            var savePath = Path.GetDirectoryName(saveName);
+            if (savePath != null && !Directory.Exists(savePath))
+            {
+                Directory.CreateDirectory(savePath);
+            }
+
             using (WaveFileReader reader = new(fileName))
             using (WaveFileWriter writer = new(saveName, reader.WaveFormat))
             {
@@ -444,7 +519,7 @@ namespace voice_extractor
                 var buffer = new byte[1024];
                 while ((read = reader.Read(buffer, 0, buffer.Length)) > 0)
                 {
-                    var nowMs = (reader.Position - reader.Position % reader.WaveFormat.BlockAlign) / 
+                    var nowMs = (reader.Position - reader.Position % reader.WaveFormat.BlockAlign) /
                                 (reader.WaveFormat.AverageBytesPerSecond / 1000d);
                     if (activeMs.Any(mList => nowMs > mList[0] && nowMs < mList[1]))
                     {
@@ -457,9 +532,71 @@ namespace voice_extractor
                     // Console.WriteLine($"nowMs: {fileName} - {nowMs}");
                 }
             }
-
         }
-        
+
+        public static void AdjustVolume(string filePath, List<Dictionary<string, object>> volumeChanges,
+            string outputFilePath)
+        {
+            var savePath = Path.GetDirectoryName(outputFilePath);
+            if (savePath != null && !Directory.Exists(savePath))
+            {
+                Directory.CreateDirectory(savePath);
+            }
+
+            using (var reader = new WaveFileReader(filePath))
+            {
+                using (var writer = new WaveFileWriter(outputFilePath, reader.WaveFormat))
+                {
+                    int read;
+                    var buffer = new byte[1024];
+                    var currentPosition = 0.0;
+
+                    while ((read = reader.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        var currentTime = currentPosition / (double)reader.WaveFormat.AverageBytesPerSecond * 1000.0;
+                        var volumeChange = volumeChanges.Find(c =>
+                            currentTime >= Convert.ToDouble(c["start"]) && currentTime <= Convert.ToDouble(c["end"]));
+
+                        if (volumeChange != null)
+                        {
+                            var dbChange = Convert.ToSingle(volumeChange["db"]);
+                            AdjustVolume(buffer, read, dbChange);
+                        }
+
+                        writer.Write(buffer, 0, read);
+                        currentPosition += read;
+                    }
+                }
+            }
+        }
+
+        private static void AdjustVolume(byte[] buffer, int length, float dbChange)
+        {
+            // 计算音量缩放因子
+            var scale = (float)Math.Pow(10, dbChange / 20.0);
+
+            // 将字节数组转换为浮点数数组
+            var samples = new float[length / 2];
+            for (int i = 0; i < length / 2; i++)
+            {
+                samples[i] = BitConverter.ToInt16(buffer, i * 2) / 32768f;
+            }
+
+            // 缩放音频样本
+            for (int i = 0; i < samples.Length; i++)
+            {
+                samples[i] *= scale;
+            }
+
+            // 将浮点数数组转换回字节数组
+            for (int i = 0; i < samples.Length; i++)
+            {
+                var value = (short)(samples[i] * 32768);
+                buffer[i * 2] = (byte)(value & 0xFF);
+                buffer[i * 2 + 1] = (byte)(value >> 8);
+            }
+        }
+
         public void Close()
         {
             acbFile?.Dispose();
@@ -467,19 +604,22 @@ namespace voice_extractor
             acbReader?.Dispose();
             awbReader?.Dispose();
         }
-        
     }
 
     internal static class AudioFileReaderExt
     {
-        public enum SilenceLocation { Start, End }
+        public enum SilenceLocation
+        {
+            Start,
+            End
+        }
 
         private static bool IsSilence(float amplitude, sbyte threshold)
         {
             double dB = 20 * Math.Log10(Math.Abs(amplitude));
             return dB < threshold;
         }
-        
+
         public static TimeSpan GetSilenceDuration(this AudioFileReader reader,
             SilenceLocation location,
             sbyte silenceThreshold = -40)
@@ -526,5 +666,3 @@ namespace voice_extractor
         }
     }
 }
-
-
