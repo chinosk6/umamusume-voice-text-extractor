@@ -7,7 +7,7 @@ from .progress_bar import track
 
 class UmaDownloader:
     def __init__(self):
-        self.base_host = "https://prd-storage-umamusume.akamaized.net/dl/resources"
+        self.base_host = "https://prd-storage-game-umamusume.akamaized.net/dl/resources"
         self.proxies = None
 
     def set_proxies(self, proxy_url: str):
