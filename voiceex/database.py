@@ -88,30 +88,27 @@ class UmaDatabase(downloader.UmaDownloader):
 
     def get_live_permission(self, music_id: int):
         cursor = self.master_conn.cursor()
-        query = cursor.execute("SELECT chara_id FROM live_permission_data WHERE music_id=?", [music_id]).fetchall()
-        if query:
-            cursor.close()
-            return [i[0] for i in query]
+        query = cursor.execute("SELECT song_chara_type FROM live_data WHERE music_id=?", [music_id]).fetchone()
+        if (query is None) or (query[0] != 1):
+            query_p = cursor.execute("SELECT chara_id FROM live_permission_data WHERE music_id=?", [music_id]).fetchall()
+            if query_p:
+                cursor.close()
+                return [i[0] for i in query_p]
+            return []
         else:
-            query = cursor.execute("SELECT song_chara_type FROM live_data WHERE music_id=?", [music_id]).fetchone()
-            if query is None:
-                return []
-            if query[0] != 1:
-                return []
-            else:
-                cursor.close()
-                cursor = self.meta_conn.cursor()
-                query = cursor.execute("SELECT n FROM a WHERE n LIKE ?",
-                                       [f"sound/l/{music_id}/snd_bgm_live_{music_id}_chara______01.awb"]).fetchall()
-                ret = []
-                for i in query:
-                    try:
-                        p_id = int(i[0][len(f"sound/l/{music_id}/snd_bgm_live_{music_id}_chara_"):-len("_01.awb")])
-                        ret.append(p_id)
-                    except:
-                        continue
-                cursor.close()
-                return ret
+            cursor.close()
+            cursor = self.meta_conn.cursor()
+            query = cursor.execute("SELECT n FROM a WHERE n LIKE ?",
+                                   [f"sound/l/{music_id}/snd_bgm_live_{music_id}_chara______01.awb"]).fetchall()
+            ret = []
+            for i in query:
+                try:
+                    p_id = int(i[0][len(f"sound/l/{music_id}/snd_bgm_live_{music_id}_chara_"):-len("_01.awb")])
+                    ret.append(p_id)
+                except:
+                    continue
+            cursor.close()
+            return ret
 
     def get_all_chara_ids(self):
         cursor = self.master_conn.cursor()
