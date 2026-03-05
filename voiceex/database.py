@@ -7,14 +7,16 @@ import apsw
 
 from . import downloader
 from .assets_decrypt import META_KEYS
+from .models import user_config
 
 
 class UmaDatabase(downloader.UmaDownloader):
     def __init__(self):
         super().__init__()
 
-        profile_path = os.environ.get("UserProfile")
-        self.base_path = f"{profile_path}/AppData/LocalLow/Cygames/umamusume"
+        # profile_path = os.environ.get("UserProfile")
+        # self.base_path = f"{profile_path}/AppData/LocalLow/Cygames/umamusume"
+        self.base_path = os.path.expandvars(user_config.game_data_dir)
         self.master_conn = sqlite3.connect(f"{self.base_path}/master/master.mdb")
 
         # self.meta_conn = sqlite3.connect(f"{self.base_path}/meta")

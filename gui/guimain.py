@@ -5,6 +5,8 @@ from PyQt5.QtCore import QObject, QSize
 from PyQt5.QtGui import QIcon, QPixmap, QDesktopServices
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStyleFactory, QFileDialog, QTableWidgetItem, \
     QListWidgetItem, QListWidget, QMenu, QAction
+
+from voiceex.models import user_config
 from .qtui.ui_import import MainUI
 import ctypes
 from threading import Thread
@@ -85,6 +87,7 @@ class UIChange(QObject):
         self.ui.tabWidget_music_type.currentChanged.connect(self.music_tab_changed)
         self.ui.horizontalSlider_volume.valueChanged.connect(self.vol_changed)
         self.ui.horizontalSlider_volume.sliderReleased.connect(lambda: voiceex.m.user_config.save_data())
+        self.ui.pushButton_set_game_data_dir.clicked.connect(self.set_game_data_dir)
 
     def signal_reg(self):  # 信号槽注册
         self.show_msgbox_signal.connect(self.show_message_box)
@@ -100,6 +103,18 @@ class UIChange(QObject):
                 target_lineedit.setText(folder_path)
         return _
 
+    def set_game_data_dir(self, recursive=False):
+        folder_path = QFileDialog.getExistingDirectory(self.ui, "Choose Game Data Directory")
+        if folder_path != "":
+            if os.path.exists(os.path.join(folder_path, "master/master.mdb")) and os.path.exists(os.path.join(folder_path, "meta")):
+                user_config.game_data_dir = folder_path
+                user_config.save_data()
+                self.ui.lineEdit_game_data_dir.setText(folder_path)
+                self.init_main_window()
+            else:
+                self.show_msgbox_signal.emit("Error", "Invalid path.")
+                if recursive:
+                    self.set_game_data_dir(recursive)
 
     @staticmethod
     def open_file_path(checked: list):
@@ -223,6 +238,7 @@ class UIChange(QObject):
                             description: str = "Loading music list..."):
         if list_widget is None:
             list_widget = self.ui.listWidget_music_list
+        list_widget.clear()
         # self.ui.listWidget_music_list.setStyleSheet("QListView::item { height: 100px; }")
         list_widget.setIconSize(QSize(64, 64))
         for music_id in voiceex.track(music_list, description=description):
@@ -281,6 +297,7 @@ class UIChange(QObject):
         self.ui.checkBox_ve_use_proxy.setChecked(voiceex.m.user_config.use_proxy_ve)
         self.ui.checkBox_me_proxy.setChecked(voiceex.m.user_config.use_proxy_me)
         self.ui.horizontalSlider_volume.setValue(int(voiceex.m.user_config.volume * 10))
+        self.ui.lineEdit_game_data_dir.setText(voiceex.m.user_config.game_data_dir)
         music_ex = voiceex.live_music.LiveMusicExtractor("./temp")
         chara_list = music_ex.get_all_chara_ids()
         self.build_ve_chara_list(chara_list, music_ex)
@@ -440,6 +457,10 @@ class UIChange(QObject):
 
     def show_main_window(self):
         self.window.show()
+
+        folder_path = os.path.expandvars(user_config.game_data_dir)
+        if not (os.path.exists(os.path.join(folder_path, "master/master.mdb")) and os.path.exists(os.path.join(folder_path, "meta"))):
+            self.set_game_data_dir(True)
         self.init_main_window()
 
     def ui_run_main(self):

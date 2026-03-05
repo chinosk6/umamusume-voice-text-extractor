@@ -32,6 +32,7 @@ class UserConfig(BaseModel):
     use_proxy_ve: t.Optional[bool] = False
     use_proxy_me: t.Optional[bool] = False
     volume: t.Optional[float] = 1.5
+    game_data_dir: t.Optional[str] = "%UserProfile%/AppData/LocalLow/Cygames/umamusume"
 
     def __init__(self):
         if os.path.isfile("ex_config.json"):

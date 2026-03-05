@@ -230,7 +230,7 @@
                   </size>
                  </property>
                  <property name="currentIndex">
-                  <number>0</number>
+                  <number>1</number>
                  </property>
                  <widget class="QWidget" name="tab_12">
                   <attribute name="title">
@@ -1001,6 +1001,34 @@
            <string>Global Config</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_22">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_13">
+             <item>
+              <widget class="QLabel" name="label_16">
+               <property name="text">
+                <string>Game Data Directory</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_game_data_dir">
+               <property name="text">
+                <string>%UserProfile%/AppData/LocalLow/Cygames/umamusume</string>
+               </property>
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_set_game_data_dir">
+               <property name="text">
+                <string>select</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <item>
