@@ -516,19 +516,21 @@ namespace voice_extractor
             using (WaveFileWriter writer = new(saveName, reader.WaveFormat))
             {
                 int read;
-                var buffer = new byte[1024];
+                var buffer = new byte[128];
                 while ((read = reader.Read(buffer, 0, buffer.Length)) > 0)
                 {
                     var nowMs = (reader.Position - reader.Position % reader.WaveFormat.BlockAlign) /
                                 (reader.WaveFormat.AverageBytesPerSecond / 1000d);
                     if (activeMs.Any(mList => nowMs > mList[0] && nowMs < mList[1]))
                     {
-                        writer.Write(buffer, 0, read);
+                        // writer.Write(buffer, 0, read);
                     }
                     else
                     {
-                        writer.Write(new byte[1024], 0, read);
+                        // writer.Write(new byte[1024], 0, read);
+                        Array.Clear(buffer, 0, read);
                     }
+                    writer.Write(buffer, 0, read);
                     // Console.WriteLine($"nowMs: {fileName} - {nowMs}");
                 }
             }

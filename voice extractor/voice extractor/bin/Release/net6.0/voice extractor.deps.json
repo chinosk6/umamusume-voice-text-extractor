@@ -369,9 +369,23 @@
         }
       },
       "System.ValueTuple/4.5.0": {},
+      "AssetStudio/0.16.0": {
+        "dependencies": {
+          "K4os.Compression.LZ4": "1.2.16"
+        },
+        "runtime": {
+          "AssetStudio.dll": {
+            "assemblyVersion": "0.16.0.0",
+            "fileVersion": "0.16.0.0"
+          }
+        }
+      },
       "AssetStudio.PInvoke/0.16.0": {
         "runtime": {
-          "AssetStudio.PInvoke.dll": {}
+          "AssetStudio.PInvoke.dll": {
+            "assemblyVersion": "0.16.0.0",
+            "fileVersion": "0.16.0.0"
+          }
         }
       },
       "AssetStudioFBXWrapper/0.16.0": {
@@ -380,7 +394,10 @@
           "AssetStudio.PInvoke": "0.16.0"
         },
         "runtime": {
-          "AssetStudioFBXWrapper.dll": {}
+          "AssetStudioFBXWrapper.dll": {
+            "assemblyVersion": "0.16.0.0",
+            "fileVersion": "0.16.0.0"
+          }
         }
       },
       "AssetStudioUtility/0.16.0": {
@@ -393,17 +410,26 @@
           "Texture2DDecoderWrapper": "0.16.0"
         },
         "runtime": {
-          "AssetStudioUtility.dll": {}
+          "AssetStudioUtility.dll": {
+            "assemblyVersion": "0.16.0.0",
+            "fileVersion": "0.16.0.0"
+          }
         }
       },
       "ClHcaSharp/1.0.0": {
         "runtime": {
-          "ClHcaSharp.dll": {}
+          "ClHcaSharp.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "CriWareFormats/1.0.0": {
         "runtime": {
-          "CriWareFormats.dll": {}
+          "CriWareFormats.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "Texture2DDecoderWrapper/0.16.0": {
@@ -411,7 +437,10 @@
           "AssetStudio.PInvoke": "0.16.0"
         },
         "runtime": {
-          "Texture2DDecoderWrapper.dll": {}
+          "Texture2DDecoderWrapper.dll": {
+            "assemblyVersion": "0.16.0.0",
+            "fileVersion": "0.16.0.0"
+          }
         }
       },
       "UmaMusumeAudio/1.0.0": {
@@ -421,7 +450,10 @@
           "NAudio.Core": "2.1.0"
         },
         "runtime": {
-          "UmaMusumeAudio.dll": {}
+          "UmaMusumeAudio.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
@@ -725,6 +757,11 @@
       "sha512": "sha512-okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ==",
       "path": "system.valuetuple/4.5.0",
       "hashPath": "system.valuetuple.4.5.0.nupkg.sha512"
+    },
+    "AssetStudio/0.16.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "AssetStudio.PInvoke/0.16.0": {
       "type": "project",

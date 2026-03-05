@@ -5,3 +5,4 @@ UnityPy~=1.20.18
 requests
 PyQt5~=5.15.4
 rich~=13.5.2
+apsw_sqlite3mc~=3.51.2.0

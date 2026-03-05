@@ -1,8 +1,13 @@
+import io
+from pathlib import Path
+
 from . import resource as ures
 import UnityPy
 import typing as t
 from . import models as m
 import os
+
+from .assets_decrypt import decrypt_assetbundle
 from .ulogger import logger as log
 import time
 import json
@@ -51,7 +56,7 @@ class VoiceEx(ures.ResourceEx):
         if self.use_cache:
             if t_path in self.cache:
                 return self.cache[t_path]
-        env = UnityPy.load(t_path)
+        env = self.load_umamusume_bundle(t_path)
         objects = env.objects
         ret = []
         for obj in objects:
@@ -122,7 +127,7 @@ class VoiceEx(ures.ResourceEx):
                     if not os.path.isfile(bundle_name):
                         if self.download_missing_voice_files:
                             log.logger(f"{bundle_name} not found, try download...", warning=True)
-                            self.download_sound(voice_ab_hash, bundle_name)
+                            self.download_file(voice_ab_hash, bundle_name)
                             log.logger(f"Download success: {bundle_name}")
                         else:
                             log.logger(f"{bundle_name} not found!", error=True)
@@ -154,7 +159,7 @@ class VoiceEx(ures.ResourceEx):
                         log.logger(f"InvalidData: {voice_ab_hash} - {bundle_name}", error=True)
                         if self.download_missing_voice_files:
                             log.logger(f"Try redownloading: {voice_ab_hash} - {bundle_name}", warning=True)
-                            self.download_sound(voice_ab_hash, bundle_name)
+                            self.download_file(voice_ab_hash, bundle_name)
                             log.logger(f"Download success: {bundle_name}")
                             _ex()
                     except BaseException as e:

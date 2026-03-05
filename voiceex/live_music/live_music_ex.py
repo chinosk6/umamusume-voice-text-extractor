@@ -15,6 +15,7 @@ class LiveMusicExtractor(umares.ResourceEx):
         if not os.path.isdir(save_path):
             os.makedirs(save_path)
         self.save_path = save_path
+        self.image_cache = {}
 
     @staticmethod
     def load_csv(text: str):
@@ -44,7 +45,7 @@ class LiveMusicExtractor(umares.ResourceEx):
         bundle_path = self.bundle_hash_to_path(bundle_hash)
         if not os.path.isfile(bundle_path):
             raise FileNotFoundError(f"Bundle not found: {bundle_path}")
-        return UnityPy.load(bundle_path), bundle_hash
+        return self.load_umamusume_bundle(bundle_path), bundle_hash
 
     def get_csv_data(self, path, csv_name):
         env, bundle_hash = self.get_unitypy_env(path)
@@ -52,8 +53,8 @@ class LiveMusicExtractor(umares.ResourceEx):
         for obj in objects:
             if obj.type.name == "TextAsset":
                 data = obj.read()
-                if data.name == csv_name:
-                    return self.load_csv(data.text), bundle_hash
+                if data.m_Name == csv_name:
+                    return self.load_csv(data.m_Script), bundle_hash
 
     def get_lrc(self, music_id: int) -> t.Dict[int, str]:
         csv_data, bundle_hash = self.get_csv_data(f"live/musicscores/m{music_id}/m{music_id}_lyrics",
@@ -292,19 +293,24 @@ class LiveMusicExtractor(umares.ResourceEx):
         return save_names
 
     def _get_image(self, db_path: str):
+        if db_path in self.image_cache:
+            return self.image_cache[db_path]
+
         bundle_path = self.bundle_hash_to_path(
             self.get_bundle_hash_from_path(db_path)
         )
         if not os.path.isfile(bundle_path):
             return None
-        env = UnityPy.load(bundle_path)
+        env = self.load_umamusume_bundle(bundle_path)
         objects = env.objects
         for obj in objects:
             if obj.type.name == "Texture2D":
                 fp = io.BytesIO()
                 data = obj.read()
                 data.image.save(fp, format="png")
-                return fp
+                ret = fp.getvalue()
+                self.image_cache[db_path] = ret
+                return ret
         return None
 
     def get_live_pos_count(self, music_id):

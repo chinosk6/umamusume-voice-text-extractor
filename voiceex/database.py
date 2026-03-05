@@ -1,8 +1,12 @@
 import os
 import sqlite3
 import time
+from pathlib import Path
+
+import apsw
 
 from . import downloader
+from .assets_decrypt import META_KEYS
 
 
 class UmaDatabase(downloader.UmaDownloader):
@@ -11,8 +15,35 @@ class UmaDatabase(downloader.UmaDownloader):
 
         profile_path = os.environ.get("UserProfile")
         self.base_path = f"{profile_path}/AppData/LocalLow/Cygames/umamusume"
-        self.meta_conn = sqlite3.connect(f"{self.base_path}/meta")
         self.master_conn = sqlite3.connect(f"{self.base_path}/master/master.mdb")
+
+        # self.meta_conn = sqlite3.connect(f"{self.base_path}/meta")
+        self.key = None
+        self.meta_conn = self.open_database(f"{self.base_path}/meta", encrypted=True)
+
+    def open_database(self, database_file: str, encrypted: bool = False) -> apsw.Connection:
+        connection = apsw.Connection(database_file)
+
+        if encrypted:
+            if not self.key:
+                for check_key in META_KEYS:
+                    try:
+                        connection.execute(f"PRAGMA hexkey = '{check_key}';")
+
+                        cursor = connection.execute("SELECT sqlite3mc_config('cipher');")
+                        cipher = cursor.fetchone()[0]
+
+                        if cipher == "chacha20":
+                            connection.execute("PRAGMA user_version;").fetchall()
+                            self.key = check_key
+                            break
+                    except Exception:
+                        connection.close()
+                        connection = apsw.Connection(database_file)
+                        continue
+            else:
+                connection.execute(f"PRAGMA hexkey = '{self.key}';")
+        return connection
 
     def bundle_hash_to_path(self, bundle_hash: str):
         return f"{self.base_path}/dat/{bundle_hash[:2]}/{bundle_hash}"
@@ -115,3 +146,21 @@ class UmaDatabase(downloader.UmaDownloader):
         query = cursor.execute("SELECT id FROM chara_data").fetchall()
         cursor.close()
         return [i[0] for i in query]
+
+    def get_encryption_key_from_meta(self, bundle_path: Path) -> int:
+        hash_name = bundle_path.name  # dat/xx/<hash> 的最后一段
+        conn = self.meta_conn
+        try:
+            # ManifestEntry: h=HashName, e=EncryptionKey, n=Name
+            row = conn.execute("SELECT e FROM a WHERE h = ? LIMIT 1", (hash_name,)).fetchone()
+            if row:
+                return int(row[0] or 0)
+
+            # 兜底：如果你传入的不是 hash 文件名，可按 Name/BaseName 再查
+            row = conn.execute(
+                "SELECT e FROM a WHERE n = ? OR n LIKE ? LIMIT 1",
+                (hash_name, f"%/{hash_name}")
+            ).fetchone()
+            return int(row[0] or 0) if row else 0
+        finally:
+            conn.close()

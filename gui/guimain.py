@@ -130,7 +130,7 @@ class UIChange(QObject):
     def build_ve_chara_list(self, chara_list: list, ex: voiceex.live_music.LiveMusicExtractor):
         self.ui.tableWidget_ve_extarct.horizontalHeader().setVisible(True)
         self.ui.listWidget_chara_list.setIconSize(QSize(64, 64))
-        for n, chara_id in enumerate(chara_list):
+        for chara_id in voiceex.track(chara_list, description="Loading character list..."):
             self.add_chara_to_list_widget(self.ui.listWidget_chara_list, chara_id, ex)
 
     @staticmethod
@@ -145,7 +145,7 @@ class UIChange(QObject):
 
         if img is not None:
             pm = QPixmap()
-            pm.loadFromData(img.getvalue())
+            pm.loadFromData(img)
             icon = QIcon(pm)
             widget.addItem(QListWidgetItem(icon, str(chara_id)))
         else:
@@ -219,12 +219,13 @@ class UIChange(QObject):
                 self.set_start_btn_stat_signal.emit(True)
         Thread(target=_).start()
 
-    def build_me_music_list(self, music_list: list, ex: voiceex.live_music.LiveMusicExtractor, list_widget: QListWidget):
+    def build_me_music_list(self, music_list: list, ex: voiceex.live_music.LiveMusicExtractor, list_widget: QListWidget,
+                            description: str = "Loading music list..."):
         if list_widget is None:
             list_widget = self.ui.listWidget_music_list
         # self.ui.listWidget_music_list.setStyleSheet("QListView::item { height: 100px; }")
         list_widget.setIconSize(QSize(64, 64))
-        for n, music_id in enumerate(music_list):
+        for music_id in voiceex.track(music_list, description=description):
             img_key = f"music_{music_id}"
             if img_key in self._img_ico_cache:
                 list_widget.addItem(QListWidgetItem(self._img_ico_cache[img_key], str(music_id)))
@@ -233,7 +234,7 @@ class UIChange(QObject):
             img = ex.get_song_jacket(music_id)
             if img is not None:
                 pm = QPixmap()
-                pm.loadFromData(img.getvalue())
+                pm.loadFromData(img)
                 icon = QIcon(pm)
                 self._img_ico_cache[img_key] = icon
                 list_widget.addItem(QListWidgetItem(icon, str(music_id)))
@@ -284,9 +285,9 @@ class UIChange(QObject):
         chara_list = music_ex.get_all_chara_ids()
         self.build_ve_chara_list(chara_list, music_ex)
         music_list = music_ex.get_live_ids()
-        self.build_me_music_list(music_list, music_ex, self.ui.listWidget_music_list)
+        self.build_me_music_list(music_list, music_ex, self.ui.listWidget_music_list, description="Loading music list...")
         jukebox_list = music_ex.get_jukebox_ids()
-        self.build_me_music_list(jukebox_list, music_ex, self.ui.listWidget_jukebox_list)
+        self.build_me_music_list(jukebox_list, music_ex, self.ui.listWidget_jukebox_list, description="Loading jukebox list...")
 
     def singing_char_onselect(self):
         selected = self.ui.listWidget_singing_chara_list.selectedItems()

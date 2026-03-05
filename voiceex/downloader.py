@@ -1,9 +1,14 @@
+import enum
 import time
 import requests
 import typing as t
 import os
 from .ulogger import logger as log
 from .progress_bar import track
+
+class DownloadType(enum.Enum):
+    Sound = "sound"
+    Bundle = "bundle"
 
 class UmaDownloader:
     def __init__(self):
@@ -16,13 +21,19 @@ class UmaDownloader:
             "https": proxy_url
         }
 
-    def get_sound_download_url(self, abhash: str):
+    def get_download_url(self, abhash: str, file_type: DownloadType = DownloadType.Sound):
+        if file_type == DownloadType.Sound:
+            return f"{self.base_host}/Generic/{abhash:.2}/{abhash}"
+        elif file_type == DownloadType.Bundle:
+            return f"{self.base_host}/Windows/assetbundles/{abhash:.2}/{abhash}"
+
         return f"{self.base_host}/Generic/{abhash:.2}/{abhash}"
 
-    def download_sound(self, abhash: str, save_name: str,
-                       down_progress_callback: t.Optional[t.Callable[[int, int], t.Any]] = None, retry_times=0):
+    def download_file(self, abhash: str, save_name: str,
+                      down_progress_callback: t.Optional[t.Callable[[int, int], t.Any]] = None, retry_times=0,
+                      file_type: DownloadType = DownloadType.Sound):
         try:
-            url = self.get_sound_download_url(abhash)
+            url = self.get_download_url(abhash, file_type)
             resp = requests.get(url, headers={
                 "User-Agent": "UnityPlayer/2019.4.21f1 (UnityWebRequest/1.0, libcurl/7.52.0-DEV)"
             },
@@ -50,7 +61,7 @@ class UmaDownloader:
                 retry_times += 1
                 log.logger(f"Download failed: {e}, retry: {retry_times}/3", error=True)
                 time.sleep(3)
-                return self.download_sound(abhash, save_name, down_progress_callback, retry_times)
+                return self.download_file(abhash, save_name, down_progress_callback, retry_times, file_type)
             else:
                 if os.path.isfile(save_name):
                     os.remove(save_name)

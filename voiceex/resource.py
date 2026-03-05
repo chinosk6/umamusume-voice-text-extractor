@@ -1,7 +1,15 @@
+import io
 import os
+from pathlib import Path
+
+import UnityPy
+
+from .assets_decrypt import decrypt_assetbundle
 from . import database as udb
 from pythonnet import set_runtime
 from clr_loader import get_coreclr
+
+from .downloader import DownloadType
 from .ulogger import logger as log
 from typing import List, Optional
 from . import models as m
@@ -48,7 +56,7 @@ class ResourceEx(udb.UmaDatabase):
         if not os.path.isfile(file_path):
             if self.download_missing_voice_files:
                 log.logger(f"{file_hash} not found, try download...", warning=True)
-                self.download_sound(file_hash, file_path)
+                self.download_file(file_hash, file_path)
                 log.logger(f"Download success: {file_path}")
 
     def get_extractor(self, awb_bundle_path: str, acb_bundle_path: str = None, volume: Optional[float] = None):
@@ -124,3 +132,29 @@ class ResourceEx(udb.UmaDatabase):
                 add_p.Add(k, i[k])
             lst_param.Add(add_p)
         return voice_extractor.UmaVoiceEx.AdjustVolume(file_name, lst_param, output_path)
+
+    def load_umamusume_bundle(self, bundle_path: str):
+        hash_name = os.path.basename(bundle_path)
+
+        conn = self.meta_conn
+
+        row = conn.execute("SELECT e, l FROM a WHERE h = ? LIMIT 1", (hash_name,)).fetchone()
+        if not row:
+            raise RuntimeError(f"Can't find h={hash_name} in meta")
+        encryption_key, manifest_len = int(row[0] or 0), int(row[1] or 0)
+
+        if not os.path.isfile(bundle_path):
+            self.download_file(hash_name, bundle_path, file_type=DownloadType.Bundle)
+        raw = open(bundle_path, "rb").read()
+
+        if manifest_len and len(raw) != manifest_len:
+            raise RuntimeError(f"File length mismatch: file={len(raw)}, manifest.l={manifest_len}")
+
+        data = decrypt_assetbundle(raw, encryption_key)
+
+        if not data.startswith(b"UnityFS"):
+            raise RuntimeError(
+                f"Decrypted header is not UnityFS: {data[:16]!r}. Potential cause: Key expiration"
+            )
+
+        return UnityPy.load(io.BytesIO(data))
